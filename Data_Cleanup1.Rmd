@@ -1083,35 +1083,6 @@ books %>%
   count(`Book_Author`)
 ```
 
-```{r}
-
-
-
-
-
-#books$Book_Author[books$Book_Author == ''] <- ''
-
-```
-
-```{r}
-books %>% 
-  filter(Book_Author == "Yin" | Book_Author == ''| Book_Author == ''| Book_Author == '' )
-
-
-```
-
-```{r}
-books %>% 
-  filter(Book_Author == "Tamara L. Roleff" | Book_Author == ''| Book_Author == ''| Book_Author == '' )
-
-```
-
-```{r}
-books %>% 
-  filter(Book_Author == "Tonatiuh, Duncan" | Book_Author == 'Tonatiuh, Dundan'| Book_Author == 'Tonatium, Duncan'| Book_Author == '' )
-```
-
-
 ```{r flip_flop_rows}
 books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. And Vashti Harrison'
 

@@ -1,0 +1,286 @@
+---
+title: "Data_Cleanup2"
+author: "Sara Knight"
+date: "7/17/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r loading_library}
+library(tidyverse)
+library(tidymodels)
+library(stringr)
+
+```
+
+
+```{r loading_data}
+
+books <- read_csv("~/STA_631/Projects/book_ban_project/data/Censorship Attacks  - Books Challenge 22-23.csv")
+
+```
+
+```{r capitalizing_every_word}
+
+book_title <- as.data.frame(str_to_title(books$Book))
+```
+
+
+```{r add_new_col_to_data_frame}
+books <- cbind(books,book_title)
+``` 
+
+```{r getting_rid_of_old_col}
+books <- books[,-2]
+```
+
+```{r renaming_col}
+colnames(books)[48] ="Book_Title"
+```
+
+```{r reordering_columns}
+
+books <- books[ ,c(1,48,2:47)]
+
+```
+
+
+
+```{r fixing_titles}
+
+books$Book_Title[books$Book_Title == 'Anatomy Of A Single Girl'] <- 'Anatomy Of A Single Girl: A Novel'
+
+books$Book_Title[books$Book_Title == 'Assassination Classroom'] <- 'Assasination Classroom'
+
+books$Book_Title[books$Book_Title == 'Batman: White Knight (Series- Which One?)'] <- 'Batman: White Knight'
+
+books$Book_Title[books$Book_Title == 'Be Gay, Do Comics: Queer History, Memoir, And Satire From The Nib'] <- 'Be Gay, Do Comics: Queer History, Memoir, And Satire'
+
+books$Book_Title[books$Book_Title == 'Bear Town: Book 1'] <- 'Beartown'
+
+books$Book_Title[books$Book_Title == 'Beasts Of Burden: Animal Rites (Beasts Of Burden)'] <- 'Beasts Of Burden: Animal Rites'
+
+books$Book_Title[books$Book_Title == 'Born Ready: The Story Of A Boy Named Penelope'] <- 'Born Ready: The True Story Of A Boy Named Penelope'
+
+books$Book_Title[books$Book_Title == 'Catwoman: Soulstealer (Gn)'] <- 'Catwoman: Soulstealer'
+
+books$Book_Title[books$Book_Title == 'City Of Heavenly Fire (The Mortal Instruments Series)'] <- 'City Of Heavenly Fire'
+
+books$Book_Title[books$Book_Title == 'Collatoral'] <- 'Collateral'
+
+books$Book_Title[books$Book_Title == 'Coyotes, Volume 1 (Coyotes Series)'] <- 'Coyotes, Volume 1'
+
+books$Book_Title[books$Book_Title == 'Coyotes, Volume 2 (Coyotes Series)'] <- 'Coyotes, Volume 2'
+
+books$Book_Title[books$Book_Title == 'Crank (Crank Series)'] <- 'Crank'
+
+books$Book_Title[books$Book_Title == 'Dancing In My Nuddy-Pants: Even Further Confessions By Georgia Nicolson'] <- 'Dancing In My Nuddy-Pants: Even Further Confessions Of Georgia Nicolson'
+
+books$Book_Title[books$Book_Title == 'Darius The Great Deserves Better (Darius The Great Series)'] <- 'Darius The Great Deserves Better'
+
+books$Book_Title[books$Book_Title == 'Daughter Of Smoke & Bone'] <- 'Daughter Of Smoke And Bone'
+
+books$Book_Title[books$Book_Title == 'Deadly Class (Complete Series)'] <- 'Deadly Class'
+
+books$Book_Title[books$Book_Title == "Doing It! Let's Talk About Sex"] <- "Doing It!: Let's Talk About Sex"
+
+books$Book_Title[books$Book_Title == 'Drama: A Graphic Novel'] <- 'Drama'
+
+books$Book_Title[books$Book_Title == 'Extremely Loud & Incredibly Close'] <- 'Extremely Loud And Incredibly Close'
+
+books$Book_Title[books$Book_Title == 'Fade #2 (Wake Trilogy)'] <- 'Fade'
+
+books$Book_Title[books$Book_Title == 'Fade (Wake Series)'] <- 'Fade'
+
+books$Book_Title[books$Book_Title == 'Finding Cinderella: A Novella'] <- 'Finding Cinderella'
+
+books$Book_Title[books$Book_Title == 'Fun Home'] <- 'Fun Home: A Family Tragicomic'
+
+books$Book_Title[books$Book_Title == 'Gender Queer'] <- 'Gender Queer: A Memoir'
+
+books$Book_Title[books$Book_Title == 'Graphic Classics: Bram Stoker (Graphic Classics Series)'] <- 'Graphic Classics: Bram Stoker'
+
+books$Book_Title[books$Book_Title == 'Graphic Classics: Edgar Allan Poe (Graphic Classics Series)'] <- 'Graphic Classics: Edgar Allan Poe'
+
+books$Book_Title[books$Book_Title == 'Heartstopper: Volume One (Heartstopper Series)'] <- 'Heartstopper Vol 1'
+
+books$Book_Title[books$Book_Title == 'Heartstopper: Volume Two (Heartstopper Series)'] <- 'Heartstopper Vol 2'
+
+books$Book_Title[books$Book_Title == 'Heroine - Book & Ebook'] <- 'Heroine'
+
+books$Book_Title[books$Book_Title == 'Holy Bible'] <- 'Bible'
+
+books$Book_Title[books$Book_Title == "In Our Mother's House"] <- "In Our Mothers' House"
+
+books$Book_Title[books$Book_Title == 'Infinity Son (Infinity Cycle Series)'] <- 'Infinity Son'
+
+books$Book_Title[books$Book_Title == 'Instructions For Dancing'] <- 'Instructions For Dancing: A Novel'
+
+books$Book_Title[books$Book_Title == 'It Ends With Us: A Novel'] <- 'It Ends With Us'
+
+books$Book_Title[books$Book_Title == 'It Ends With Me'] <- 'It Ends With Us'
+
+books$Book_Title[books$Book_Title == 'It Is So Amazing! A Book About Eggs, Sperm, Birth, Babies And Families"'] <- "It's So Amazing! A Book About Eggs, Sperm, Birth, Babies And Families"
+
+books$Book_Title[books$Book_Title == "It's Perfectly Normal: Changing Bodies, Growing Up, Sex And Sexual Health"] <- "It's Perfectly Normal: Changing Bodies, Growing Up, Sex, And Sexual Health"
+
+books$Book_Title[books$Book_Title == "It's Perfectly Normal: Changing Bodies, Growing Up Sex And Sexual Health"] <- "It's Perfectly Normal: Changing Bodies, Growing Up, Sex, And Sexual Health"
+
+books$Book_Title[books$Book_Title == 'Julian Is A Mermaid'] <- 'Julián Is A Mermaid'
+
+
+books$Book_Title[books$Book_Title == 'Last Man: The Royal Cup Book 2'] <- 'Last Man: The Royal Cup'
+
+books$Book_Title[books$Book_Title == 'Law Boy'] <- 'Lawn Boy'
+
+books$Book_Title[books$Book_Title == "Let's Talk About It: A Teen's Guide To Sex"] <- "Let's Talk About It: The Teen's Guide To Sex And Relationships And Being A Human"
+
+books$Book_Title[books$Book_Title == "Let's Talk About It: The Teen's Guide To Sex, Relationships, And Being A Human (A Graphic Novel)"] <- "Let's Talk About It: The Teen's Guide To Sex And Relationships And Being A Human"
+
+books$Book_Title[books$Book_Title == "Let's Talk About It: The Teens Guide To Sex, Relationships, And Being A Human"] <- "Let's Talk About It: The Teen's Guide To Sex And Relationships And Being A Human"
+
+books$Book_Title[books$Book_Title == 'Looking At Paintings (Eyewitness Art Series)'] <- 'Looking At Paintings'
+
+books$Book_Title[books$Book_Title == "Manet: Le Dejeuner Sur I'herbe (One Hundred Paintings Series)"] <- "Manet: Le Dejeuner Sur I'herbe"
+
+books$Book_Title[books$Book_Title == 'Munch: The Scream (One Hundred Paintings Series)'] <- 'Munch: The Scream'
+
+books$Book_Title[books$Book_Title == 'My Jim: A Novel'] <- 'My Jim'
+
+books$Book_Title[books$Book_Title == "My Sister's Keeper: A Novel"] <- "My Sister's Keeper"
+
+books$Book_Title[books$Book_Title == 'Not My Idea, A Book About Whiteness'] <- 'Not My Idea: A Book About Whiteness'
+
+books$Book_Title[books$Book_Title == "On The Bright Side, I'm Now The Girlfriend Of A Sex God (Confessions Of Georgia Nicolson #2)"] <- "On The Bright Side, I'm Now The Girlfriend Of A Sex God"
+
+books$Book_Title[books$Book_Title == 'Perfect Chemistry #1'] <- 'Perfect Chemistry'
+
+books$Book_Title[books$Book_Title == 'Puberty Is Gross But Also Really Awesome'] <- 'Puberty Is Gross, But Also Really Awesome'
+
+books$Book_Title[books$Book_Title == 'Queer There And Everywhere'] <- 'Queer, There, And Everywhere: 23 People Who Changed The World'
+
+books$Book_Title[books$Book_Title == 'Queer, There And Everywhere: 23 People Who Changed The World'] <- 'Queer, There, And Everywhere: 23 People Who Changed The World'
+
+books$Book_Title[books$Book_Title == 'Rainbow Boys (Rainbow Trilogy Series)'] <- 'Rainbow Boys'
+
+books$Book_Title[books$Book_Title == 'Rainbow: A First Book Fo Pride'] <- 'Rainbow: A First Book Of Pride'
+
+books$Book_Title[books$Book_Title == 'Real Live Boyfriends'] <- "Real Live Boyfriends: Yes. Boyfriends, Plural. If My Life Weren't Complicated, I Wouldn't Be Ruby Oliver"
+
+books$Book_Title[books$Book_Title == 'Red, White And Royal Blue: A Novel'] <- 'Red, White, And Royal Blue'
+
+books$Book_Title[books$Book_Title == 'Red, White And Royal Blue'] <- 'Red, White, And Royal Blue'
+
+books$Book_Title[books$Book_Title == 'Rethinking Normal'] <- 'Rethinking Normal: A Memoir In Transition'
+
+books$Book_Title[books$Book_Title == 'Rubens: Garden Of Love (One Hundred Paintings Series)'] <- 'Rubens: Garden Of Love'
+
+books$Book_Title[books$Book_Title == 'Secret Origins (Black Hammer Series)'] <- 'Secret Origins'
+
+books$Book_Title[books$Book_Title == 'Sex (Teen Decision Series)'] <- 'Sex'
+
+books$Book_Title[books$Book_Title == 'Sex Is A Funny Word'] <- 'Sex Is A Funny Word: A Book About Bodies, Feelings, And You'
+
+books$Book_Title[books$Book_Title == 'Sex Is A Funny Word: A Book About Bodies, Feelings And You'] <- 'Sex Is A Funny Word: A Book About Bodies, Feelings, And You'
+
+books$Book_Title[books$Book_Title == 'Sex, A Book For Teens'] <- 'Sex: A Book For Teens'
+
+books$Book_Title[books$Book_Title == 'Sirens (Monsters Series)'] <- 'Sirens'
+
+books$Book_Title[books$Book_Title == 'Slaughterhouse Five'] <- 'Slaughterhouse-Five'
+
+books$Book_Title[books$Book_Title == 'Slaughterhouse-Five (Graphic Adaption'] <- 'Slaughterhouse-Five: The Graphic Novel'
+
+
+books$Book_Title[books$Book_Title == 'Sloppy Firsts (Jessica Darling Series)'] <- 'Sloppy Firsts'
+
+books$Book_Title[books$Book_Title == 'Speak: 1) English Copy 2) Graphic Novel 3) Chinese\n Copy Speak - Video'] <- 'Speak'
+
+books$Book_Title[books$Book_Title == 'Stamped From The Beginning'] <- 'Stamped From The Beginning: The Definitive History Of Racist Ideas In America'
+
+books$Book_Title[books$Book_Title == 'Stamped: Racism, Antiracism, And You'] <- 'Stamped: Racism, Anti-Racism, And You'
+
+books$Book_Title[books$Book_Title == 'Sumomomo, Momomo: The Strongest Bride On Earth, Vol. 1 (Sumomomo, Momomo: The Strongest Bride On Earth Series)'] <- 'Sumomomo, Momomo: The Strongest Bride On Earth, Vol. 1'
+
+books$Book_Title[books$Book_Title == 'Super Sisters (The Sisters)'] <- 'Super Sisters'
+
+books$Book_Title[books$Book_Title == 'The 57 Bus'] <- 'The 57 Bus: A True Story Of Two Teenagers And The Crime That Changed Their Lives'
+
+books$Book_Title[books$Book_Title == 'The Ancient Greeks (Myths Of The World)'] <- 'The Ancient Greeks'
+
+books$Book_Title[books$Book_Title == 'The Art Of Comics (Art Scene)'] <- 'The Art Of Comics'
+
+books$Book_Title[books$Book_Title == 'The Bible'] <- 'Bible'
+
+books$Book_Title[books$Book_Title == 'The Black Friend'] <- 'The Black Friend: On Being A Better White Person'
+
+books$Book_Title[books$Book_Title == 'The Black Monday Murders (The Black Monday Murders Series)'] <- 'The Black Monday Murders'
+
+books$Book_Title[books$Book_Title == 'The Boy And Girl Who Broke The World: A Novel'] <- 'The Boy And Girl Who Broke The World'
+
+
+books$Book_Title[books$Book_Title == 'The Carnival At The Bray'] <- 'The Carnival At Bray'
+
+books$Book_Title[books$Book_Title == 'The Duff: Designated Ugly Fat Friend (Hamilton High Series)'] <- 'The Duff: (Designated Ugly Fat Friend)'
+
+books$Book_Title[books$Book_Title == 'The Event (Black Hammer Series)'] <- 'The Event'
+
+books$Book_Title[books$Book_Title == 'The Good Earth (Graphic Adaptation)'] <- 'The Good Earth'
+
+books$Book_Title[books$Book_Title == 'The Last Halloween: Children (The Last Halloween, 1)'] <- 'The Last Halloween: Children'
+
+books$Book_Title[books$Book_Title == 'The Leauge Of Super Feminists'] <- 'The League Of Super Feminists'
+
+books$Book_Title[books$Book_Title == 'The Life And Art Of Paul Gauguin (The Lives Of Great Artists)'] <- 'The Life And Art Of Paul Gauguin'
+
+books$Book_Title[books$Book_Title == 'The Renaissance (Odysseys In Art)'] <- 'The Renaissance'
+
+books$Book_Title[books$Book_Title == 'The Tale Of A Body Thief'] <- 'The Tale Of The Body Thief'
+
+books$Book_Title[books$Book_Title == 'The V Word'] <- 'The V-Word: True Stories About First Time Sex'
+
+books$Book_Title[books$Book_Title == 'The V-Word'] <- 'The V-Word: True Stories About First Time Sex'
+
+books$Book_Title[books$Book_Title == 'The Walking Dead Book 15- Robert Kirkman'] <- 'The Walking Dead Vol 15'
+
+books$Book_Title[books$Book_Title == 'The Walking Dead Book 16- Robert Kirkman'] <- 'The Walking Dead Vol 16'
+
+books$Book_Title[books$Book_Title == 'Toulouse-Lautrec: At The Moulin Rouge (One Hundred Paintings Series)'] <- 'Toulouse-Lautrec: At The Moulin Rouge'
+
+
+
+```
+
+
+```{r}
+
+#books$Book_Title[books$Book_Title == ''] <- ''
+
+#books$Book_Title[books$Book_Title == ''] <- ''
+
+#books$Book_Title[books$Book_Title == ''] <- ''
+
+```
+
+```{r}
+books %>% 
+  filter(substr(Book_Title, 1, 1) == "T") %>% 
+  count(Book_Title)
+
+```
+
+```{r counting_titles}
+books %>% 
+  count(`Book_Title`)
+```
+
+```{r}
+books %>% 
+  filter(Book_Title == "The V-Word: True Stories About First Time Sex" |  Book_Title == "The V-Word" |  Book_Title == "The V Word" |  Book_Title == "")
+
+```
+
+
