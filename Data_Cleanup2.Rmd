@@ -83,9 +83,13 @@ books$Book_Title[books$Book_Title == 'Darius The Great Deserves Better (Darius T
 
 books$Book_Title[books$Book_Title == 'Daughter Of Smoke & Bone'] <- 'Daughter Of Smoke And Bone'
 
+books$Book_Title[books$Book_Title == 'Date Rape (At Issue)'] <- 'Date Rape'
+
 books$Book_Title[books$Book_Title == 'Deadly Class (Complete Series)'] <- 'Deadly Class'
 
 books$Book_Title[books$Book_Title == "Doing It! Let's Talk About Sex"] <- "Doing It!: Let's Talk About Sex"
+
+books$Book_Title[books$Book_Title == "Don't Know Much About Mythology: Everything You Need To Know About The Greatest Stories In Human History But Never Learned (Don't Know Much About Series)"] <- "Don't Know Much About Mythology: Everything You Need To Know About The Greatest Stories In Human History But Never Learned"
 
 books$Book_Title[books$Book_Title == 'Drama: A Graphic Novel'] <- 'Drama'
 
@@ -95,11 +99,15 @@ books$Book_Title[books$Book_Title == 'Fade #2 (Wake Trilogy)'] <- 'Fade'
 
 books$Book_Title[books$Book_Title == 'Fade (Wake Series)'] <- 'Fade'
 
+books$Book_Title[books$Book_Title == 'Fantastic Four By Mark Waid And Mike Wieringo: Ultimate Collection - Book One (Fantastic Four 1998-2012)'] <- 'Fantastic Four By Mark Waid And Mike Wieringo: Ultimate Collection - Book One'
+
 books$Book_Title[books$Book_Title == 'Finding Cinderella: A Novella'] <- 'Finding Cinderella'
 
 books$Book_Title[books$Book_Title == 'Fun Home'] <- 'Fun Home: A Family Tragicomic'
 
 books$Book_Title[books$Book_Title == 'Gender Queer'] <- 'Gender Queer: A Memoir'
+
+books$Book_Title[books$Book_Title == 'Girls Like Us (2015)'] <- 'Girls Like Us'
 
 books$Book_Title[books$Book_Title == 'Graphic Classics: Bram Stoker (Graphic Classics Series)'] <- 'Graphic Classics: Bram Stoker'
 
@@ -142,15 +150,21 @@ books$Book_Title[books$Book_Title == "Let's Talk About It: The Teen's Guide To S
 
 books$Book_Title[books$Book_Title == "Let's Talk About It: The Teens Guide To Sex, Relationships, And Being A Human"] <- "Let's Talk About It: The Teen's Guide To Sex And Relationships And Being A Human"
 
+books$Book_Title[books$Book_Title == 'Life In A Nazi Concentration Camp (Living History)'] <- 'Life In A Nazi Concentration Camp'
+
 books$Book_Title[books$Book_Title == 'Looking At Paintings (Eyewitness Art Series)'] <- 'Looking At Paintings'
 
 books$Book_Title[books$Book_Title == "Manet: Le Dejeuner Sur I'herbe (One Hundred Paintings Series)"] <- "Manet: Le Dejeuner Sur I'herbe"
+
+books$Book_Title[books$Book_Title == 'Matisse: La Danse (One Hundred Paintings Series)'] <- 'Matisse: La Danse'
 
 books$Book_Title[books$Book_Title == 'Munch: The Scream (One Hundred Paintings Series)'] <- 'Munch: The Scream'
 
 books$Book_Title[books$Book_Title == 'My Jim: A Novel'] <- 'My Jim'
 
 books$Book_Title[books$Book_Title == "My Sister's Keeper: A Novel"] <- "My Sister's Keeper"
+
+books$Book_Title[books$Book_Title == 'Mythology (Inside Ancient Greece)'] <- 'Mythology'
 
 books$Book_Title[books$Book_Title == 'Not My Idea, A Book About Whiteness'] <- 'Not My Idea: A Book About Whiteness'
 
@@ -174,6 +188,10 @@ books$Book_Title[books$Book_Title == 'Red, White And Royal Blue: A Novel'] <- 'R
 
 books$Book_Title[books$Book_Title == 'Red, White And Royal Blue'] <- 'Red, White, And Royal Blue'
 
+books$Book_Title[books$Book_Title == 'Rembrandt: Supper At Emmaus (One Hundred Paintings Series)'] <- 'Rembrandt: Supper At Emmaus'
+
+books$Book_Title[books$Book_Title == 'Renoir: Moulin De La Galette (One Hundred Paintings Series)'] <- 'Renoir: Moulin De La Galette'
+
 books$Book_Title[books$Book_Title == 'Rethinking Normal'] <- 'Rethinking Normal: A Memoir In Transition'
 
 books$Book_Title[books$Book_Title == 'Rubens: Garden Of Love (One Hundred Paintings Series)'] <- 'Rubens: Garden Of Love'
@@ -194,7 +212,6 @@ books$Book_Title[books$Book_Title == 'Slaughterhouse Five'] <- 'Slaughterhouse-F
 
 books$Book_Title[books$Book_Title == 'Slaughterhouse-Five (Graphic Adaption'] <- 'Slaughterhouse-Five: The Graphic Novel'
 
-
 books$Book_Title[books$Book_Title == 'Sloppy Firsts (Jessica Darling Series)'] <- 'Sloppy Firsts'
 
 books$Book_Title[books$Book_Title == 'Speak: 1) English Copy 2) Graphic Novel 3) Chinese\n Copy Speak - Video'] <- 'Speak'
@@ -210,6 +227,8 @@ books$Book_Title[books$Book_Title == 'Super Sisters (The Sisters)'] <- 'Super Si
 books$Book_Title[books$Book_Title == 'The 57 Bus'] <- 'The 57 Bus: A True Story Of Two Teenagers And The Crime That Changed Their Lives'
 
 books$Book_Title[books$Book_Title == 'The Ancient Greeks (Myths Of The World)'] <- 'The Ancient Greeks'
+
+books$Book_Title[books$Book_Title == 'The Annotated Mona Lisa, Third Edition: A Crash Court In Art History From Prehistoric To The Present (Volume 3)'] <- 'The Annotated Mona Lisa, Third Edition: A Crash Court In Art History From Prehistoric To The Present'
 
 books$Book_Title[books$Book_Title == 'The Art Of Comics (Art Scene)'] <- 'The Art Of Comics'
 
@@ -250,10 +269,31 @@ books$Book_Title[books$Book_Title == 'The Walking Dead Book 16- Robert Kirkman']
 
 books$Book_Title[books$Book_Title == 'Toulouse-Lautrec: At The Moulin Rouge (One Hundred Paintings Series)'] <- 'Toulouse-Lautrec: At The Moulin Rouge'
 
+books$Book_Title[books$Book_Title == "Uncle Bobby’s Wedding"] <- "Uncle Bobby's Wedding"
+
+books$Book_Title[books$Book_Title == 'Vampire Academy (Vampire Academy Series)'] <- 'Vampire Academy'
+
+books$Book_Title[books$Book_Title == 'Vermeer: The Astronomer (One Hundred Paintings Series)'] <- 'Vermeer: The Astronomer'
+
+books$Book_Title[books$Book_Title == 'Wait What? A Comic Book Guide To Relationships, Bodies And Growing Up'] <- 'Wait, What? A Comic Book Guide To Relationships, Bodies And Growing Up'
+
+books$Book_Title[books$Book_Title == 'Watchmen (Watchmen #1-12 Series)'] <- 'Watchmen'
+
+books$Book_Title[books$Book_Title == 'We Are Not Your Equal: Understanding \nOur Racial Divide'] <- 'We Are Not Your Equal: Understanding Our Racial Divide'
+
+books$Book_Title[books$Book_Title == 'Wings Of Fire (Series)'] <- 'Wings Of Fire'
+
+books$Book_Title[books$Book_Title == 'Woke: A Young Poets Call To Justice'] <- "Woke: A Young Poet's Call To Justice"
+
+books$Book_Title[books$Book_Title == 'Wraith (Nos4a2 Series)'] <- 'Wraith'
+
+books$Book_Title[books$Book_Title == "You Be You! The Kid’s Guide To Gender, Sexuality And Family"] <- "You Be You! The Kid's Guide To Gender, Sexuality, And Family"
+
+books$Book_Title[books$Book_Title == 'You Too? 25 Voices Share Their\nMetoo Stories'] <- 'You Too? 25 Voices Share Their Metoo Stories'
+
 
 
 ```
-
 
 ```{r}
 
@@ -262,13 +302,6 @@ books$Book_Title[books$Book_Title == 'Toulouse-Lautrec: At The Moulin Rouge (One
 #books$Book_Title[books$Book_Title == ''] <- ''
 
 #books$Book_Title[books$Book_Title == ''] <- ''
-
-```
-
-```{r}
-books %>% 
-  filter(substr(Book_Title, 1, 1) == "T") %>% 
-  count(Book_Title)
 
 ```
 
@@ -279,8 +312,14 @@ books %>%
 
 ```{r}
 books %>% 
-  filter(Book_Title == "The V-Word: True Stories About First Time Sex" |  Book_Title == "The V-Word" |  Book_Title == "The V Word" |  Book_Title == "")
+  filter(Book_Title == "Girls Like Us (2015)" |  Book_Title == "Girls Like Us" |  Book_Title == "" |  Book_Title == "")
 
 ```
 
 
+```{r}
+books %>% 
+  filter(substr(Book_Title, 1, 1) == "Z") %>% 
+  count(Book_Title)
+
+```
