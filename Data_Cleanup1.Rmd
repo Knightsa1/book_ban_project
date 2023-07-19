@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r loading_library}
+
 library(tidyverse)
 library(tidymodels)
 library(stringr)
@@ -51,14 +52,9 @@ books <- books[ ,c(1,29,3:28)]
 books$Book_Title <-gsub("\n","",as.character(books$Book_Title))
 ```
 
-
 ```{r moving_:}
 books$Book_Title <-gsub(" :",":",as.character(books$Book_Title))
 ```
-
-
-#ideas for getting rid of code get rid of  parenteses Series
-# getting rid of by Author
 
 ```{r fixing_names}
 
@@ -430,6 +426,8 @@ books$Book_Title[books$Book_Title == "Stamped For Kids: Racism, Antiracism And Y
 
 books$Book_Title[books$Book_Title == "Stamped From The Beginning"] <- "Stamped From The Beginning: The Definitive History Of Racist Ideas In America"
 
+books$Book_Title[books$Book_Title == "Stamped"] <- "Stamped: Racism, Antiracism And You"
+
 books$Book_Title[books$Book_Title == "Stamped: Racism, Antiracism, And You"] <- "Stamped: Racism, Antiracism And You"
 
 books$Book_Title[books$Book_Title == "Sticks & Scones (Check, Please! Series)"] <- "Sticks And Scones"
@@ -607,47 +605,29 @@ books$Book_Title[books$Book_Title == "Yang, Kelly"] <- "Front Desk"
 
 ```
 
-
-```{r}
-books %>% 
-  filter(Book_Title == "Always My Dad" | Book_Author == ''| Book_Author == ''| Book_Author == '' )
-
-```
-
 ```{r counting_titles}
 books %>% 
   count(`Book_Title`)
 ```
 
-```{r capitalizing_every_name}
-
-#book_author <- as.data.frame(str_to_title(books$Book_Author))
-```
-
-```{r add_new_col}
-#books <- cbind(books,book_author)
-``` 
-
-```{r getting_rid_of_old_col}
-#books <- books[,-1]
-```
-
-```{r renaming_col}
-#colnames(books)[28] ="Book_Author"
-```
-
-```{r reordering_columns}
-
-#books <- books[ ,c(28, 1:27)]
-
-```
-
-```{r}
-#books$Book_Author <-gsub(",  ",", ",as.character(books$Book_Author))
-```
-
 ```{r gets_rid_of_\n_from_book_title}
 books$Book_Author <-gsub("\n","",as.character(books$Book_Author))
+```
+
+```{r flip_flop_rows}
+
+books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. and Vashti Harrison'
+
+books$Book_Author[books$Book_Author == 'New Kid'] <- 'Craft, Jerry'
+
+books$Book_Author[books$Book_Author == 'Melissa (George)'] <- 'Gino, Alex'
+
+books$Book_Author[books$Book_Author == 'A is for Activist'] <- 'Nagara, Innosanto'
+
+books$Book_Author[books$Book_Author == 'A good Kind of Trouble'] <- 'Ramee, Lisa Moore'
+
+books$Book_Author[books$Book_Author == 'Front Desk'] <- 'Yang, Kelly'
+
 ```
 
 ```{r fixing_athors}
@@ -748,8 +728,6 @@ books$Book_Author[books$Book_Author == 'De La Pena, Matt'] <- 'de la Pena, Matt'
 books$Book_Author[books$Book_Author == 'DeLaPena, Matt'] <- 'de la Pena, Matt'
 
 books$Book_Author[books$Book_Author == 'De La Pena Matt'] <- 'de la Pena, Matt'
-
-books$Book_Author[books$Book_Author == 'De La Cruz, Sharon Lee'] <- 'de la Pena, Matt'
 
 books$Book_Author[books$Book_Author == 'Delpit, Lisa'] <- 'Delpit, Lisa D.'
 
@@ -915,7 +893,7 @@ books$Book_Author[books$Book_Author == 'lockhart, e'] <- 'Lockhart, E.'
 
 books$Book_Author[books$Book_Author == 'Lockhart, E'] <- 'Lockhart, E.'
 
-books$Book_Author<- gsub(".*Lumumba, Chokwa.*","Lumumba, Chokwa ", books$Book_Author)
+books$Book_Author<- gsub(".*Lumumba, Chokwa.*","Lumumba, Chokwa", books$Book_Author)
 
 books$Book_Author[books$Book_Author == 'Lyons, Kelly Starling and Keith Mallett'] <- 'Lyons, Kelly Starling'
 
@@ -1131,46 +1109,105 @@ books$Book_Author[books$Book_Author == 'Ziemke, Kristin and Katie Muhtaris'] <- 
 
 ```
 
-
 ```{r counting_authors}
 books %>% 
   count(`Book_Author`)
 ```
 
-```{r flip_flop_rows}
-books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. and Vashti Harrison'
+```{r adding_Co_Author}
 
-books$Book_Author[books$Book_Author == 'New Kid'] <- 'Craft, Jerry'
+books$Book_Co_Author[which(books$Book_Title == "The Handmaid's Tale: The Graphic Novel")] <- "Nault, Renee"
 
-books$Book_Author[books$Book_Author == 'Melissa (George)'] <- 'Gino, Alex'
+books$Book_Co_Author[which(books$Book_Title == "Queer: The Ultimate Lgbtq Guide For Teens")] <- "Marke Bieschke"
 
-books$Book_Author[books$Book_Author == 'A is for Activist'] <- 'Nagara, Innosanto'
+books$Book_Co_Author[which(books$Book_Title == "We Are Not Yet Equal - Understanding Our Racial Divide")] <- "Anderson, Carol"
 
-books$Book_Author[books$Book_Author == 'A good Kind of Trouble'] <- 'Ramee, Lisa Moore'
+books$Book_Co_Author[which(books$Book_Title == "Woke: A Poet's Call To Justice")] <- "Acevedo, Elizabeth"
 
-books$Book_Author[books$Book_Author == 'Front Desk'] <- 'Yang, Kelly'
+books$Book_Co_Author[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Reynolds, Jason"
+
+books$Book_Co_Author[which(books$Book_Title == "Hair Love")] <- "Harrison, Harrison"
+
+books$Book_Co_Author[which(books$Book_Title == "Notes From The Blender")] <- "Halpin, Brendan"
+
+books$Book_Co_Author[which(books$Book_Title == "En Comunidad")] <- "Herrera, Luz Yadira"
+
+books$Book_Co_Author[which(books$Book_Title == "A Place At The Table")] <- "Shovan, Laura"
+
+books$Book_Co_Author[which(books$Book_Title == "Anne Frank's Diary: The Graphic Adaption")] <- "Polonsky, David"
+
+books$Book_Co_Author[which(books$Book_Title == "Unpregnant")] <- "Caplan, Ted"
+
+books$Book_Co_Author[which(books$Book_Title == "I Am Jazz")] <- "Jennings, Jazz"
+
+books$Book_Author[which(books$Book_Title == "I Am Jazz")] <- "Herthel, Jessica"
+
+books$Book_Co_Author[which(books$Book_Title == "Stamped: Racism, Antiracism And You")] <- "Kendi, Ibram X."
+
+books$Book_Co_Author[which(books$Book_Title == "Lost And Found Cat")] <- "Shrodes, Amy"
+
+books$Book_Co_Author[which(books$Book_Title == "The Full Spectrum: A New Generation Of Writing About Gay, Lesbian, Bisexual, Transgender, Questioning And Other Identitieiies")] <- "Merrell, Billy"
+
+books$Book_Co_Author[which(books$Book_Title == "I'm Not A Girl")] <- "Verdi, Jessica"
+
+books$Book_Co_Author[which(books$Book_Title == "Our Skin: A First Conversation About Race")] <- "Ralli, Jessica"
+
+books$Book_Co_Author[which(books$Book_Title == "Get Up, Stand Up")] <- "Marley, Cedella"
+
+books$Book_Co_Author[which(books$Book_Title == "They, She, He Easy As Abc")] <- "SG, Matthew"
+
+books$Book_Co_Author[which(books$Book_Title == "The Teenage Body Book")] <- "Wibbelsman, Charles"
+
+books$Book_Co_Author[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Michael, Ali"
 
 ```
+
+```{r}
+
+#books$Book_Co_Author[which(books$Book_Title == "")] <- ""
+
+#books$Book_Co_Author[which(books$Book_Title == "")] <- ""
+
+```
+
 
 ```{r}
 books %>% 
-  filter(Book_Author == "Hopkinson, Deborah" |  Book_Author ==  "Hopkinson, Debra" |  Book_Author == "" |  Book_Author == "")
-
+  filter(Book_Author == 'Moore, Michel' | Book_Author == '')
 ```
 
 ```{r}
+
 books %>% 
-  filter(Restrictions == "HIgh School Only")
+  count(Book_Co_Author)
+
+```
+
+```{r}
+
+books$Book_Co_Author_2 <- NA
+
+```
+
+```{r}
+
+books$Book_Co_Author_2[which(books$Book_Title == "Woke: A Poet's Call To Justice")] <- "Gatwood, Olivia"
+
+books$Book_Co_Author_2[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Kendi, Ibram X."
+
+```
+
+```{r}
+
+books$Book_Co_Author_2[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Penick-Parks, Marguerite W."
+
 ```
 
 
 ```{r}
-books <- books[, c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,24)]
+
+books %>% 
+  count(Book_Co_Author_2)
+
 ```
 
-```{r}
-colnames(books)
-```
-
-
-https://stackoverflow.com/questions/43178196/lower-case-certain-words-r
