@@ -617,6 +617,12 @@ books %>%
   count(`Book_Title`)
 ```
 
+```{r}
+books %>% 
+  filter(Book_Title == "A Certain Slant Of Light")
+```
+
+
 ```{r gets_rid_of_\n_from_book_title}
 books$Book_Author <-gsub("\n","",as.character(books$Book_Author))
 ```
@@ -1212,7 +1218,7 @@ books$Book_Co_Author_2 <- NA
 
 ```
 
-```{r}
+```{r adding_Co_Author_2}
 
 books$Book_Co_Author_2[which(books$Book_Title == "Woke: A Poet's Call To Justice")] <- "Gatwood, Olivia"
 
@@ -1229,8 +1235,36 @@ books %>%
 
 ```
 
+```{r}
+
+books$Illustrators[which(books$Book_Title == "Wonder Woman: Tempest Tossed")] <- "del Duca, Leila"
+
+books$Illustrators[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Baker, Rachelle"
+
+books$Illustrators[which(books$Book_Title == "Bingo Love")] <- "St-Onge, Jenn"
+
+books$Illustrators[which(books$Book_Title == "The Sissy Duckling")] <- "Cole, Henry"
+
+books$Illustrators[which(books$Book_Title == "Amazing Grace")] <- "Binch, Caroline"
+
+books$Illustrators[which(books$Book_Title == "Hank's Big Day: The Story Of A Bug")] <- "Groenink, Chuck"
+
+books$Illustrators[which(books$Book_Title == "Sing A Song")] <- "Mallett, Keith"
+
+books$Illustrators[which(books$Book_Title == "Our Skin: A First Conversation About Race")] <- "Roxas, Isabel"
+
+books$Illustrators[which(books$Book_Title == "This One Summer")] <- "Tamaki, Jillian"
+
+books$Illustrators[which(books$Book_Title == "Y: The Last Man")] <- "Guerra, Pia"
+
+```
+
 
 ```{r}
-unique(books$Illustrators)
+books %>% 
+  count(Illustrators)
 ```
+
+
+
 
