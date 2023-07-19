@@ -192,6 +192,8 @@ books$Book_Title[books$Book_Title == 'Grasshopper Jungle (Grasshopper Jungle Ser
 
 books$Book_Title[books$Book_Title == 'Grasshopper Jungle: A History'] <- 'Grasshopper Jungle'
 
+books$Book_Title[books$Book_Title == 'Handmaids Tale Graphic Novel'] <- "The Handmaid's Tale: The Graphic Novel"
+
 books$Book_Title[books$Book_Title == 'Heart Of Flames (Crown Of Feathers Series)'] <- 'Heart Of Flames' #######
 
 books$Book_Title[books$Book_Title == 'Heart Of Thorns (Heart Of Thorns Series)'] <- 'Heart Of Thorns' ######
@@ -470,6 +472,8 @@ books$Book_Title[books$Book_Title == "The Court Of Silver Flames"] <- "A Court O
 
 books$Book_Title[books$Book_Title == "The Dark Prophecy (The Trials Of Apollo Series)"] <- "The Dark Prophecy"
 
+books$Book_Title[books$Book_Title == "The Dear Musicians"] <- "The Deaf Musicians"
+
 books$Book_Title[books$Book_Title == "The Deepest Breath By Meg Grehen"] <- "The Deepest Breath"
 
 books$Book_Title[books$Book_Title == "The Electric Heir (Feverwake Series)"] <- "The Electric Heir" ######
@@ -515,6 +519,9 @@ books$Book_Title[books$Book_Title == "The Lost Book Of The White (The Eldest Cur
 books$Book_Title[books$Book_Title == "The Midnight Lie (Forgotten Gods Series)"] <- "The Midnight Lie"
 
 books$Book_Title[books$Book_Title == "The New Jim Crow"] <- "The New Jim Crow: Mass Incarceration In The Age Of Colorblindness"
+
+books$Book_Title[books$Book_Title == "The Night Owl, From Dogfish"] <- "To Night Owl From Dogfish"
+
 
 books$Book_Title[books$Book_Title == "The Red Scrolls Of Magic (The Eldest Curses Series)"] <- "The Red Scrolls Of Magic"
 
@@ -949,7 +956,7 @@ books$Book_Author[books$Book_Author == 'Muhammad, Ibtihaj and SK Ali'] <- 'Muham
 
 books$Book_Author[books$Book_Author == 'Myers'] <- 'Myers, Jason'
 
-books$Book_Author[books$Book_Author == 'Nault, Renee and Atwood Margaret'] <- 'Nault, Renee'
+books$Book_Author[books$Book_Author == 'Nault, Renee and Atwood Margaret'] <- 'Atwood, Margaret'
 
 books$Book_Author[books$Book_Author == 'Neal, DeShanna and Trinity Neal'] <- 'Neal, Deshanna'
 
@@ -1047,13 +1054,13 @@ books$Book_Author[books$Book_Author == 'Shetterly, Margo Lee with Winifred Conkl
 
 books$Book_Author[books$Book_Author == 'Slater, Dashkta'] <- 'Slater, Dashka'
 
-books$Book_Author[books$Book_Author == 'Sleeter, Zavala, and Banks'] <- 'Sleeter, Zavala'
+books$Book_Author[books$Book_Author == 'Sleeter, Zavala, and Banks'] <- 'Sleeter, Christine E.'
 
 books$Book_Author[books$Book_Author == 'Slim, Tara'] <- 'Sim, Tara'
 
 books$Book_Author[books$Book_Author == 'Sloan, Holly Goldberg and Meg Wolitzer'] <- 'Sloan, Holly Goldberg'
 
-books$Book_Author[books$Book_Author == 'Sltani, Amir & Khalil'] <- 'Sltani, Amir'
+books$Book_Author[books$Book_Author == 'Sltani, Amir & Khalil'] <- 'Khalil, Amir'
 
 books$Book_Author[books$Book_Author == 'Solomon, Akiba and Rankin, Kenrya'] <- 'Solomon, Akiba'
 
@@ -1160,20 +1167,36 @@ books$Book_Co_Author[which(books$Book_Title == "The Teenage Body Book")] <- "Wib
 
 books$Book_Co_Author[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Michael, Ali"
 
-```
+books$Book_Co_Author[which(books$Book_Title == "The Proudest Blue: A Story Of Hijab And Family")] <- "Ali, S.K"
 
-```{r}
+books$Book_Co_Author[which(books$Book_Title == "My Rainbow")] <- "Neal, Trinity"
 
-#books$Book_Co_Author[which(books$Book_Title == "")] <- ""
+books$Book_Co_Author[which(books$Book_Title == "Culturally Sustaining Pedagogies")] <- "Alim, H. Samy"
 
-#books$Book_Co_Author[which(books$Book_Title == "")] <- ""
+books$Book_Co_Author[which(books$Book_Title == "Who Was Lucille Ball")] <- "Belviso, Meg"
 
-```
+books$Book_Co_Author[which(books$Book_Title == "Who Was Susan B Anthony?")] <- "Belviso, Meg"
 
+books$Book_Co_Author[which(books$Book_Title == "And Tango Makes Three")] <- "Parnell, Peter"
 
-```{r}
-books %>% 
-  filter(Book_Author == 'Moore, Michel' | Book_Author == '')
+books$Book_Co_Author[which(books$Book_Title == "Shades Of People")] <- "Kelly, Sheila M."
+
+books$Book_Co_Author[which(books$Book_Title == "The Deaf Musicians")] <- "Jacobs, Paul DuBois"
+
+books$Book_Co_Author[which(books$Book_Title == "Transformative Ethnic Studies In Schools")] <- "Zavala, Miguel"
+
+books$Book_Co_Author[which(books$Book_Title == "To Night Owl From Dogfish")] <- "Wolitzer, Meg"
+
+books$Book_Co_Author[which(books$Book_Title == "Zahra's Paradise")] <- "Soltani, Amir"
+
+books$Book_Co_Author[which(books$Book_Title == "How We Fight White Supremacy")] <- "Rankin, Kenrya"
+
+books$Book_Co_Author[which(books$Book_Title == "Cats Vs Robots: This Is War")] <- "Peterson, Lewis"
+
+books$Book_Co_Author[which(books$Book_Title == "What Is White Privilege")] <- "Erickson, Leigh Ann"
+
+books$Book_Co_Author[which(books$Book_Title == "Gender Queer: A Memoir")] <- NA
+
 ```
 
 ```{r}
@@ -1195,19 +1218,19 @@ books$Book_Co_Author_2[which(books$Book_Title == "Woke: A Poet's Call To Justice
 
 books$Book_Co_Author_2[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Kendi, Ibram X."
 
-```
-
-```{r}
-
 books$Book_Co_Author_2[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Penick-Parks, Marguerite W."
 
 ```
-
 
 ```{r}
 
 books %>% 
   count(Book_Co_Author_2)
 
+```
+
+
+```{r}
+unique(books$Illustrators)
 ```
 
