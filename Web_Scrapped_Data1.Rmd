@@ -1,0 +1,50 @@
+---
+title: "Untitled"
+author: "Sara Knight"
+date: "7/19/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load_libraries}
+
+library(dplyr)
+library(rvest)
+
+```
+
+```{r}
+
+link = "https://www.goodreads.com/review/list/167950961?ref=nav_mybooks"
+
+page = read_html(link)
+```
+
+```{r}
+title = page %>% html_nodes(".title .value") %>% html_text()
+
+title
+```
+
+
+```{r}
+author = page %>% html_nodes("#booksBody .author a") %>% html_text()
+
+author
+```
+
+```{r}
+date = page %>%  html_nodes(".date_pub .value") %>% html_text()
+
+date
+```
+
+```{r}
+
+goodreads <- data.frame(title, author, date, stringsAsFactors = FALSE)
+
+```
+
