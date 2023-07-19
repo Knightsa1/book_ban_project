@@ -47,8 +47,6 @@ books <- books[ ,c(1,48,2:47)]
 
 ```
 
-
-
 ```{r fixing_titles}
 
 books$Book_Title[books$Book_Title == 'Anatomy Of A Single Girl'] <- 'Anatomy Of A Single Girl: A Novel'
@@ -295,31 +293,199 @@ books$Book_Title[books$Book_Title == 'You Too? 25 Voices Share Their\nMetoo Stor
 
 ```
 
+```{r fixing_authors_name}
+
+books$Author<- gsub(".*Amir.*","Kahlil, Amir", books$Author)
+
+books$Author[books$Author == 'Anderson, MT'] <- 'Anderson, M.T.'
+
+books$Author[books$Author == 'Capetta, Amy Rose & McCarthy, Cori'] <- 'Capetta, Amy Rose'
+
+books$Author[books$Author == 'Celano, Marianne, Mareitta Collins, and Ann Hazzard'] <- 'Celano, Marianne'
+
+books$Author[books$Author == 'Celana, Marianne'] <- 'Celano, Marianne'
+
+books$Author[books$Author == 'Cast, P. C.'] <- 'Cast, P.C.'
+
+books$Author[books$Author == 'Cohn, Rachel & Levithan, David'] <- 'Cohn, Rachel'
+
+books$Author[books$Author == 'Cokal, Susan'] <- 'Cokal, Susann'
+
+books$Author[books$Author == 'Danforth, Emily M'] <- 'Danforth, Emily M.'
+
+books$Author[books$Author == 'Ellis, Rowan and Jacky Sheridan'] <- 'Ellis, Rowan'
+
+books$Author[books$Author == 'Eric Geron and illustrated by Charlene Chua'] <- 'Geron, Eric'
+
+books$Author[books$Author == 'Foer, Jonathan'] <- 'Foer, Jonathan Safran'
+
+books$Author[books$Author == 'Frank, E. R.'] <- 'Frank, E.R.'
+
+books$Author[books$Author == 'Frank, ER'] <- 'Frank, E.R.'
+
+books$Author[books$Author == 'Fujiwara'] <- 'Fujiwara, Hiro'
+
+books$Author[books$Author == 'Garcia, Christina'] <- 'García, Cristina'
+
+books$Author[books$Author == 'Gay, Roxanne'] <- 'Gay, Roxane'
+
+books$Author[books$Author == 'Gravel, Elise and Mykaell Blais'] <- 'Gravel, Elise'
+
+books$Author[books$Author == 'Handler'] <- 'Handler, Daniel'
+
+books$Author[books$Author == 'Harris, Robie'] <- 'Harris, Robie H.'
+
+books$Author[books$Author == 'Herthel, Jessica and Jazz Jennings'] <- 'Herthel, Jessica'
+
+books$Author[books$Author == 'Herz'] <- 'Herz, Rachel'
+
+books$Author[books$Author == 'Higgenbotham, Anastasia'] <- 'Higginbotham, Anastasia'
+
+books$Author[books$Author == 'Hooer, Colleen'] <- 'Hoover, Colleen'
+
+books$Author[books$Author == 'Hudson, Wade and Cheryl'] <- 'Hudson, Wade'
+
+books$Author[books$Author == 'Jackson, Tiffany'] <- 'Jackson, Tiffany D.'
+
+books$Author[books$Author == 'Jackson, Tiffany D'] <- 'Jackson, Tiffany D.'
+
+books$Author[books$Author == 'Jackson, Tiffany, D'] <- 'Jackson, Tiffany D.'
+
+books$Author[books$Author == 'Jennings,Jazz'] <- 'Jennings, Jazz'
+
+books$Author[books$Author == 'Jessica Kingsley and illustrated by Jem Milton'] <- 'Kingsley, Jessica'
+
+books$Author[books$Author == 'Jonathan Branfman and Julie Benbassat'] <- 'Branfman, Jonathan'
+
+books$Author[books$Author == 'Kendi, Ibram X'] <- 'Kendi, Ibram X.'
+
+books$Author[books$Author == 'Keyser, Amber'] <- 'Keyser, Amber J.'
+
+books$Author[books$Author == 'Khan-Cullors, Patrisse and Asha Bandele'] <- 'Khan-Cullors, Patrisse'
+
+books$Author[books$Author == 'Kobabe, Mai'] <- 'Kobabe, Maia'
+
+books$Author[books$Author == 'Koningsberg, Bill'] <- 'Konigsberg, Bill'
+
+books$Author[books$Author == 'Krakauer'] <- 'Krakauer, Jon'
+
+books$Author[books$Author == 'Leslea Newman and illustrated by Carol Thompson'] <- 'Newman, Leslea'
+
+books$Author[books$Author == 'Leviathan, David'] <- 'Levithan, David'
+
+books$Author[books$Author == 'Levithan, David and Bill Merrell'] <- 'Levithan, David'
+
+books$Author[books$Author == 'lockhart, e'] <- 'Lockhart, E.'
+
+books$Author[books$Author == 'M.T. Anderson'] <- 'Anderson, M.T.'
+
+books$Author[books$Author == 'Maas, Sarah'] <- 'Maas, Sarah J.'
+
+books$Author[books$Author == 'Madison, Megan Jessica Ralli and Isabel Roxas'] <- 'Madison, Megan'
+
+books$Author<- gsub(".*Mark Ceilley.*","Ceilley, Mark", books$Author)
+
+books$Author[books$Author == 'Matsui, Yusei'] <- 'Matsui, Yūsei'
+
+books$Author[books$Author == 'Miller, JP'] <- 'Miller, J. P.'
+
+books$Author[books$Author == 'Moen, Erika and Matthew Nolan'] <- 'Moen, Erika'
+
+books$Author[books$Author == 'Morrison, TOni'] <- 'Morrison, Toni'
+
+books$Author[books$Author == 'Nijkamp, Marie'] <- 'Nijkamp, Marieke'
+
+books$Author[books$Author == 'Nolan, Matthew and Erika Moen'] <- 'Nolan, Matthew'
+
+books$Author[books$Author == 'Okamoto, Nadya and REbecca Elfast'] <- 'Okamoto, Nadya'
+
+books$Author[books$Author == 'Perez, Ashley Hope'] <- 'Pérez, Ashley Hope'
+
+books$Author[books$Author == 'Rachel Greener and Clare Owen'] <- 'Greener, Rachel'
+
+books$Author[books$Author == 'Ramos, NoNieqa'] <- 'Ramos, NaNieqa'
+
+books$Author[books$Author == 'Reed, Amy Lynn'] <- 'Reed, Amy'
+
+books$Author[books$Author == 'Renninson, Louise'] <- 'Rennison, Louise'
+
+books$Author[books$Author == 'Rhodes, Jewel Parker'] <- 'Rhodes, Jewell Parker'
+
+books$Author[books$Author == 'Roleff, Tami L.'] <- 'Roleff, Tamara L.'
+
+books$Author[books$Author == 'Rosen, L. C.'] <- 'Rosen, L.C.'
+
+books$Author[books$Author == 'Rosen, LC'] <- 'Rosen, L.C.'
+
+books$Author[books$Author == 'Roy, Aruindhati'] <- 'Roy, Arundhati'
+
+books$Author[books$Author == 'Salzman'] <- 'Salzman, Mark'
+
+books$Author[books$Author == 'Sanchez, Erika'] <- 'Sánchez, Erika L.'
+
+books$Author[books$Author == 'Sanders, Rob and Robbie Cathro'] <- 'Sanders, Rob'
+
+books$Author[books$Author == 'Sarah Brannen'] <- 'Brannen, Sarah S.'
+
+books$Author[books$Author == 'Schiffer, Miriam B.\tand Holly Clifton-Brown'] <- 'Schiffer, Miriam Baker'
+
+books$Author[books$Author == 'Schwab, V. E.'] <- 'Schwab, V.E.'
+
+books$Author[books$Author == 'Seabold, Alice'] <- 'Sebold, Alice'
+
+books$Author[books$Author == 'Silverberg, Cory and Fiona Smyth'] <- 'Silverberg, Cory'
+
+books$Author[books$Author == 'Simon, Rachel E. and Noah Gringni Illustrator'] <- 'Simon, Rachel E.'
+
+books$Author[books$Author == 'Sindu, SJ'] <- 'Sindu, S. J.'
+
+books$Author[books$Author == 'Sparks, Beatrice and Anonymous'] <- 'Sparks, Beatrice'
+
+books$Author[books$Author == 'Stassen, Jean-Philippe and Alexis Siegel'] <- 'Stassen, Jean-Philippe'
+
+books$Author[books$Author == 'Stevenson, ND'] <- 'Stevenson, N.D.'
+
+books$Author[books$Author == 'Strayed'] <- 'Strayed, Cheryl'
+
+books$Author[books$Author == 'Teigmeier, Raina'] <- 'Telgemeier, Raina'
+
+books$Author[books$Author == 'Telgemeir, Raina'] <- 'Telgemeier, Raina'
+
+books$Author[books$Author == 'Turner'] <- 'Turner, Nikki'
+
+books$Author[books$Author == 'Unknw'] <- 'Unknown'
+
+books$Author[books$Author == 'Venable, Colleen AF'] <- 'Venable, Colleen A. F.'
+
+books$Author[books$Author == 'Vonnegut, Kurt'] <- 'Vonnegut Jr., Kurt'
+
+books$Author[books$Author == 'Walls, Jeannette Walls'] <- 'Walls, Jeannette'
+
+books$Author[books$Author == 'Zuckerberg, Jules and Mandy G.'] <- 'Zuckerberg, Jules'
+
+```
+
 ```{r}
 
-#books$Book_Title[books$Book_Title == ''] <- ''
 
-#books$Book_Title[books$Book_Title == ''] <- ''
 
-#books$Book_Title[books$Book_Title == ''] <- ''
+#books$Author[books$Author == ''] <- ''
+
+#books$Author[books$Author == ''] <- ''
 
 ```
 
 ```{r counting_titles}
 books %>% 
-  count(`Book_Title`)
+  count(`Author`)
 ```
 
 ```{r}
 books %>% 
-  filter(Book_Title == "Girls Like Us (2015)" |  Book_Title == "Girls Like Us" |  Book_Title == "" |  Book_Title == "")
+  filter(Author == "" |  Author == "" |  Author == "" |  Author == "")
 
 ```
 
 
-```{r}
-books %>% 
-  filter(substr(Book_Title, 1, 1) == "Z") %>% 
-  count(Book_Title)
 
-```
+

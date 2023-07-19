@@ -621,29 +621,29 @@ books %>%
 
 ```{r capitalizing_every_name}
 
-book_author <- as.data.frame(str_to_title(books$Book_Author))
+#book_author <- as.data.frame(str_to_title(books$Book_Author))
 ```
 
 ```{r add_new_col}
-books <- cbind(books,book_author)
+#books <- cbind(books,book_author)
 ``` 
 
 ```{r getting_rid_of_old_col}
-books <- books[,-1]
+#books <- books[,-1]
 ```
 
 ```{r renaming_col}
-colnames(books)[28] ="Book_Author"
+#colnames(books)[28] ="Book_Author"
 ```
 
 ```{r reordering_columns}
 
-books <- books[ ,c(28, 1:27)]
+#books <- books[ ,c(28, 1:27)]
 
 ```
 
 ```{r}
-books$Book_Author <-gsub(",  ",", ",as.character(books$Book_Author))
+#books$Book_Author <-gsub(",  ",", ",as.character(books$Book_Author))
 ```
 
 ```{r gets_rid_of_\n_from_book_title}
@@ -652,25 +652,23 @@ books$Book_Author <-gsub("\n","",as.character(books$Book_Author))
 
 ```{r fixing_athors}
 
-books$Book_Author[books$Book_Author == 'A Bermudez, Cyn'] <- 'Bermudez, Cyn'
+books$Book_Author[books$Book_Author == 'a Bermudez, Cyn'] <- 'Bermudez, Cyn'
 
-books$Book_Author[books$Book_Author == 'A Garcia, Isabella'] <- 'Garcia, Isabella'
+books$Book_Author[books$Book_Author == 'a Garcia, Isabella'] <- 'Garcia, Isabella'
 
-books$Book_Author[books$Book_Author == 'A Good Kind Of Trouble'] <- 'Ramee, Lisa Moore'
+books$Book_Author[books$Book_Author == 'a Rickards, Lynnea'] <- 'Rickards, Lynnea'
 
-books$Book_Author[books$Book_Author == 'A Is For Activist'] <- 'Nagara, Innosanto'
+books$Book_Author[books$Book_Author == 'a Taylor, Simon'] <- 'Taylor, Simon'
 
-books$Book_Author[books$Book_Author == 'A Rickards, Lynnea'] <- 'Rickards, Lynnea'
+books$Book_Author[books$Book_Author == 'Abike-Iyimide, Faridah'] <- 'Àbíké-Íyímídé, Faridah'
 
-books$Book_Author[books$Book_Author == 'A Taylor, Simon'] <- 'Taylor, Simon'
+books$Book_Author[books$Book_Author == 'Acevedo, ELizabeth'] <- 'Acevedo, Elizabeth'
 
-books$Book_Author[books$Book_Author == 'Àbíké-Íyímídé, Faridah'] <- 'Abike-Iyimide, Faridah'
+books$Book_Author[books$Book_Author == 'Adeyoha, Koja and Angel'] <- 'Adeyoha, Koja'
 
-books$Book_Author[books$Book_Author == 'Adeyoha, Koja And Angel'] <- 'Adeyoha, Koja'
+books$Book_Author[books$Book_Author == 'Alexander, Kwame and Kadir Nelson'] <- 'Alexander, Kwame'
 
-books$Book_Author[books$Book_Author == 'Alexander, Kwame And Kadir Nelson'] <- 'Alexander, Kwame'
-
-books$Book_Author[books$Book_Author == 'Alexi, Sherman'] <- 'Alexie, Sherman'
+books$Book_Author[books$Book_Author == 'Alexi, Sherman'] <- 'Sherman, Alexie'
 
 books$Book_Author[books$Book_Author == 'Alger, Christina'] <- 'Alger, Cristina'
 
@@ -683,7 +681,7 @@ books$Book_Author[books$Book_Author == "Alverez, Julia"] <- "Alvarez, Julia"
 
 books$Book_Author[books$Book_Author == 'Anderson, Laurie'] <- 'Anderson, Laurie Halse'
 
-books$Book_Author[books$Book_Author == 'Anderson, Laurie Halse - Illustrated By Leila De Duca'] <- 'Anderson, Laurie Halse'
+books$Book_Author[books$Book_Author == 'Anderson, Laurie Halse - Illustrated by Leila De Duca'] <- 'Anderson, Laurie Halse'
 
 books$Book_Author[books$Book_Author == 'Andrews, Troy "Trombone Short"'] <- 'Andrews, Troy'
 
@@ -691,25 +689,27 @@ books$Book_Author[books$Book_Author == 'Angelu, Maya'] <- 'Angelou, Maya'
 
 books$Book_Author[books$Book_Author == 'Arnold, Elana K'] <- 'Arnold, Elana K.'
 
-books$Book_Author[books$Book_Author == 'Atwood, Margaret Adapted By Renee Nault'] <- 'Atwood, Margaret'
+books$Book_Author[books$Book_Author == 'Atwood, Margaret Adapted by Renee Nault'] <- 'Atwood, Margaret'
 
-books$Book_Author[books$Book_Author == 'Austrian, Jj'] <- 'Austrian, J.j.'
+books$Book_Author[books$Book_Author == 'Austrian, JJ'] <- 'Austrian, J.J.'
 
 books$Book_Author[books$Book_Author == 'Beige, Kathy'] <- 'Belge, Kathy'
 
-books$Book_Author[books$Book_Author == 'Belge, Kathy And Mark Bieschke'] <- 'Belge, Kathy'
+books$Book_Author[books$Book_Author == 'Belge, Kathy and Mark Bieschke'] <- 'Belge, Kathy'
 
-books$Book_Author[books$Book_Author == 'Belge, Kathy And Marke Bieschke'] <- 'Belge, Kathy'
+books$Book_Author[books$Book_Author == 'Belge, Kathy and Marke Bieschke'] <- 'Belge, Kathy'
 
 books$Book_Author[books$Book_Author == 'Bennett, Michae'] <- 'Bennett, Michael'
 
-books$Book_Author[books$Book_Author == 'Berenstain, Stan And Jan'] <- 'Berenstain, Stan'
+books$Book_Author[books$Book_Author == 'Berenstain, Stan and Jan'] <- 'Berenstain, Stan'
 
-books$Book_Author[books$Book_Author == 'Bardoe, Cheryl And Barbara Mcclintock'] <- 'Bardoe, Cheryl'
+books$Book_Author[books$Book_Author == 'Bardoe, Cheryl and Barbara McClintock'] <- 'Bardoe, Cheryl'
 
-books$Book_Author[books$Book_Author == 'Blakemore, Mt'] <- 'Blakemore, M.t.'
+books$Book_Author[books$Book_Author == 'Blake, Ashley Herrin'] <- 'Blake, Ashley Herring'
 
-books$Book_Author[books$Book_Author == 'Bolden, Tonya And Carol Anderson'] <- 'Bolden, Tonya'
+books$Book_Author[books$Book_Author == 'Blakemore, MT'] <- 'Blakemore, M.T.'
+
+books$Book_Author[books$Book_Author == 'Bolden, Tonya and Carol Anderson'] <- 'Bolden, Tonya'
 
 books$Book_Author[books$Book_Author == 'Braden, Anne'] <- 'Braden, Ann'
 
@@ -717,33 +717,39 @@ books$Book_Author[books$Book_Author == 'Brock Cole'] <- 'Cole, Brock'
 
 books$Book_Author[books$Book_Author == 'Browne, Mahogany L, Elizabeth Acevedo, Olivia Gatwood'] <- 'Browne, Mahogany L'
 
+books$Book_Author[books$Book_Author == 'Cabot, MEg'] <- 'Cabot, Meg'
+
 books$Book_Author[books$Book_Author == 'Callender, Kheryn'] <- 'Callender, Kacen'
 
-books$Book_Author[books$Book_Author == 'Capetta, Amy Rose'] <- 'Capetta, Ar'
+books$Book_Author[books$Book_Author == 'Capetta, Amy Rose'] <- 'Capetta, AR'
 
-books$Book_Author[books$Book_Author == 'Celano, Marianne And Donald Moses'] <- 'Celano, Marianne'
+books$Book_Author[books$Book_Author == 'Celano, Marianne and Donald Moses'] <- 'Celano, Marianne'
 
-books$Book_Author[books$Book_Author == 'Cherry-Paul, Sonja, Jason Reynolds, Ibram X. Kendi, Rachelle Baker (Illustrator)'] <- 'Cherry-Paul, Sonja'
+books$Book_Author[books$Book_Author == 'Cherry-Paul, SOnja, Jason Reynolds, Ibram X. Kendi, Rachelle Baker (Illustrator)'] <- 'Cherry-Paul, Sonja'
 
-books$Book_Author[books$Book_Author == 'Cherry, Matthew A. And Vashti Harrison'] <- 'Cherry, Matthew A.'
-
+books$Book_Author[books$Book_Author == 'Cherry, Matthew A. and Vashti Harrison'] <- 'Cherry, Matthew A.'
 
 books$Book_Author[books$Book_Author == 'Coates, Ta Nehisi'] <- 'Coates, Ta-Nehisi'
 
 books$Book_Author[books$Book_Author == 'Cohen, Adams'] <- 'Cohen, Adam'
 
-books$Book_Author[books$Book_Author == 'Cook, Trish And Brendan Halpin'] <- 'Cook, Trish'
+books$Book_Author[books$Book_Author == 'Cook, Trish and Brendan Halpin'] <- 'Cook, Trish'
 
-
-books$Book_Author[books$Book_Author == 'Coster, Katie De And Karen Swisher'] <- 'Coster, Katie De'
+books$Book_Author[books$Book_Author == 'Coster, Katie De and Karen Swisher'] <- 'Coster, Katie De'
 
 books$Book_Author[books$Book_Author == 'Danforth, Emily'] <- 'Danforth, Emily M.'
 
 books$Book_Author[books$Book_Author == 'Dashka Slater'] <- 'Slater, Dashka'
 
-books$Book_Author[books$Book_Author == 'Dawnson, Juno And David Levithan'] <- 'Dawnson, Juno'
+books$Book_Author[books$Book_Author == 'Dawnson, Juno and David Levithan'] <- 'Dawnson, Juno'
 
-books$Book_Author[books$Book_Author == 'De La Pena Matt'] <- 'De La Pena, Matt'
+books$Book_Author[books$Book_Author == 'De La Pena, Matt'] <- 'de la Pena, Matt'
+
+books$Book_Author[books$Book_Author == 'DeLaPena, Matt'] <- 'de la Pena, Matt'
+
+books$Book_Author[books$Book_Author == 'De La Pena Matt'] <- 'de la Pena, Matt'
+
+books$Book_Author[books$Book_Author == 'De La Cruz, Sharon Lee'] <- 'de la Pena, Matt'
 
 books$Book_Author[books$Book_Author == 'Delpit, Lisa'] <- 'Delpit, Lisa D.'
 
@@ -751,7 +757,7 @@ books$Book_Author[books$Book_Author == 'Draper, Sharon'] <- 'Draper, Sharon M.'
 
 books$Book_Author[books$Book_Author == 'Draper, Sharon M'] <- 'Draper, Sharon M.'
 
-books$Book_Author[books$Book_Author == 'Dunbar-Ortiz, Roxanne And Debbie Reese'] <- 'Dunbar-Ortiz, Roxanne'
+books$Book_Author[books$Book_Author == 'Dunbar-Ortiz, Roxanne and Debbie Reese'] <- 'Dunbar-Ortiz, Roxanne'
 
 books$Book_Author[books$Book_Author == 'Duncan, Louis'] <- 'Duncan, Lois'
 
@@ -765,17 +771,23 @@ books$Book_Author[books$Book_Author == 'Ellen Hopkins'] <- 'Hopkins, Ellen'
 
 books$Book_Author[books$Book_Author == 'Emez, Akwaeke'] <- 'Emezi, Akwaeke'
 
-books$Book_Author[books$Book_Author == 'España, Carla And Yadira, Luz'] <- 'España, Carla'
+books$Book_Author[books$Book_Author == 'Erica L. Sanchez'] <- 'Sanchez, EriKa L.'
+
+books$Book_Author[books$Book_Author == 'España, Carla and Yadira, Luz'] <- 'España, Carla'
 
 books$Book_Author[books$Book_Author == 'Evison, Jonthan'] <- 'Evison, Jonathan'
 
-books$Book_Author[books$Book_Author == 'Faruqi, Saadia And Laura Shovan'] <- 'Faruqi, Saadia'
+books$Book_Author[books$Book_Author == 'Evison, JOnathan'] <- 'Evison, Jonathan'
 
-books$Book_Author[books$Book_Author == 'Finch, Michelle And Phoenix Finch'] <- 'Finch, Michelle'
+books$Book_Author[books$Book_Author == 'Faruqi, Saadia and Laura Shovan'] <- 'Faruqi, Saadia'
 
-books$Book_Author[books$Book_Author == 'Franklin, Tee, St. Onge Jenn, And Joy San'] <- 'Franklin, Tee'
+books$Book_Author[books$Book_Author == 'Finch, Michelle and Phoenix FInch'] <- 'Finch, Michelle'
 
-books$Book_Author[books$Book_Author == 'G, Mady And Jules Zuckerberg'] <- 'Mady, G.'
+books$Book_Author[books$Book_Author == 'Folman, Ari and David Polonsky'] <- 'Folman, Ari'
+
+books$Book_Author[books$Book_Author == 'Franklin, Tee, St. Onge Jenn, and Joy San'] <- 'Franklin, Tee'
+
+books$Book_Author[books$Book_Author == 'G, Mady and Jules Zuckerberg'] <- 'G., Mady'
 
 books$Book_Author[books$Book_Author == 'Gail Gibbons'] <- 'Gibbons, Gail'
 
@@ -785,23 +797,23 @@ books$Book_Author[books$Book_Author == 'Garcia, Christina'] <- 'Garcia, Cristina
 
 books$Book_Author[books$Book_Author == 'Geneva Gay'] <- 'Gay, Geneva'
 
-books$Book_Author[books$Book_Author == 'George, Linda And Charles'] <- 'George, Linda'
+books$Book_Author[books$Book_Author == 'George, Linda and Charles'] <- 'George, Linda'
 
-books$Book_Author[books$Book_Author == 'Girard, Me'] <- 'Girard, M-E.'
+books$Book_Author[books$Book_Author == 'Girard, ME'] <- 'Girard, M-E.'
 
 books$Book_Author[books$Book_Author == 'Girard, M-E'] <- 'Girard, M-E.'
 
-books$Book_Author[books$Book_Author == 'Goffried, Bt'] <- 'Gottfred, Bt'
+books$Book_Author[books$Book_Author == 'Goffried, BT'] <- 'Gottfred, BT'
 
-books$Book_Author[books$Book_Author == 'Goffred, Bt'] <- 'Gottfred, Bt'
+books$Book_Author[books$Book_Author == 'Goffred, BT'] <- 'Gottfred, BT'
 
-books$Book_Author[books$Book_Author == 'González, Rigoberto'] <- 'Gonzalez, Rigoberto'
+books$Book_Author[books$Book_Author == 'Gonzalez, Rigoberto'] <- 'González, Rigoberto'
 
 books$Book_Author[books$Book_Author == 'Goode, L.'] <- 'Goode, Laura'
 
 books$Book_Author[books$Book_Author == 'Gowen, L. Kris'] <- 'Gowen, Kris'
 
-books$Book_Author[books$Book_Author == 'Gregorio, Iw'] <- 'Gregorio, I. W.'
+books$Book_Author[books$Book_Author == 'Gregorio, IW'] <- 'Gregorio, I. W.'
 
 books$Book_Author[books$Book_Author == 'Grehen, Meg'] <- 'Grehan, Meg'
 
@@ -811,23 +823,31 @@ books$Book_Author[books$Book_Author == 'Haris, Robie H.'] <- 'Harris, Robie H.'
 
 books$Book_Author[books$Book_Author == 'Harris, Robie'] <- 'Harris, Robie H.'
 
+books$Book_Author[books$Book_Author == 'Harris, RObie'] <- 'Harris, Robie H.'
+
+books$Book_Author[books$Book_Author == 'HaSler, Nikol'] <- 'Hasler, Nikol.'
+
 books$Book_Author[books$Book_Author == 'Harzler, Aaron'] <- 'Hartzler, Aaron'
 
 books$Book_Author[books$Book_Author == 'Henderson, Elizabeth'] <- 'Henderson, Elisabeth'
 
-books$Book_Author[books$Book_Author == 'Hendriks, Jenni And Ted Caplan'] <- 'Hendriks, Jenni'
+books$Book_Author[books$Book_Author == 'Hendriks, Jenni and Ted Caplan'] <- 'Hendriks, Jenni'
 
-books$Book_Author[books$Book_Author == 'Hennessey, Mg'] <- 'Hennessey, M. G.'
+books$Book_Author[books$Book_Author == 'Hennessey, MG'] <- 'Hennessey, M. G.'
 
-books$Book_Author[books$Book_Author == 'Herthel, Jessica And Jazz Jennings'] <- 'Herthel, Jessica'
+books$Book_Author[books$Book_Author == 'Herthel, Jessica and Jazz Jennings'] <- 'Herthel, Jessica'
 
-books$Book_Author[books$Book_Author == 'Herthel, Jessicas And Jazz Jennings'] <- 'Herthel, Jessica'
+books$Book_Author[books$Book_Author == 'Herthel, Jessicas and Jazz Jennings'] <- 'Herthel, Jessica'
 
-books$Book_Author[books$Book_Author == 'Hierstein, Harvey And Henry Cole'] <- 'Hierstein, Harvey'
+books$Book_Author[books$Book_Author == 'Hierstein, Harvey and Henry Cole'] <- 'Hierstein, Harvey'
 
-books$Book_Author[books$Book_Author == 'Hoffman, Mary And Caroline Binch'] <- 'Hoffman, Mary'
+books$Book_Author[books$Book_Author == 'Hoffman, Mary and Caroline Binch'] <- 'Hoffman, Mary'
 
-books$Book_Author[books$Book_Author == 'Homes, Am'] <- 'Homes, A. M.'
+books$Book_Author[books$Book_Author == 'Homes, AM'] <- 'Homes, A. M.'
+
+books$Book_Author[books$Book_Author == 'hooks, bell'] <- 'Hooks, Bell'
+
+books$Book_Author[books$Book_Author == 'hopkins, Ellen'] <- 'Hopkins, Ellen'
 
 books$Book_Author[books$Book_Author == 'Hosseni, Khaled'] <- 'Hosseini, Khaled'
 
@@ -839,9 +859,9 @@ books$Book_Author[books$Book_Author == 'Jackson, Tiffany'] <- 'Jackson, Tiffany 
 
 books$Book_Author[books$Book_Author == 'Jackson, Tiffany D'] <- 'Jackson, Tiffany D.'
 
-books$Book_Author[books$Book_Author == 'Jennings, Jazz And Jessica Herthel'] <- 'Jennings, Jazz'
+books$Book_Author[books$Book_Author == 'Jennings, Jazz and Jessica Herthel'] <- 'Jennings, Jazz'
 
-books$Book_Author[books$Book_Author == 'Jennings, Jazz Aned Jessica Herthel'] <- 'Jennings, Jazz.'
+books$Book_Author[books$Book_Author == 'Jennings, Jazz aned Jessica Herthel'] <- 'Jennings, Jazz.'
 
 books$Book_Author[books$Book_Author == 'Jennings, Jazz.'] <- 'Jennings, Jazz'
 
@@ -857,47 +877,57 @@ books$Book_Author[books$Book_Author == 'Johnson, Cathy'] <- 'Johnson, Cathy G.'
 
 books$Book_Author[books$Book_Author == 'Johnson, Cathy G'] <- 'Johnson, Cathy G.'
 
-books$Book_Author[books$Book_Author == 'Johnston, Ek'] <- 'Johnston, E. K'
+books$Book_Author[books$Book_Author == 'Johnston, EK'] <- 'Johnston, E. K'
+
+books$Book_Author[books$Book_Author == 'Katz, karen'] <- 'Katz, Karen'
 
 books$Book_Author[books$Book_Author == 'Kendi, Ibram'] <- 'Kendi, Ibram X.'
 
 books$Book_Author[books$Book_Author == 'Kendi, Ibram X'] <- 'Kendi, Ibram X.'
 
-books$Book_Author[books$Book_Author == 'Kendi, Ibram X And Jason Reynolds'] <- 'Kendi, Ibram X.'
+books$Book_Author[books$Book_Author == 'Kendi, Ibram X and Jason Reynolds'] <- 'Kendi, Ibram X.'
 
 books$Book_Author[books$Book_Author == 'Khaled H0sseini'] <- 'Hosseini, Khaled'
 
-books$Book_Author[books$Book_Author == 'King, As'] <- 'King, A. S.'
+books$Book_Author[books$Book_Author == 'King, AS'] <- 'King, A. S.'
 
 books$Book_Author[books$Book_Author == 'Klein, Rebecca T'] <- 'Klein, Rebecca T.'
 
 books$Book_Author[books$Book_Author == 'Knowles, Johanna'] <- 'Knowles, Jo'
 
-books$Book_Author[books$Book_Author == 'Kuhlman, Evan And Chuck Groenink'] <- 'Kuhlman, Evan'
+books$Book_Author[books$Book_Author == 'kostecki-shaw, Jenny Sue'] <- 'Kostecki-Shaw, Jenny Sue'
+
+books$Book_Author[books$Book_Author == 'Kuhlman, Evan and Chuck Groenink'] <- 'Kuhlman, Evan'
 
 books$Book_Author[books$Book_Author == 'Kuntz, Doug & Shrodes, Amy'] <- 'Kuntz, Doug'
 
-books$Book_Author[books$Book_Author == 'Leviathan, David And Billy Merrell'] <- 'Leviathan, David'
+books$Book_Author[books$Book_Author == 'Leviathan, David and Billy Merrell'] <- 'Leviathan, David'
 
 books$Book_Author[books$Book_Author == 'Leviathan, David'] <- 'Levithan, David'
 
 books$Book_Author[books$Book_Author == 'Levy, Dana'] <- 'Levy, Dana Alison'
 
+books$Book_Author[books$Book_Author == 'lockart, E'] <- 'Lockhart, E.'
+
 books$Book_Author[books$Book_Author == 'Lockart, E'] <- 'Lockhart, E.'
+
+books$Book_Author[books$Book_Author == 'lockhart, e'] <- 'Lockhart, E.'
 
 books$Book_Author[books$Book_Author == 'Lockhart, E'] <- 'Lockhart, E.'
 
 books$Book_Author<- gsub(".*Lumumba, Chokwa.*","Lumumba, Chokwa ", books$Book_Author)
 
-books$Book_Author[books$Book_Author == 'Lyons, Kelly Starling And Keith Mallett'] <- 'Lyons, Kelly Starling'
+books$Book_Author[books$Book_Author == 'Lyons, Kelly Starling and Keith Mallett'] <- 'Lyons, Kelly Starling'
 
-books$Book_Author[books$Book_Author == 'Lyons, Maddoz And Jessica Verdi'] <- 'Lyons, Maddoz'
+books$Book_Author[books$Book_Author == 'Lyons, Maddoz and Jessica Verdi'] <- 'Lyons, Maddoz'
 
-books$Book_Author[books$Book_Author == 'M.t. Anderson'] <- 'Anderson, M.T.'
+books$Book_Author[books$Book_Author == 'M.T. Anderson'] <- 'Anderson, M.T.'
+
+books$Book_Author[books$Book_Author == 'Lynette Knapp'] <- 'Knapp, Lynette'
 
 books$Book_Author[books$Book_Author == 'Maas, Sarah J'] <- 'Maas, Sarah J.'
 
-books$Book_Author[books$Book_Author == 'Madison, Megan, Jessica Ralli And Isabel Roxas'] <- 'Madison, Megan'
+books$Book_Author[books$Book_Author == 'Madison, Megan, JEssica Ralli and Isabel Roxas'] <- 'Madison, Megan'
 
 books$Book_Author[books$Book_Author == 'Mafi, Tehereh'] <- 'Mafi, Tahereh'
 
@@ -905,25 +935,25 @@ books$Book_Author[books$Book_Author == 'Mariko Tamaki, Jillian Tamaki'] <- 'Tama
 
 books$Book_Author[books$Book_Author == 'Marino Tamaki'] <- 'Tamaki, Mariko'
 
-books$Book_Author[books$Book_Author == 'Marley, Bob And Cedella Marley'] <- 'Marley, Bob'
+books$Book_Author[books$Book_Author == 'Marley, Bob and Cedella Marley'] <- 'Marley, Bob'
 
 books$Book_Author[books$Book_Author == 'Mathreu, Jennifer'] <- 'Mathieu, Jennifer'
 
-books$Book_Author[books$Book_Author == 'Matthew And Maya'] <- 'Gonzalez, Maya'
+books$Book_Author[books$Book_Author == 'matthew and maya'] <- 'Gonzalez, Maya'
 
-books$Book_Author[books$Book_Author == 'Mccormick'] <- 'Mccormick, Patricia'
+books$Book_Author[books$Book_Author == 'McCormick'] <- 'McCormick, Patricia'
 
-books$Book_Author[books$Book_Author == 'Mccormick, Patrica'] <- 'Mccormick, Patricia'
+books$Book_Author[books$Book_Author == 'McCormick, Patrica'] <- 'McCormick, Patricia'
 
-books$Book_Author[books$Book_Author == 'Mccoy, Kathy And Charles Wibbelsman'] <- 'Mccoy, Kathy'
+books$Book_Author[books$Book_Author == 'McCoy, Kathy and Charles Wibbelsman'] <- 'McCoy, Kathy'
 
-books$Book_Author[books$Book_Author == 'Mcdaniel, Breanna'] <- 'Mcdaniel, Breanna J.'
+books$Book_Author[books$Book_Author == 'McDaniel, Breanna'] <- 'McDaniel, Breanna J.'
 
-books$Book_Author[books$Book_Author == 'Mcdonough, Zeldis Yona'] <- 'Mcdonough, Yona Zeldis'
+books$Book_Author[books$Book_Author == 'McDonough, Zeldis Yona'] <- 'McDonough, Yona Zeldis'
 
-books$Book_Author[books$Book_Author == 'Mcdonough, Zeldis'] <- 'Mcdonough, Yona Zeldis'
+books$Book_Author[books$Book_Author == 'McDonough, Zeldis'] <- 'McDonough, Yona Zeldis'
 
-books$Book_Author[books$Book_Author == 'Mclemore, Anna- Marie'] <- 'Mclemore, Anna-Marie'
+books$Book_Author[books$Book_Author == 'McLemore, Anna- Marie'] <- 'McLemore, Anna-Marie'
 
 books$Book_Author[books$Book_Author == 'Mean, Richelle'] <- 'Mead, Richelle'
 
@@ -935,17 +965,19 @@ books$Book_Author[books$Book_Author == 'Molly Knox Ostertag'] <- 'Ostertag, Moll
 
 books$Book_Author[books$Book_Author == 'Mora, Oga'] <- 'Mora, Oge'
 
-books$Book_Author[books$Book_Author == 'Muhammad, Ibtihaj And Sk Ali'] <- 'Muhammad, Ibtihaj'
+books$Book_Author[books$Book_Author == 'MOrrison, Toni'] <- 'Morrison, Toni'
+
+books$Book_Author[books$Book_Author == 'Muhammad, Ibtihaj and SK Ali'] <- 'Muhammad, Ibtihaj'
 
 books$Book_Author[books$Book_Author == 'Myers'] <- 'Myers, Jason'
 
-books$Book_Author[books$Book_Author == 'Nault, Renee And Atwood Margaret'] <- 'Nault, Renee'
+books$Book_Author[books$Book_Author == 'Nault, Renee and Atwood Margaret'] <- 'Nault, Renee'
 
-books$Book_Author[books$Book_Author == 'Neal, Deshanna And Trinity Neal'] <- 'Neal, Deshanna'
+books$Book_Author[books$Book_Author == 'Neal, DeShanna and Trinity Neal'] <- 'Neal, Deshanna'
 
-books$Book_Author[books$Book_Author == 'Newman, Lesléa'] <- 'Newman, Leslea'
+books$Book_Author[books$Book_Author == 'Newman, Leslea'] <- 'Newman, Lesléa'
 
-books$Book_Author[books$Book_Author == 'Newman, Leslea And Laura Cornell'] <- 'Newman, Leslea'
+books$Book_Author[books$Book_Author == 'Newman, Leslea and Laura Cornell'] <- 'Newman, Lesléa'
 
 books$Book_Author[books$Book_Author == 'Nyongo, Lupia'] <- "Nyong'o, Lupita"
 
@@ -957,44 +989,53 @@ books$Book_Author[books$Book_Author == 'Pancholy Maulik'] <- 'Pancholy, Maulik'
 
 books$Book_Author[books$Book_Author == 'Paris & Alim'] <- 'Paris, Django'
 
-books$Book_Author[books$Book_Author == 'Patricia Mccormick'] <- 'Mccormick, Patricia'
+books$Book_Author[books$Book_Author == 'Patricia McCormick'] <- 'McCormick, Patricia'
 
 books$Book_Author[books$Book_Author == 'Pearlmann, Robb'] <- 'Pearlman, Robb'
 
-books$Book_Author[books$Book_Author == 'Pérez, Ashley Hope'] <- 'Perez, Ashley Hope'
+books$Book_Author[books$Book_Author == 'Pena, de la Matt'] <- 'de la Pena, Matt'
+
+books$Book_Author[books$Book_Author == 'Perez, Ashley Hope'] <- 'Pérez, Ashley Hope'
+
+books$Book_Author[books$Book_Author == 'Perez, Ashley HOpe'] <- 'Pérez, Ashley Hope'
+
+books$Book_Author[books$Book_Author == 'PErez, Ashley Hope'] <- 'Pérez, Ashley Hope'
 
 books$Book_Author[books$Book_Author == 'Peters, Julie Ann'] <- 'Peters, Julie Anne'
 
-books$Book_Author[books$Book_Author == 'Phd Harris, Duchess And Myra Faye Turner'] <- 'Harris, Duchess'
+books$Book_Author[books$Book_Author == 'PhD Harris, Duchess and Myra Faye Turner'] <- 'Harris, Duchess'
 
 books$Book_Author[books$Book_Author == 'Pitman, Gayle'] <- 'Pitman, Gayle E'
 
 books$Book_Author[books$Book_Author == 'Polacco, Patrica'] <- 'Polacco, Patricia'
 
-books$Book_Author[books$Book_Author == 'Pollack, Pam And Meg Belviso'] <- 'Pollack, Pam'
+books$Book_Author[books$Book_Author == 'Pollack, Pam and Meg Belviso'] <- 'Pollack, Pam'
+
+books$Book_Author[books$Book_Author == 'Prince, LIz'] <- 'Prince, Liz'
+
+books$Book_Author[books$Book_Author == 'Pttman, Gayle'] <- 'Pitman, Gayle E'
 
 books$Book_Author[books$Book_Author == 'Pttman, Gayle E'] <- 'Pitman, Gayle E'
 
-books$Book_Author[books$Book_Author == 'Ralli, Jessica And Megan Madison'] <- 'Ralli, Jessica'
+books$Book_Author[books$Book_Author == 'Ralli, Jessica and Megan Madison'] <- 'Ralli, Jessica'
 
 books$Book_Author[books$Book_Author == 'Reed, Amy Lynn'] <- 'Reed, Amy'
 
-books$Book_Author[books$Book_Author == 'Renolds, Jason And Ibram Xendi'] <- 'Reynolds, Jason'
+books$Book_Author[books$Book_Author == 'Renolds, Jason and Ibram Xendi'] <- 'Reynolds, Jason'
 
-books$Book_Author[books$Book_Author == 'Reynolds, Jason And Ibram X Kendi'] <- 'Reynolds, Jason'
+books$Book_Author[books$Book_Author == 'Reynolds, Jason and Ibram X Kendi'] <- 'Reynolds, Jason'
 
-books$Book_Author[books$Book_Author == 'Reynolds, Jason And Ibram X. Kendi'] <- 'Reynolds, Jason'
+books$Book_Author[books$Book_Author == 'Reynolds, Jason and Ibram X. Kendi'] <- 'Reynolds, Jason'
 
-books$Book_Author[books$Book_Author == 'Reynolds, Jason And Igrahm X. Kendi'] <- 'Reynolds, Jason'
+books$Book_Author[books$Book_Author == 'Reynolds, Jason and Igrahm X. Kendi'] <- 'Reynolds, Jason'
 
 books$Book_Author[books$Book_Author == 'Rhodes, Jewel Parker'] <- 'Rhodes, Jewell Parker'
 
-books$Book_Author[books$Book_Author == 'Richardson, Justin And Peter Parnell'] <- 'Richardson, Justin'
+books$Book_Author[books$Book_Author == 'Richardson, Justin and Peter Parnell'] <- 'Richardson, Justin'
 
-books$Book_Author[books$Book_Author == 'Rodi, Robert And Laura Ross'] <- 'Rodi, Robert'
+books$Book_Author[books$Book_Author == 'Rodi, Robert and Laura Ross'] <- 'Rodi, Robert'
 
-
-books$Book_Author[books$Book_Author == 'Rotner, Shelly And Sheila Kelly'] <- 'Rotner, Shelly'
+books$Book_Author[books$Book_Author == 'Rotner, Shelly and Sheila Kelly'] <- 'Rotner, Shelly'
 
 books$Book_Author[books$Book_Author == 'Russon, Meredith'] <- 'Russo, Meredith'
 
@@ -1002,53 +1043,63 @@ books$Book_Author[books$Book_Author == 'Saad, Layla'] <- 'Saad, Layla F.'
 
 books$Book_Author[books$Book_Author == 'Saad, Layla F'] <- 'Saad, Layla F.'
 
-books$Book_Author[books$Book_Author == 'Sabin, Francene And Joann Early Macken'] <- 'Sabin, Francene'
+books$Book_Author[books$Book_Author == 'Sabin, Francene and Joann Early Macken'] <- 'Sabin, Francene'
 
-books$Book_Author[books$Book_Author == 'Sáenz, Benjamin Alire'] <- 'Saenz, Benjamin Alire'
+books$Book_Author[books$Book_Author == 'Saenz, Benjamin Alire'] <- 'Sáenz, Benjamin Alire'
 
 books$Book_Author[books$Book_Author == 'Sanchez, Erika'] <- 'Sanchez, Erika L.'
 
+books$Book_Author[books$Book_Author == 'Sanchez, Erica L.'] <- 'Sanchez, Erika L.'
+
 books$Book_Author[books$Book_Author == 'Sarah J Maas'] <- 'Maas, Sarah J.'
+
+books$Book_Author[books$Book_Author == 'Schwab, VE'] <- 'Schwab, V.E.'
 
 books$Book_Author[books$Book_Author == 'Seba, Jaime'] <- 'Seba, Jaime A.'
 
-books$Book_Author[books$Book_Author == 'Seeger, Pete And Paul Debois Jacobs'] <- 'Seeger, Pete'
+books$Book_Author[books$Book_Author == 'Seabold, Alice'] <- 'Sebold, Alice'
 
-books$Book_Author[books$Book_Author == 'Septys, Ruta'] <- 'Sepetys, Ruta'
+books$Book_Author[books$Book_Author == 'Seeger, Pete and Paul Debois Jacobs'] <- 'Seeger, Pete'
 
-books$Book_Author[books$Book_Author == 'Shetterly, Margo Lee With Winifred Conkling'] <- 'Shetterly, Margo Lee'
+books$Book_Author[books$Book_Author == 'Sherman Alexie'] <- 'Sherman, Alexie'
+
+books$Book_Author[books$Book_Author == 'Septys,Ruta'] <- 'Sepetys, Ruta'
+
+books$Book_Author[books$Book_Author == 'Shetterly, Margo Lee with Winifred Conkling'] <- 'Shetterly, Margo Lee'
 
 books$Book_Author[books$Book_Author == 'Slater, Dashkta'] <- 'Slater, Dashka'
 
-books$Book_Author[books$Book_Author == 'Sleeter, Zavala, And Banks'] <- 'Sleeter, Zavala'
+books$Book_Author[books$Book_Author == 'Sleeter, Zavala, and Banks'] <- 'Sleeter, Zavala'
 
 books$Book_Author[books$Book_Author == 'Slim, Tara'] <- 'Sim, Tara'
 
-books$Book_Author[books$Book_Author == 'Sloan, Holly Goldberg And Meg Wolitzer'] <- 'Sloan, Holly Goldberg'
+books$Book_Author[books$Book_Author == 'Sloan, Holly Goldberg and Meg Wolitzer'] <- 'Sloan, Holly Goldberg'
 
 books$Book_Author[books$Book_Author == 'Sltani, Amir & Khalil'] <- 'Sltani, Amir'
 
-books$Book_Author[books$Book_Author == 'Solomon, Akiba And Rankin, Kenrya'] <- 'Solomon, Akiba'
+books$Book_Author[books$Book_Author == 'Solomon, Akiba and Rankin, Kenrya'] <- 'Solomon, Akiba'
 
-books$Book_Author[books$Book_Author == 'Stassen, Jp'] <- 'Stassen, Jean-Philippe'
+books$Book_Author[books$Book_Author == 'Stassen, JP'] <- 'Stassen, Jean-Philippe'
+
+books$Book_Author[books$Book_Author == 'Steinbeck, JOhn'] <- 'Steinbeck, John'
 
 books$Book_Author[books$Book_Author == 'Stephen Chbosky'] <- 'Chbosky, Stephen'
 
 books$Book_Author[books$Book_Author == 'Stevenson, Robin'] <- 'Stevenson, Robin H.'
 
-books$Book_Author[books$Book_Author == 'Stohl, Margaret And Lewis Peterson'] <- 'Stohl, Margaret'
+books$Book_Author[books$Book_Author == 'Stohl, Margaret and Lewis Peterson'] <- 'Stohl, Margaret'
 
 books$Book_Author[books$Book_Author == 'Susan Shaw'] <- 'Shaw, Susan'
 
-books$Book_Author[books$Book_Author == 'Tamaki, Mariko And Jillian Tamaki'] <- 'Tamaki, Mariko'
+books$Book_Author[books$Book_Author == 'Tamaki, Mariko and Jillian Tamaki'] <- 'Tamaki, Mariko'
 
-books$Book_Author[books$Book_Author == 'Tamara L. Roleff'] <- 'Roleff. Tamara L.'
+books$Book_Author[books$Book_Author == 'Tamara L. Roleff'] <- 'Roleff, Tamara L.'
 
 books$Book_Author[books$Book_Author == 'Tatum, Beverly'] <- 'Tatum, Beverly Daniel'
 
 books$Book_Author[books$Book_Author == 'Tavares, Mat'] <- 'Tavares, Matt'
 
-books$Book_Author[books$Book_Author == 'Ten Boom, Corrie, John Sherril, Et Al'] <- 'Ten Boom, Corrie'
+books$Book_Author[books$Book_Author == 'Ten Boom, Corrie, John Sherril, et al'] <- 'Ten Boom, Corrie'
 
 books$Book_Author[books$Book_Author == 'The Nib/Bors, Matt'] <- 'Bors, Matt'
 
@@ -1060,23 +1111,26 @@ books$Book_Author[books$Book_Author == 'Toni Morrison'] <- 'Morrison, Toni'
 
 books$Book_Author[books$Book_Author == 'Ukazu, Mgozi'] <- 'Ukazu, Ngozi'
 
-books$Book_Author[books$Book_Author == 'V.e. Schwab'] <- 'Schwab, Ve'
+books$Book_Author[books$Book_Author == 'V.E. Schwab'] <- 'Schwab, V.E.'
 
-books$Book_Author[books$Book_Author == 'Vaughan, Brian K And Pia Guerra'] <- 'Vaughan, Brian K.'
+books$Book_Author[books$Book_Author == 'Vaughan, Brian K and Pia Guerra'] <- 'Vaughan, Brian K.'
 
 books$Book_Author[books$Book_Author == 'Vaughan, Brian K'] <- 'Vaughan, Brian K.'
 
-books$Book_Author[books$Book_Author == 'Venable, Colleen Af'] <- 'Venable, Colleen A. F.'
+books$Book_Author[books$Book_Author == 'Venable, Colleen AF'] <- 'Venable, Colleen A. F.'
 
 books$Book_Author[books$Book_Author == 'Wiesel, Elie'] <- 'Wiesel, Ellie'
 
+books$Book_Author[books$Book_Author == 'WIlliamson, Lisa'] <- 'Williamson, Lisa'
+
 books$Book_Author[books$Book_Author == 'Winfield, Cynthia'] <- 'Winfield, Cynthia L.'
 
-books$Book_Author[books$Book_Author == 'Wing, Kelisa And Leigh Ann Erickson'] <- 'Wing, Kelisa'
+books$Book_Author[books$Book_Author == 'Wing, Kelisa and Leigh Ann Erickson'] <- 'Wing, Kelisa'
 
-books$Book_Author[books$Book_Author == 'Ziemke, Kristin And Katie Muhtaris'] <- 'Ziemke, Kristin'
+books$Book_Author[books$Book_Author == 'Ziemke, Kristin and Katie Muhtaris'] <- 'Ziemke, Kristin'
 
 ```
+
 
 ```{r counting_authors}
 books %>% 
@@ -1084,20 +1138,25 @@ books %>%
 ```
 
 ```{r flip_flop_rows}
-books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. And Vashti Harrison'
+books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. and Vashti Harrison'
 
 books$Book_Author[books$Book_Author == 'New Kid'] <- 'Craft, Jerry'
 
 books$Book_Author[books$Book_Author == 'Melissa (George)'] <- 'Gino, Alex'
 
-books$Book_Author[books$Book_Author == 'A is For Activist'] <- 'Nagara, Innosanto'
+books$Book_Author[books$Book_Author == 'A is for Activist'] <- 'Nagara, Innosanto'
 
-books$Book_Author[books$Book_Author == 'A good Kind Of Trouble'] <- '	Ramee, Lisa Moore'
+books$Book_Author[books$Book_Author == 'A good Kind of Trouble'] <- 'Ramee, Lisa Moore'
 
 books$Book_Author[books$Book_Author == 'Front Desk'] <- 'Yang, Kelly'
 
 ```
 
+```{r}
+books %>% 
+  filter(Book_Author == "Hopkinson, Deborah" |  Book_Author ==  "Hopkinson, Debra" |  Book_Author == "" |  Book_Author == "")
+
+```
 
 ```{r}
 books %>% 
