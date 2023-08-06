@@ -27,7 +27,7 @@ books2<- read_csv("~/STA_631/Projects/book_ban_project/data/df_books.csv")
 
 Got rid of all of the books that had no Goodreads tags.
 
-```{r}
+```{r droping_NAs}
 
 books <- books %>% drop_na(Book_Tag)
 
@@ -35,14 +35,14 @@ books <- books %>% drop_na(Book_Tag)
 
 
 Cleaned up the string of booktags
-```{r}
+```{r cleaned_book_tag_column}
 
 books$Book_Tag <- str_to_title(books$Book_Tag)
 
 ```
 
 Got rid of all the white space between the words to help fix some of the human errors
-```{r}
+```{r getting_rid_of_whitespace}
 
 books$Book_Tag <-gsub(" ", "", books$Book_Tag, fixed = TRUE)
 
@@ -51,38 +51,41 @@ books$Book_Tag <-gsub(" ", "", books$Book_Tag, fixed = TRUE)
 
 
 Separated the book tags for the challenged books into their own individual columns.
-```{r}
+```{r separating_book_tag}
 
-test <-books %>% 
+book_tag <-books %>% 
    separate(Book_Tag,c("Book_Tag1","Book_Tag2", "Book_Tag3", "Book_Tag4",
                        "Book_Tag5", "Book_Tag6", "Book_Tag7",
                        "Book_Tag8","Book_Tag9"),sep=",")
 
 ```
 
-Made a data set of just tags so that I could see how frequently the tags showed up
 ```{r}
-tags <- test[,c(3:11)]
+unique(books$Book_Tag9)
 ```
 
 
-```{r}
+Made a data set of just tags so that I could see how frequently the tags showed up
+```{r maknig_a_data_frame_with_just_tags}
+tags <- book_tag[,c(3:11)]
+```
+
+
+```{r counting_tag_occurences}
 count <- table(unlist(tags))
 ```
 
-```{r}
+```{r making_it_into_a_dataframe}
 count <- as.data.frame(count)
 ```
 
 order them so I could see what was the highest and lowest
-```{r}
-
-count <- count[order(count$Freq),]
-
+```{r ordering_count}
+count <- count[order(count$Freq, decreasing=TRUE),]
 ```
 
 Did the same for the other book tag
-```{r}
+```{r }
 
 books2$Book_Tag <- str_to_title(books2$Book_Tag)
 
@@ -111,7 +114,34 @@ ya_books <- books %>% filter(grepl('YoungAdult', Book_Tag))
 ```
 
 
-Due to time contstraints I was only able to find 386 young adult books that weren't challenged to build the model, so I had to take a sample of the challenged ya books.
+```{r}
+
+ya_tags <- ya_books  %>% 
+   separate(Book_Tag,c("Book_Tag1","Book_Tag2", "Book_Tag3", "Book_Tag4",
+                       "Book_Tag5", "Book_Tag6", "Book_Tag7",
+                       "Book_Tag8","Book_Tag9"),sep=",")
+
+
+```
+Creating a dataframe to look at the counts on individual tags in the the challenged ya books
+```{r}
+ya_count <- ya_tags[,c(3:11)]
+```
+
+```{r}
+ya_count <- table(unlist(ya_count))
+```
+
+```{r}
+ya_count <- as.data.frame(ya_count)
+```
+
+```{r}
+ya_count <- ya_count[order(ya_count$Freq, decreasing=TRUE),]
+```
+
+
+Due to time constraints I was only able to find 386 young adult books that weren't challenged to build the model, so I had to take a sample of the challenged ya books.
 ```{r}
 set.seed(123)
 
@@ -127,26 +157,6 @@ ya_sample <-ya_sample  %>%
                        "Book_Tag8","Book_Tag9"),sep=",")
 
 ```
-
-Creating a dataframe to look at the counts on individual tags in the the challenged ya books
-```{r}
-ya_tags <- test[,c(3:11)]
-```
-
-```{r}
-sample_count <- table(unlist(ya_tags)); perc <- 100*count/sum(sample_count)
-```
-
-```{r}
-sample_count <- as.data.frame(sample_count)
-```
-
-```{r}
-
-sample_count <- sample_count[order(sample_count$Freq),]
-```
-
-
 ```{r}
 ya_sample <- ya_sample[,c(2,1,3:12)]
 ```
@@ -167,6 +177,9 @@ colnames(ya_sample)[12] = "Challenged"
 book_data <- rbind(ya_sample, books2)
 ```
 
+```{r}
+book_domain <- book_data
+```
 
 ```{r}
 book_data <- book_data[sample(1:nrow(book_data)), ]
@@ -218,6 +231,7 @@ book_data <- book_data %>%
                            TRUE ~ 0))
 ```
 
+I chose to do Realistic Fiction instead of fiction because fiction is a very general term that can apply to a lot of different books, while realistic fiction is more specific.
 ```{r}
 
 book_data <- book_data %>%
@@ -247,3 +261,676 @@ book_data <- book_data %>%
                                Book_Tag9 == 'Childrens'~1,
                                        TRUE ~ 0))
 ```
+
+```{r splitting_the_data}
+
+set.seed(123)
+
+books_split <- initial_split(book_data, 0.8)
+
+book_train <- training(books_split)
+
+book_test <- testing(books_split)
+
+```
+
+```{r}
+
+log_reg <- glm(Challenged ~ LGBT + Contemporary + Romance + Realistic_Fiction + Childrens, data = book_train, family = "binomial")
+
+summary(log_reg)
+```
+
+
+```{r}
+
+log_aug <- augment(log_reg, new_data = book_test)
+
+log_aug
+
+```
+
+``` {r}
+predict(log_reg, new_data = book_test)
+```
+
+```{r}
+
+pred_class <- predict(log_reg,
+                      new_data = book_test,
+                      type = "response")
+
+pred_class
+
+```
+
+```{r}
+
+log_reg2 <- glm(Challenged ~ LGBT + Realistic_Fiction + Childrens, data = book_train, family = "binomial")
+
+summary(log_reg2)
+```
+
+I chose not to include the Queer tag because if the if the book was labeled as queer it was most likely already labeled LGBT.
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Fantasy = case_when(Book_Tag1 == 'Fantasy' | 
+                             Book_Tag2 == 'Fantasy' | 
+                             Book_Tag3 == 'Fantasy' | 
+                             Book_Tag4 == 'Fantasy' | 
+                             Book_Tag5 == 'Fantasy' | 
+                             Book_Tag6 == 'Fantasy' | 
+                             Book_Tag7 == 'Fantasy' | 
+                             Book_Tag8 == 'Fantasy' |
+                             Book_Tag9 == 'Fantasy'~1,
+                                       TRUE ~ 0))
+```
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Graphic_Novels = case_when(Book_Tag1 == 'GraphicNovels' | 
+                                    Book_Tag2 == 'GraphicNovels' | 
+                                    Book_Tag3 == 'GraphicNovels' | 
+                                    Book_Tag4 == 'GraphicNovels' | 
+                                    Book_Tag5 == 'GraphicNovels' | 
+                                    Book_Tag6 == 'GraphicNovels' | 
+                                    Book_Tag7 == 'GraphicNovels' | 
+                                    Book_Tag8 == 'GraphicNovels' |
+                                    Book_Tag9 == 'GraphicNovels'~1,
+                                    TRUE ~ 0))
+```
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Middle_Grade = case_when(Book_Tag1 == 'MiddleGrade' | 
+                                  Book_Tag2 == 'MiddleGrade' | 
+                                  Book_Tag3 == 'MiddleGrade' | 
+                                  Book_Tag4 == 'MiddleGrade' | 
+                                  Book_Tag5 == 'MiddleGrade' | 
+                                  Book_Tag6 == 'MiddleGrade' | 
+                                  Book_Tag7 == 'MiddleGrade' | 
+                                  Book_Tag8 == 'MiddleGrade' |
+                                  Book_Tag9 == 'MiddleGrade'~1,
+                                    TRUE ~ 0))
+```
+
+I didn't include Comics for the same reason I didn't include Queer Books.
+
+I also didn't include Audiobook because that says more about how people are consuming books rather than the contents of the book
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Historical_Fiction = case_when(Book_Tag1 == 'HistoricalFiction' | 
+                                        Book_Tag2 == 'HistoricalFiction' | 
+                                        Book_Tag3 == 'HistoricalFiction' | 
+                                        Book_Tag4 == 'HistoricalFiction' | 
+                                        Book_Tag5 == 'HistoricalFiction' | 
+                                        Book_Tag6 == 'HistoricalFiction' | 
+                                        Book_Tag7 == 'HistoricalFiction' | 
+                                        Book_Tag8 == 'HistoricalFiction' |
+                                        Book_Tag9 == 'HistoricalFiction'~1,
+                                    TRUE ~ 0))
+```
+
+
+```{r splitting_the_data}
+
+set.seed(123)
+
+books_split <- initial_split(book_data, 0.8)
+
+book_train <- training(books_split)
+
+book_test <- testing(books_split)
+
+```
+
+```{r}
+
+log_reg3 <- glm(Challenged ~ LGBT + Realistic_Fiction + Childrens + Fantasy + Graphic_Novels + Middle_Grade + Historical_Fiction, 
+                data = book_train, family = "binomial")
+
+summary(log_reg3)
+```
+
+```{r}
+
+log_reg4 <- glm(Challenged ~ LGBT + Realistic_Fiction + Childrens + Fantasy + Graphic_Novels, 
+                data = book_train, family = "binomial")
+
+summary(log_reg4)
+```
+
+```{r}
+
+log_aug4 <- augment(log_reg4, new_data = book_test)
+
+log_aug
+
+```
+
+``` {r}
+predict(log_reg4, new_data = book_test)
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(LGBT= case_when(Book_Tag1 == 'Lgbt' | 
+                         Book_Tag2 == 'Lgbt' | 
+                         Book_Tag3 == 'Lgbt' | 
+                         Book_Tag4 == 'Lgbt' | 
+                         Book_Tag5 == 'Lgbt' | 
+                         Book_Tag6 == 'Lgbt' | 
+                         Book_Tag7 == 'Lgbt' | 
+                         Book_Tag8 == 'Lgbt' |
+                         Book_Tag9 == 'Lgbt'~1,
+                                    TRUE ~ 0))
+```
+
+
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Mental_Health = case_when(Book_Tag1 == 'MentalHealth' | 
+                                   Book_Tag2 == 'MentalHealth' | 
+                                   Book_Tag3 == 'MentalHealth' | 
+                                   Book_Tag4 == 'MentalHealth' | 
+                                   Book_Tag5 == 'MentalHealth' | 
+                                   Book_Tag6 == 'MentalHealth' | 
+                                   Book_Tag7 == 'MentalHealth' | 
+                                   Book_Tag8 == 'MentalHealth' |
+                                   Book_Tag9 == 'MentalHealth'~1,
+                                   TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(New_Adult = case_when(Book_Tag1 == 'NewAdult' | 
+                               Book_Tag2 == 'NewAdult' | 
+                               Book_Tag3 == 'NewAdult' | 
+                               Book_Tag4 == 'NewAdult' |                                                                   Book_Tag5 == 'NewAdult' | 
+                               Book_Tag6 == 'NewAdult' | 
+                               Book_Tag7 == 'NewAdult' |                                                                   Book_Tag8 == 'NewAdult' |
+                               Book_Tag9 == 'NewAdult'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Thriller = case_when(Book_Tag1 == 'Thriller' | 
+                              Book_Tag2 == 'Thriller' | 
+                              Book_Tag3 == 'Thriller' | 
+                              Book_Tag4 == 'Thriller' |                                                                   Book_Tag5 == 'Thriller' | 
+                              Book_Tag6 == 'Thriller' | 
+                              Book_Tag7 == 'Thriller' |                                                                   Book_Tag8 == 'Thriller' |
+                              Book_Tag9 == 'Thriller'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Dystopia = case_when(Book_Tag1 == 'Dystopia' | 
+                              Book_Tag2 == 'Dystopia' | 
+                              Book_Tag3 == 'Dystopia' | 
+                              Book_Tag4 == 'Dystopia' |                                                                   Book_Tag5 == 'Dystopia' | 
+                              Book_Tag6 == 'Dystopia' | 
+                              Book_Tag7 == 'Dystopia' |                                                                   Book_Tag8 == 'Dystopia' |
+                              Book_Tag9 == 'Dystopia'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Abuse = case_when(Book_Tag1 == 'Abuse' | 
+                           Book_Tag2 == 'Abuse' | 
+                           Book_Tag3 == 'Abuse' | 
+                           Book_Tag4 == 'Abuse' |                                                                      Book_Tag5 == 'Abuse' | 
+                           Book_Tag6 == 'Abuse' | 
+                           Book_Tag7 == 'Abuse' |                                                                      Book_Tag8 == 'Abuse' |
+                           Book_Tag9 == 'Abuse'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Horror = case_when(Book_Tag1 == 'Horror' | 
+                            Book_Tag2 == 'Horror' | 
+                            Book_Tag3 == 'Horror' | 
+                            Book_Tag4 == 'Horror' |                                                                     Book_Tag5 == 'Horror' | 
+                            Book_Tag6 == 'Horror' | 
+                            Book_Tag7 == 'Horror' |                                                                     Book_Tag8 == 'Horror' |
+                            Book_Tag9 == 'Horror'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Manga = case_when(Book_Tag1 == 'Manga' | 
+                           Book_Tag2 == 'Manga' | 
+                           Book_Tag3 == 'Manga' | 
+                           Book_Tag4 == 'Manga' |                                                                      Book_Tag5 == 'Manga' | 
+                           Book_Tag6 == 'Manga' | 
+                           Book_Tag7 == 'Manga' |                                                                      Book_Tag8 == 'Manga' |
+                           Book_Tag9 == 'Manga'~1,
+                              TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(African_American = case_when(Book_Tag1 == 'AfricanAmerican' | 
+                                      Book_Tag2 == 'AfricanAmerican' | 
+                                      Book_Tag3 == 'AfricanAmerican' |
+                                      Book_Tag4 == 'AfricanAmerican' | 
+                                      Book_Tag5 == 'AfricanAmerican' |
+                                      Book_Tag6 == 'AfricanAmerican' | 
+                                      Book_Tag7 == 'AfricanAmerican' |                      
+                                      Book_Tag8 == 'AfricanAmerican' |
+                                      Book_Tag9 == 'AfricanAmerican'~1,
+                                      TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Mental_Illness = case_when(Book_Tag1 == 'MentalIllness' | 
+                                    Book_Tag2 == 'MentalIllness' | 
+                                    Book_Tag3 == 'MentalIllness' |
+                                    Book_Tag4 == 'MentalIllness' | 
+                                    Book_Tag5 == 'MentalIllness' |
+                                    Book_Tag6 == 'MentalIllness' | 
+                                    Book_Tag7 == 'MentalIllness' |                      
+                                    Book_Tag8 == 'MentalIllness' |
+                                    Book_Tag9 == 'MentalIllness'~1,
+                                    TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Social_Justice = case_when(Book_Tag1 == 'SocialJustice' | 
+                                    Book_Tag2 == 'SocialJustice' | 
+                                    Book_Tag3 == 'SocialJustice' |
+                                    Book_Tag4 == 'SocialJustice' | 
+                                    Book_Tag5 == 'SocialJustice' |
+                                    Book_Tag6 == 'SocialJustice' | 
+                                    Book_Tag7 == 'SocialJustice' |                      
+                                    Book_Tag8 == 'SocialJustice' |
+                                    Book_Tag9 == 'SocialJustice'~1,
+                                    TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(Witches = case_when(Book_Tag1 == 'Witches' | 
+                             Book_Tag2 == 'Witches' | 
+                             Book_Tag3 == 'Witches' |
+                             Book_Tag4 == 'Witches' | 
+                             Book_Tag5 == 'Witches' |
+                             Book_Tag6 == 'Witches' | 
+                             Book_Tag7 == 'Witches' |                      
+                             Book_Tag8 == 'Witches' |
+                             Book_Tag9 == 'Witches'~1,
+                             TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Race = case_when(Book_Tag1 == 'Race' | 
+                           Book_Tag2 == 'Race' | 
+                           Book_Tag3 == 'Race' |
+                           Book_Tag4 == 'Race' | 
+                           Book_Tag5 == 'Race' |
+                           Book_Tag6 == 'Race' | 
+                           Book_Tag7 == 'Race' |                      
+                           Book_Tag8 == 'Race' |
+                           Book_Tag9 == 'Race'~1,
+                           TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( War = case_when(Book_Tag1 == 'War' | 
+                          Book_Tag2 == 'War' | 
+                          Book_Tag3 == 'War' |
+                          Book_Tag4 == 'War' | 
+                          Book_Tag5 == 'War' |
+                          Book_Tag6 == 'War' | 
+                          Book_Tag7 == 'War' |                      
+                          Book_Tag8 == 'War' |
+                          Book_Tag9 == 'War'~1,
+                          TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Crime = case_when(Book_Tag1 == 'Crime' | 
+                            Book_Tag2 == 'Crime' | 
+                            Book_Tag3 == 'Crime' |
+                            Book_Tag4 == 'Crime' | 
+                            Book_Tag5 == 'Crime' |
+                            Book_Tag6 == 'Crime' | 
+                            Book_Tag7 == 'Crime' |                      
+                            Book_Tag8 == 'Crime' |
+                            Book_Tag9 == 'Crime'~1,
+                            TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Death = case_when(Book_Tag1 == 'Death' | 
+                            Book_Tag2 == 'Death' | 
+                            Book_Tag3 == 'Death' |
+                            Book_Tag4 == 'Death' | 
+                            Book_Tag5 == 'Death' |
+                            Book_Tag6 == 'Death' | 
+                            Book_Tag7 == 'Death' |                      
+                            Book_Tag8 == 'Death' |
+                            Book_Tag9 == 'Death'~1,
+                            TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Religion = case_when(Book_Tag1 == 'Religion' | 
+                               Book_Tag2 == 'Religion' | 
+                               Book_Tag3 == 'Religion' |
+                               Book_Tag4 == 'Religion' | 
+                               Book_Tag5 == 'Religion' |
+                               Book_Tag6 == 'Religion' | 
+                               Book_Tag7 == 'Religion' |                      
+                               Book_Tag8 == 'Religion' |
+                               Book_Tag9 == 'Religion'~1,
+                               TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Politics = case_when(Book_Tag1 == 'Politics' | 
+                               Book_Tag2 == 'Politics' | 
+                               Book_Tag3 == 'Politics' |
+                               Book_Tag4 == 'Politics' | 
+                               Book_Tag5 == 'Politics' |
+                               Book_Tag6 == 'Politics' | 
+                               Book_Tag7 == 'Politics' |                      
+                               Book_Tag8 == 'Politics' |
+                               Book_Tag9 == 'Politics'~1,
+                               TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Politics = case_when(Book_Tag1 == 'Politics' | 
+                               Book_Tag2 == 'Politics' | 
+                               Book_Tag3 == 'Politics' |
+                               Book_Tag4 == 'Politics' | 
+                               Book_Tag5 == 'Politics' |
+                               Book_Tag6 == 'Politics' | 
+                               Book_Tag7 == 'Politics' |                      
+                               Book_Tag8 == 'Politics' |
+                               Book_Tag9 == 'Politics'~1,
+                               TRUE ~ 0))
+```
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Sexuality = case_when(Book_Tag1 == 'Sexuality' | 
+                                Book_Tag2 == 'Sexuality' | 
+                                Book_Tag3 == 'Sexuality' |
+                                Book_Tag4 == 'Sexuality' | 
+                                Book_Tag5 == 'Sexuality' |
+                                Book_Tag6 == 'Sexuality' | 
+                                Book_Tag7 == 'Sexuality' |                      
+                                Book_Tag8 == 'Sexuality' |
+                                Book_Tag9 == 'Sexuality'~1,
+                                TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Africa = case_when(Book_Tag1 == 'Africa' | 
+                             Book_Tag2 == 'Africa' | 
+                             Book_Tag3 == 'Africa' |
+                             Book_Tag4 == 'Africa' | 
+                             Book_Tag5 == 'Africa' |
+                             Book_Tag6 == 'Africa' |   
+                             Book_Tag7 == 'Africa' |                      
+                             Book_Tag8 == 'Africa' |
+                             Book_Tag9 == 'Africa'~1,
+                            TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Autism = case_when(Book_Tag1 == 'AutismSpectrumDisorder' | 
+                             Book_Tag2 == 'AutismSpectrumDisorder' | 
+                             Book_Tag3 == 'AutismSpectrumDisorder' |
+                             Book_Tag4 == 'AutismSpectrumDisorder' | 
+                             Book_Tag5 == 'AutismSpectrumDisorder' |
+                             Book_Tag6 == 'AutismSpectrumDisorder' |
+                             Book_Tag7 == 'AutismSpectrumDisorder' |                      
+                             Book_Tag8 == 'AutismSpectrumDisorder' |
+                             Book_Tag9 == 'AutismSpectrumDisorder'~1,
+                             TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Cults = case_when(Book_Tag1 == 'Cults' | 
+                            Book_Tag2 == 'Cults' | 
+                            Book_Tag3 == 'Cults' |
+                            Book_Tag4 == 'Cults' | 
+                            Book_Tag5 == 'Cults' |
+                            Book_Tag6 == 'Cults' |
+                            Book_Tag7 == 'Cults' |                      
+                            Book_Tag8 == 'Cults' |
+                            Book_Tag9 == 'Cults'~1,
+                            TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Dark = case_when(Book_Tag1 == 'Dark' | 
+                           Book_Tag2 == 'Dark' | 
+                           Book_Tag3 == 'Dark' |
+                           Book_Tag4 == 'Dark' | 
+                           Book_Tag5 == 'Dark' |
+                           Book_Tag6 == 'Dark' |
+                           Book_Tag7 == 'Dark' |                      
+                           Book_Tag8 == 'Dark' |
+                           Book_Tag9 == 'Dark'~1,
+                          TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Disability = case_when(Book_Tag1 == 'Disability' | 
+                                 Book_Tag2 == 'Disability' | 
+                                 Book_Tag3 == 'Disability' |
+                                 Book_Tag4 == 'Disability' | 
+                                 Book_Tag5 == 'Disability' |
+                                 Book_Tag6 == 'Disability' |
+                                 Book_Tag7 == 'Disability' |                      
+                                 Book_Tag8 == 'Disability' |
+                                 Book_Tag9 == 'Disability'~1,
+                                TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Jewish = case_when(Book_Tag1 == 'Jewish' | 
+                             Book_Tag2 == 'Jewish' | 
+                             Book_Tag3 == 'Jewish' |
+                             Book_Tag4 == 'Jewish' | 
+                             Book_Tag5 == 'Jewish' |
+                             Book_Tag6 == 'Jewish' |
+                             Book_Tag7 == 'Jewish' |                      
+                             Book_Tag8 == 'Jewish' |
+                             Book_Tag9 == 'Jewish'~1,
+                             TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate(  Science = case_when(Book_Tag1 == 'Science' | 
+                               Book_Tag2 == 'Science' | 
+                               Book_Tag3 == 'Science' |
+                               Book_Tag4 == 'Science' | 
+                               Book_Tag5 == 'Science' |
+                               Book_Tag6 == 'Science' |
+                               Book_Tag7 == 'Science' |                      
+                               Book_Tag8 == 'Science' |
+                               Book_Tag9 == 'Science'~1,
+                              TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Seinen = case_when(Book_Tag1 == 'Seinen' | 
+                             Book_Tag2 == 'Seinen' | 
+                             Book_Tag3 == 'Seinen' |
+                             Book_Tag4 == 'Seinen' | 
+                             Book_Tag5 == 'Seinen' |
+                             Book_Tag6 == 'Seinen' |
+                             Book_Tag7 == 'Seinen' |
+                             Book_Tag8 == 'Seinen' |
+                             Book_Tag9 == 'Seinen'~1,
+                             TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Womens = case_when(Book_Tag1 == 'Womens' | 
+                             Book_Tag2 == 'Womens' | 
+                             Book_Tag3 == 'Womens' |
+                             Book_Tag4 == 'Womens' | 
+                             Book_Tag5 == 'Womens' |
+                             Book_Tag6 == 'Womens' |
+                             Book_Tag7 == 'Womens' |                      
+                             Book_Tag8 == 'Womens' |
+                             Book_Tag9 == 'Womens'~1,
+                            TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Shojo = case_when(Book_Tag1 == 'Shojo' | 
+                            Book_Tag2 == 'Shojo' | 
+                            Book_Tag3 == 'Shojo' |
+                            Book_Tag4 == 'Shojo' | 
+                            Book_Tag5 == 'Shojo' |
+                            Book_Tag6 == 'Shojo' | 
+                            Book_Tag7 == 'Shojo' |                      
+                            Book_Tag8 == 'Shojo' |
+                            Book_Tag9 == 'Shojo'~1,
+                            TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Prositution = case_when(Book_Tag1 == 'Prositution' | 
+                                  Book_Tag2 == 'Prositution' | 
+                                  Book_Tag3 == 'Prositution' |
+                                  Book_Tag4 == 'Prositution' | 
+                                  Book_Tag5 == 'Prositution' |
+                                  Book_Tag6 == 'Prositution' |
+                                  Book_Tag7 == 'Prositution' |                      
+                                  Book_Tag8 == 'Prositution' |
+                                  Book_Tag9 == 'Prositution'~1,
+                                  TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Bande_Dessinee = case_when(Book_Tag1 == 'BandeDessinee' | 
+                                     Book_Tag2 == 'BandeDessinee' | 
+                                     Book_Tag3 == 'BandeDessinee' |
+                                     Book_Tag4 == 'BandeDessinee' | 
+                                     Book_Tag5 == 'BandeDessinee' |
+                                     Book_Tag6 == 'BandeDessinee' |
+                                     Book_Tag7 == 'BandeDessinee' |                      
+                                     Book_Tag8 == 'BandeDessinee' |
+                                     Book_Tag9 == 'BandeDessinee'~1,
+                                     TRUE ~ 0))
+``` 
+
+```{r}
+
+book_domain <- book_domain %>%
+  mutate( Holocaust = case_when(Book_Tag1 == 'Holocaust' | 
+                                Book_Tag2 == 'Holocaust' | 
+                                Book_Tag3 == 'Holocaust' |
+                                Book_Tag4 == 'Holocaust' | 
+                                Book_Tag5 == 'Holocaust' |
+                                Book_Tag6 == 'Holocaust' |
+                                Book_Tag7 == 'Holocaust' |                      
+                                Book_Tag8 == 'Holocaust' |
+                                Book_Tag9 == 'Holocaust'~1,
+                                TRUE ~ 0))
+``` 
+
+```{r}
+colnames(book_domain)
+```
+
+```{r splitting_the_data}
+
+set.seed(123)
+
+domain_split <- initial_split(book_domain, 0.8)
+
+domain_train <- training(domain_split)
+
+domain_test <- testing(domain_split)
+
+```
+
+```{r}
+
+log_reg5 <- glm(Challenged ~ LGBT + Mental_Health + New_Adult + Thriller +  Dystopia + Abuse +  Horror + Manga + African_American + Mental_Illness + Social_Justice + Witches + Race + War + Crime + Death + Religion + Politics + Sexuality + Africa + Autism + Cults + Dark + Disability + Jewish + Science + Seinen + Womens + Shojo + Prositution + Bande_Dessinee + Holocaust, data = domain_train, family = "binomial")
+
+summary(log_reg5)
+```
+
+```{r}
+
+log_reg6 <- glm(Challenged ~ LGBT + Mental_Health + New_Adult + Thriller + Mental_Illness, data = domain_train, family = "binomial")
+
+summary(log_reg6)
+```
+
+https://stats.stackexchange.com/questions/8511/how-to-calculate-pseudo-r2-from-rs-logistic-regression#:~:text=Technically%2C%20R2%20cannot%20be,model%20with%20constant%20and%20predictors.
