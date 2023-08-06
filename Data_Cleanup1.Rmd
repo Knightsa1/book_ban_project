@@ -20,1251 +20,230 @@ library(stringr)
 
 ```{r loading_data}
 
-books <- read_csv("~/STA_631/Projects/book_ban_project/data/Censorship Attacks  - Books Challenged Schools 21-22.csv")
+books<- read_csv("~/STA_631/Projects/book_ban_project/data/Book_Challenge_Data.csv")
+books2<- read_csv("~/STA_631/Projects/book_ban_project/data/df_books.csv")
+
+```
+
+Got rid of all of the books that had no Goodreads tags.
+
+```{r}
+
+books <- books %>% drop_na(Book_Tag)
 
 ```
 
 
-```{r capitalizing_every_word}
+Cleaned up the string of booktags
+```{r}
 
-book_title <- as.data.frame(str_to_title(books$Book_Title))
-```
-
-```{r add_new_col_to_data_frame}
-books <- cbind(books,book_title)
-``` 
-
-```{r getting_rid_of_old_col}
-books <- books[,-2]
-```
-
-```{r renaming_col}
-colnames(books)[29] ="Book_Title"
-```
-
-```{r reordering_columns}
-
-books <- books[ ,c(1,29,3:28)]
+books$Book_Tag <- str_to_title(books$Book_Tag)
 
 ```
 
-```{r gets_rid_of_\n_from_book_title}
-books$Book_Title <-gsub("\n","",as.character(books$Book_Title))
-```
+Got rid of all the white space between the words to help fix some of the human errors
+```{r}
 
-```{r moving_:}
-books$Book_Title <-gsub(" :",":",as.character(books$Book_Title))
-```
-
-```{r fixing_names}
-
-books$Book_Title[books$Book_Title == '25 Women Who Rules'] <- '25 Women Who Ruled'
-
-books$Book_Title[books$Book_Title == '#Murder Trending'] <- '#Murdertrending'
-
-books$Book_Title[books$Book_Title == 'A Day In The Life Of Marlon Brando'] <- 'A Day In The Life Of Marlon Bundo'
-
-books$Book_Title[books$Book_Title == "Absolutely True Diary Of A Part-Time Indian"] <- "The Absolutely True Diary Of A Part-Time Indian"
-
-books$Book_Title[books$Book_Title == 'All Our Hidden Gifts (All Our Hidden Gifts Series)'] <- 'All Our Hidden Gifts' #########
-
-books$Book_Title[books$Book_Title == 'Always Human (Always Human Series)'] <- 'Always Human'######
-
-books$Book_Title[books$Book_Title == "And I Darken (The Conqueror's Saga Series)"] <- "And I Darken" ######
-
-books$Book_Title[books$Book_Title == "Anne Frank's Diary (The Graphic Adaption)"] <- "Anne Frank's Diary: The Graphic Adaption"
-
-books$Book_Title[books$Book_Title == "Any Way The Wind Blows (Simon Snow Series)"] <- "Any Way The Wind Blows" #######
-
-books$Book_Title[books$Book_Title == 'Aristotle And Dante Discover The Secrets Of The Universe (Aristotle And Dante Series)' |  books$Book_Title == 'Artistole And Dante Discover The Secrets Of The Universe'] <- 'Aristotle And Dante Discover The Secrets Of The Universe' ########
-
-books$Book_Title[books$Book_Title == 'Aristotle And Dante Dive Into The Waters Of The World (Aristotle And Dante Series)']  <- 'Aristotle And Dante Dive Into The Waters Of The World' ########
-
-books$Book_Title[books$Book_Title == 'Batman: The Brave And The Bold -']  <- 'Batman: The Brave And The Bold'
-
-books$Book_Title[books$Book_Title == 'Bingo Love #1'] <- 'Bingo Love'
-
-books$Book_Title[books$Book_Title == 'Black Brother Black Brother'] <- 'Black Brother, Black Brother'
-
-books$Book_Title[books$Book_Title == "Black Friend: On Being A Better White Person"] <- "The Black Friend: On Being A Better White Person"
-
-books$Book_Title[books$Book_Title == 'Black Wings Beating (Skybound Series)'] <- 'Black Wings Beating' ######
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 1 (Blue Flag Series)'] <- 'Blue Flag, Vol. 1' #####
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 2 (Blue Flag Series)'] <- 'Blue Flag, Vol. 2' #####
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 3 (Blue Flag Series)'] <- 'Blue Flag, Vol. 3' #####
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 4 (Blue Flag Series)'] <-   'Blue Flag, Vol. 4' ######
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 5 (Blue Flag Series)'] <-  'Blue Flag, Vol. 5' ######
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 6 (Blue Flag Series)'] <- 'Blue Flag, Vol. 6' #####
-
-books$Book_Title[books$Book_Title == 'Blue Flag, Vol. 7 (Blue Flag Series)'] <- 'Blue Flag, Vol. 7' #####
-
-books$Book_Title[books$Book_Title == 'Bright World (The Hazards Of Love Series)'] <- 'Bright World' #######
-
-books$Book_Title[books$Book_Title == 'Bruja Born (Brooklyn Brujas Series)'] <-'Bruja Born' ######
-
-books$Book_Title[books$Book_Title == 'Carry On (Simon Snow Series)'] <- 'Carry On' #####
-
-books$Book_Title[books$Book_Title == 'Cemetary Boys'] <- 'Cemetery Boys'
-
-books$Book_Title[books$Book_Title == "Chasing Space (Young Reader's Edition)"] <-  "Chasing Space" ####
-
-books$Book_Title[books$Book_Title == 'Check Please #Hockey'] <- 'Check Please'
-
-books$Book_Title[books$Book_Title == 'Cherry, Matthew A. And Vashti Harrison'] <- 'Hair Love'
-
-books$Book_Title[books$Book_Title == "Cider House Rules"] <- "The Cider House Rules"
-
-books$Book_Title[books$Book_Title == 'Cilla Lee-Jenkins (Series)'] <- 'Cilla Lee-Jenkins'
-
-books$Book_Title[books$Book_Title == 'City Of Heavenly Fire (The Mortal Instruments Series)'] <- 'City Of Heavenly Fire'
-
-books$Book_Title[books$Book_Title == 'Craft, Jerry'] <- 'New Kid'
-
-books$Book_Title[books$Book_Title == "Crier's War (Crier's War Series)"] <- "Crier's War" #######
-
-books$Book_Title[books$Book_Title == "Crown Of Feathers (Crown Of Feathers Series)"] <- "Crown Of Feathers" ######
-
-books$Book_Title[books$Book_Title == 'Darius The Great Deserves Better (Darius The Great Series)'] <- 'Darius The Great Deserves Better' ######
-
-books$Book_Title[books$Book_Title == 'Darius The Great Is Not Okay (Darius The Great Series)'] <- 'Darius The Great Is Not Okay' ######
-
-books$Book_Title[books$Book_Title == 'Date Violence (Life Balance)'] <- 'Date Violence' ######
-
-books$Book_Title[books$Book_Title == 'Deogratias'] <-  'Deogratias: A Tale Of Rwanda'
-
-books$Book_Title[books$Book_Title == 'Desmond Cole, Ghost Patrol (Series)'] <- 'Desmond Cole, Ghost Patrol' #######
-
-books$Book_Title[books$Book_Title == 'Doing It!'] <- "Doing It! Let's Talk About Sex"
-
-books$Book_Title[books$Book_Title == 'Dreaming In Cuban(A Novel)'] <- 'Dreaming In Cuban' #####
-
-books$Book_Title[books$Book_Title == 'Dress Codes For Small Tones'] <- 'Dress Codes For Small Towns'
-
-books$Book_Title[books$Book_Title == "Downstairs Girl"] <- "The Downstairs Girl"
-
-books$Book_Title[books$Book_Title == 'Ember Queen (Ash Princess Trilogy Series)'] <- 'Ember Queen' #####
-
-books$Book_Title[books$Book_Title == 'Every Heart A Doorway (Seanan Mcguire Series)'] <- 'Every Heart A Doorway' ######
-
-books$Book_Title[books$Book_Title == 'Fade (Wake Series)'] <- 'Fade' ###
-
-books$Book_Title[books$Book_Title == 'Fat Angie (Fat Angie Series)'] <- 'Fat Angie' #####
-
-books$Book_Title[books$Book_Title == 'Flawless (Pretty Little Liars Series)'] <- 'Flawless' #####
-
-books$Book_Title[books$Book_Title == 'Fly On The Wall'] <- 'Fly On The Wall: How One Girl Saw Everything'
-
-books$Book_Title[books$Book_Title == 'Fly On The Wall How One Girl Saw Everything'] <- 'Fly On The Wall: How One Girl Saw Everything'
-
-books$Book_Title[books$Book_Title == 'Freak Boy'] <- 'Freakboy'
-
-books$Book_Title[books$Book_Title == 'Fry Bread'] <- 'Fry Bread: A Native American Story'
-
-books$Book_Title[books$Book_Title == 'Fun Home'] <- 'Fun Home: A Family Tragicomic'
-
-books$Book_Title[books$Book_Title == 'Gearbreakers (Gearbreakers Series)'] <- 'Gearbreakers' ######
-
-books$Book_Title[books$Book_Title == 'Geography Club (Russel Middlebrook Series)'] <- 'Geography Club' #####
-
-books$Book_Title[books$Book_Title == 'Get A Clue (Bookish Boyfriends Series)'] <- 'Get A Clue' ######
-
-books$Book_Title[books$Book_Title == 'Gideon The Ninth (The Locked Tomb Series)'] <- 'Gideon The Ninth' ######
-
-books$Book_Title[books$Book_Title == 'Gino, Alex'] <- 'Melissa (George)'##
-
-books$Book_Title[books$Book_Title == 'Girl Mans Up' | books$Book_Title == "Girls Man Up"] <- 'Girl Man Up' ####
-
-books$Book_Title[books$Book_Title == 'Girls Who Code (Series)'] <- 'Girls Who Code' #####
-
-books$Book_Title[books$Book_Title == 'Gold Wings Rising (Skybound Series)'] <- 'Gold Wings Rising'
-
-books$Book_Title[books$Book_Title == 'Golden Boy'] <- 'Golden Boy: A Novel'
-
-books$Book_Title[books$Book_Title == 'Gossip Girl: A Novel By Cecily Von Ziegesar'] <- 'Gossip Girl'
-
-books$Book_Title[books$Book_Title == 'Grasshopper Jungle (Grasshopper Jungle Series)'] <- 'Grasshopper Jungle' #####
-
-books$Book_Title[books$Book_Title == 'Grasshopper Jungle: A History'] <- 'Grasshopper Jungle'
-
-books$Book_Title[books$Book_Title == 'Handmaids Tale Graphic Novel'] <- "The Handmaid's Tale: The Graphic Novel"
-
-books$Book_Title[books$Book_Title == 'Heart Of Flames (Crown Of Feathers Series)'] <- 'Heart Of Flames' #######
-
-books$Book_Title[books$Book_Title == 'Heart Of Thorns (Heart Of Thorns Series)'] <- 'Heart Of Thorns' ######
-
-books$Book_Title[books$Book_Title == 'Heartstopper: Volume One (Heartstopper Series)'] <- 'Heartstopper: Volume One' ######
-
-books$Book_Title[books$Book_Title == 'Heartstopper: Volume Two (Heartstopper Series)'] <- 'Heartstopper: Volume Two' #####
-
-books$Book_Title[books$Book_Title == 'Heartstopper: Volume Three (Heartstopper Series)'] <- 'Heartstopper: Volume Three' #####
-
-books$Book_Title[books$Book_Title == 'Heiress Apparently (Daughters Of The Dynasty Series)'] <- 'Heiress Apparently' #####
-
-books$Book_Title[books$Book_Title == "Henry Aaron"] <- "Henry Aaron's Dream" ########
-
-books$Book_Title[books$Book_Title == 'Her Royal Highness (Royals Series)'] <- 'Her Royal Highness' ######
-
-books$Book_Title[books$Book_Title == "Ho'oamani: Hula Warrior"] <- "Ho'onani: Hula Warrior"
-
-books$Book_Title[books$Book_Title == "Hold Me Closer"] <- "Hold Me Closer: The Tiny Cooper Story"
-
-books$Book_Title[books$Book_Title == "Homecoming (Fat Angie Series)"] <- "Homecoming" ########
-
-books$Book_Title[books$Book_Title == "How I Paid For College:"] <- "How I Paid For College"
-
-books$Book_Title[books$Book_Title == "How To Be An Anti-Racist"] <- "How To Be An Antiracist"
-
-books$Book_Title[books$Book_Title == "Hurricane Child By Kheryn Callender"] <- "Hurricane Child"
-
-books$Book_Title[books$Book_Title == "I Wish You All The Best (I Wish You All The Best Series)"] <- "I Wish You All The Best" #####
-
-books$Book_Title[books$Book_Title == "In Our Mothers' House"] <- "In Our Mother's House"
-
-books$Book_Title[books$Book_Title == "In The Dreamhouse"] <- "In The Dream House"
-
-books$Book_Title[books$Book_Title == "In The Time Of Butterflies"] <- "In The Time Of The Butterflies"
-
-books$Book_Title[books$Book_Title == "Infinity Reaper, Infinity Cycle"] <- "Infinity Reaper"
-
-books$Book_Title[books$Book_Title == "Introducing Teddy"] <- "Introducing Teddy: A Gentle Story About Gender And Friendship"
-
-books$Book_Title[books$Book_Title == "Invisible Man Got The Whole World Watching, A Young Black Man’s Education"] <- "Invisible Man, Got The Whole World Watching: A Young Black Man's Education"
-
-books$Book_Title[books$Book_Title == "Iron Heart (Crier's War Series)"] <- "Iron Heart" ######
-
-books$Book_Title<- gsub(".*It Feels Good To Be Yourself.*","It Feels Good To Be Yourself - A Book About Gender Identity", books$Book_Title)
-
-
-books$Book_Title[books$Book_Title == "Jack Of Hearts And Other Parts"] <- "Jack Of Hearts (And Other Parts)"
-
-books$Book_Title[books$Book_Title == "Jasmine Toguchi (Series)"] <- "Jasmine Toguchi, Flamingo Keeper"
-
-books$Book_Title[books$Book_Title == "Jumping Off Swings (Jumping Off Swings Series)"] <- "Jumping Off Swings" #########
-
-books$Book_Title[books$Book_Title == "Keeping You A Secret"] <- "Keeping You A Secret: A Novel"
-
-books$Book_Title[books$Book_Title == "King Of The Dragon Flies"] <- "King And Dragonflies"
-
-books$Book_Title[books$Book_Title == "King And Kayla (Series)"] <- "King And Kayla" ######
-
-books$Book_Title[books$Book_Title == "Kings, Queens, And In Betweens"] <- 
-"Kings, Queens, And In-Betweens"
-
-books$Book_Title[books$Book_Title == "Kite Runner"] <- "The Kite Runner"
-
-books$Book_Title[books$Book_Title == "L84 G84"] <- "L8r, G8r"
-
-books$Book_Title[books$Book_Title == "L8r G8r"] <- "L8r, G8r"
-
-books$Book_Title[books$Book_Title == "Labyrinth Lost (Brooklyn Brujas Series)"] <- "Labyrinth Lost" ###### 
-
-books$Book_Title[books$Book_Title == "Lair Of Dreams (The Diviners Series)"] <- "Lair Of Dreams" #######
-
-books$Book_Title[books$Book_Title == "Leah On The Off Beat"] <- "Leah On The Offbeat" 
-
-books$Book_Title[books$Book_Title == "Leah On The Offbeat (Simonverse Series)"] <- "Leah On The Offbeat" ########
-
-books$Book_Title[books$Book_Title == "Lily And Hunkin"] <- "Lily And Dunkin"
-
-books$Book_Title[books$Book_Title == "Little And Lion"] <- "Little & Lion"
-
-books$Book_Title[books$Book_Title == "Living Dead Girl"] <- "Living Dead Girl: Novel"
-
-books$Book_Title[books$Book_Title == "Living Proud! Coming Out And Seeking Support"] <- "Living Proud! Coming Out And Seeking Support (Living Proud! Growing Up Lgbtq)"
-
-books$Book_Title[books$Book_Title == "Lobizona (Wolves Of No World Series)"] <- "Lobizona" ######
-
-books$Book_Title[books$Book_Title == "Lola Levine (Series)"] <- "Lola Levine" #######
-
-books$Book_Title[books$Book_Title == "Lola Reads (Series)"] <- "Lola Reads" ######
-
-books$Book_Title[books$Book_Title == "Maus"] <- "Maus 1: A Survivor's Tale: My Father Bleeds History"
-
-books$Book_Title[books$Book_Title == "Maus I"] <- "Maus 1: A Survivor's Tale: My Father Bleeds History"
-
-books$Book_Title[books$Book_Title == "Maus 2"] <- "Maus 2: A Survivor's Tale: And Here My Troubles Began"
-
-books$Book_Title[books$Book_Title == "Me And White Supremacy"] <- "Me And White Supremacy: Combat Racism, Change The World, And Become A Good Ancestor"
-
-books$Book_Title[books$Book_Title == "Me And White Supremacy: Combat Racism, Change The World Nad Become A Good Ancestor"] <- "Me And White Supremacy: Combat Racism, Change The World, And Become A Good Ancestor"
-
-books$Book_Title[books$Book_Title == "Me Early And The Dying Girl"] <- "Me, Earl And The Dying Girl"
-
-books$Book_Title[books$Book_Title == "Me, Earl, And The Dying Girl"] <- "Me, Earl And The Dying Girl"
-
-books$Book_Title[books$Book_Title == "Me And Earl And The Dying Girl"] <- "Me, Earl And The Dying Girl"
-
-books$Book_Title[books$Book_Title == "Meet Yasmin (Series)"] <- "Meet Yasmin"
-
-books$Book_Title[books$Book_Title == "Melissa’s Story (Aka George) By Alex Gino"] <- "Melissa (George)"
-
-books$Book_Title[books$Book_Title == "Middle School's A Drag: You Better Werk"] <- "Middle School's A Drag: You Better Werk!"
-
-books$Book_Title[books$Book_Title == "Monday's Aren't Coming"] <- "Monday's Not Coming"
-
-books$Book_Title[books$Book_Title == "Morris Micklewhite & The Tangerine Dress"] <- "Morris Micklewhite And The Tangerine Dress"
-
-books$Book_Title[books$Book_Title == "My Friend Dahlmer"] <- "My Friend Dahmer"
-
-books$Book_Title[books$Book_Title == "Nagara, Innosanto"] <- "A Is For Activist"
-
-books$Book_Title[books$Book_Title == "Name Jar"] <- "The Name Jar"
-
-books$Book_Title[books$Book_Title == "Neanderthal Opens The Door To The University"] <- "Neanderthal Opens The Door To The Universe"
-
-books$Book_Title[books$Book_Title == "Night Shine (Night Shine Series)"] <- "Night Shine" #######
-
-books$Book_Title[books$Book_Title == "Normal Poeple"] <- "Normal People"
-
-books$Book_Title[books$Book_Title == "Not My Idea A Book About Whiteness"] <- "Not My Idea: A Book About Whiteness"
-
-books$Book_Title[books$Book_Title == "Not My Idea: A Book About White Ness"] <- "Not My Idea: A Book About Whiteness"
-
-books$Book_Title[books$Book_Title == 'Not My Idea: A Book About Whiteness”'] <- "Not My Idea: A Book About Whiteness"
-
-books$Book_Title[books$Book_Title == "Of Fire And Stars (Of Fire And Stars Series)"] <- "Of Fire And Stars" #####
-
-books$Book_Title[books$Book_Title == "Of Ice And Shadows (Of Fire And Stars Series)"] <- "Of Ice And Shadows" ######
-
-books$Book_Title[books$Book_Title == "On A Sunbeam (On A Sunbeam Series)"] <- "On A Sunbeam" #####
-
-books$Book_Title[books$Book_Title == "On The Bright Side, I'm Not The Girlfriend Of A Sex God"] <- "On The Bright Side, I'm Now The Girlfriend Of A Sex God"
-
-books$Book_Title[books$Book_Title == "On The Bright Side: I'm Now A Girlfriend Of A Sex God"] <- "On The Bright Side, I'm Now The Girlfriend Of A Sex God"
-
-books$Book_Title[books$Book_Title == "On The Come Up: A Novel, Based On A True Story"] <- "On The Come Up"
-
-books$Book_Title[books$Book_Title == "Out Now: Queer We Go Again"] <- "Out Now: Queer We Go Again!"
-
-books$Book_Title[books$Book_Title == "Pants Project"] <- "The Pants Project"
-
-books$Book_Title[books$Book_Title == "Peaceful Fights For Eqaual Rights"] <- "Peaceful Fights For Equal Rights"
-
-books$Book_Title[books$Book_Title == "Peanut Goes For Gold"] <- "Peanut Goes For The Gold"
-
-books$Book_Title[books$Book_Title == "Peks Of Being A Wallflower"] <- "The Perks Of Being A Wallflower"
-
-books$Book_Title[books$Book_Title == "Persepolis"] <- "Persepolis: The Story Of A Childhood"
-
-books$Book_Title[books$Book_Title == "Planet Oman (Series)"] <- "Planet Oman" #####
-
-books$Book_Title[books$Book_Title == "Pride: The Story Of Harvey Milk And The Rainbow Flag By Rob Sanders"] <- "Pride: The Story Of Harvey Milk And The Rainbow Flag"
-
-books$Book_Title[books$Book_Title == "Princess Princess Every After"] <- "Princess Princess Ever After"
-
-books$Book_Title[books$Book_Title == "Proud (Young Reader's Edition)"] <- "Proud" ####
-
-books$Book_Title[books$Book_Title == "Queer - The Ultimate Lgbt Guide For Teens"] <- "Queer: The Ultimate Lgbtq Guide For Teens"
-
-books$Book_Title[books$Book_Title == "Queer, There, And Everywhere: 23 People Who Changed The World"] <- "Queer, There And Everywhere: 23 People Who Changed The World"
-
-books$Book_Title[books$Book_Title == "Queer There And Everywhere"] <- "Queer, There And Everywhere: 23 People Who Changed The World"
-
-books$Book_Title[books$Book_Title == "Queer, There And Everywhere"] <- "Queer, There And Everywhere: 23 People Who Changed The World"
-
-books$Book_Title[books$Book_Title == "Radiant Child"] <- "Radiant Child: The Story Of Young Artist Jean-Micel Basquiat"
-
-books$Book_Title[books$Book_Title == "Radiant Child And The Undefeated"] <- "Radiant Child: The Story Of Young Artist Jean-Micel Basquiat"
-
-books$Book_Title[books$Book_Title == "Ramee, Lisa Moore"] <- "A Good Kind Of Trouble"
-
-books$Book_Title[books$Book_Title == "Rainbow Revolutionaries"] <- "Rainbow Revolutionaries: 50 Lgbtq+ People Who Made History"
-
-books$Book_Title[books$Book_Title == "Rap A Tap Tap Here's Bojangles - Think Of That"] <- "Rap A Tap Tap"
-
-books$Book_Title[books$Book_Title == "Ready Of Not"] <- "Ready Or Not"
-
-books$Book_Title[books$Book_Title == "Ready Or Not? A Girl's Guide To Making Her Own Decisions About Dating, Love And Sex"] <- "Ready Or Not?: A Girl's Guide To Making Her Own Decisions About Dating, Love, And Sex"
-
-books$Book_Title[books$Book_Title == "Real Live Boyfriends"] <- "Real Live Boyfriends: Yes. Boyfriends, Plural. If My Life Weren't Complicated, I Wouldn't Be Ruby Oliver"
-
-books$Book_Title[books$Book_Title == "Real Live Boyfriends: Yes Boyfriends, Plural, If My Life Weren't Complicated I Wouldn't Be Rudy Oliver"] <- "Real Live Boyfriends: Yes. Boyfriends, Plural. If My Life Weren't Complicated, I Wouldn't Be Ruby Oliver"
-
-books$Book_Title[books$Book_Title == "	Real Live Boyfriends"] <- "Real Live Boyfriends: Yes. Boyfriends, Plural. If My Life Weren't Complicated, I Wouldn't Be Ruby Oliver"
-
-books$Book_Title[books$Book_Title == "Rebel Girl Revolution (Fat Angie Series)"] <- "Rebel Girl Revolution"
-
-books$Book_Title[books$Book_Title == "Red Scrolls Of Magic, The (E-Book)"] <- "The Red Scrolls Of Magic"
-
-books$Book_Title[books$Book_Title == "Roe V. Wade: A Women's Choice"] <- "Roe V. Wade: A Women's Choice?"
-
-books$Book_Title[books$Book_Title == "Rough-Face Girl"] <- "The Rough-Face Girl"
-
-books$Book_Title[books$Book_Title == "Ruby And The Booker Boys (Series)"] <- "Ruby And The Booker Boys (Series)" #####
-
-books$Book_Title[books$Book_Title == "Seeing Gender"] <- "Seeing Gender: An Illustrated Guide To Identity And Expression"
-
-books$Book_Title[books$Book_Title == "Separate Is Never Equal"] <- "Separate Is Never Equal: Sylvia Mendez And Her Family's Fight For Desegregation"
-
-books$Book_Title[books$Book_Title == "Separate Is Never Equal: Sylvia Mendez And Her Family’s Fight For Desegregation"] <- "Separate Is Never Equal: Sylvia Mendez And Her Family's Fight For Desegregation"
-
-books$Book_Title[books$Book_Title == "Separate Is Never Euqal"] <- "Separate Is Never Equal: Sylvia Mendez And Her Family's Fight For Desegregation"
-
-books$Book_Title[books$Book_Title == "Simon Vs. The Homo Sapiens Agenda (Simonverse Series)"] <- "Simon Vs. The Homo Sapiens Agenda" #####
-
-books$Book_Title[books$Book_Title == "Simon Vs. The Homosapiens Agenda"] <- "Simon Vs. The Homo Sapiens Agenda"
-
-books$Book_Title[books$Book_Title == "Sin Eater's Confession, The"] <- "The Sin Eater's Confession"
-
-books$Book_Title[books$Book_Title == "Six Of Crows (Six Of Crows Series)"] <- "Six Of Crows"
-
-books$Book_Title[books$Book_Title == "Slaughterhouse Five"] <- "Slaughterhouse-Five"
-
-books$Book_Title[books$Book_Title == "So You're Being Publicly Shamed"] <- "So You've Been Publicly Shamed"
-
-books$Book_Title[books$Book_Title == "Sonia Sotomayor: A Judge Grows In The Brox"] <- "Sonia Sotomayor: A Judge Grows In The Bronx"
-
-books$Book_Title[books$Book_Title == "Soul Of Cinder (Heart Of Thorns Series)"] <- "Soul Of Cinder" ####
-
-books$Book_Title[books$Book_Title == "Spinning (Graphic)"] <- "Spinning" #
-
-books$Book_Title[books$Book_Title == "Stamped For Kids: Racism, Antiracism And You"] <- "Stamped (For Kids): Racism, Anti-Racism And You"
-
-books$Book_Title[books$Book_Title == "Stamped From The Beginning"] <- "Stamped From The Beginning: The Definitive History Of Racist Ideas In America"
-
-books$Book_Title[books$Book_Title == "Stamped"] <- "Stamped: Racism, Antiracism And You"
-
-books$Book_Title[books$Book_Title == "Stamped: Racism, Antiracism, And You"] <- "Stamped: Racism, Antiracism And You"
-
-books$Book_Title[books$Book_Title == "Sticks & Scones (Check, Please! Series)"] <- "Sticks And Scones"
-
-books$Book_Title[books$Book_Title == "Stonewall Riots"] <- "The Stonewall Riots: Coming Out In The Street"
-
-books$Book_Title[books$Book_Title == "Sword In The Stars (Once & Future Series)"] <- "Sword In The Stars"
-
-books$Book_Title[books$Book_Title == "Tears Of Frost (Heart Of Thorns Series)"] <- "Tears Of Frost"
-
-books$Book_Title[books$Book_Title == "The 57 Bus"] <- "The 57 Bus: A True Story Of Two Teenagers And The Crime That Changed Their Lives"
-
-books$Book_Title[books$Book_Title == "The 57 Bus: A True Story Of Two Teenagers And Teh Crime That Changed Their Lives"] <- "The 57 Bus: A True Story Of Two Teenagers And The Crime That Changed Their Lives"
-
-books$Book_Title[books$Book_Title == "The Abortion Debate (Essential Viewpoints)"] <- "The Abortion Debate" #####
-
-books$Book_Title[books$Book_Title == "The Absolute Diary Of A Part-Time Indian"] <- "The Absolutely True Diary Of A Part-Time Indian"
-
-books$Book_Title[books$Book_Title == "The Absolutely True Diary Of A Part Time Indian"] <- "The Absolutely True Diary Of A Part-Time Indian"
-
-books$Book_Title[books$Book_Title == "The Baby Tree By Sophie Blackall"] <- "The Baby Tree"
-
-books$Book_Title[books$Book_Title == "The Bible"] <- "Bible"
-
-books$Book_Title[books$Book_Title == "The Black Friend"] <- "The Black Friend: On Being A Better White Person"
-
-books$Book_Title[books$Book_Title == "The Blues Eye"] <- "The Bluest Eye"
-
-books$Book_Title[books$Book_Title == "The Book Itch: Freedom, Truth And Harlem's Greatest Books Stoire"] <- "The Book Itch: Freedom, Truth And Harlem's Greatest Bookstore"
-
-books$Book_Title[books$Book_Title == "The Brilliant Death (The Brilliant Death Series)"] <- "The Brilliant Death" ####
-
-books$Book_Title[books$Book_Title == "The Burning Maze (The Trials Of Apollo Series)"] <- "The Burning Maze" ######
-
-books$Book_Title[books$Book_Title == "The Carnival At The Bray"] <- "The Carnival At Bray"
-
-books$Book_Title[books$Book_Title == "The Court Of Mist And Fury"] <- "A Court Of Mist And Fury"
-
-books$Book_Title[books$Book_Title == "The Court Of Silver Flames"] <- "A Court Of Silver Flames"
-
-books$Book_Title[books$Book_Title == "The Dark Prophecy (The Trials Of Apollo Series)"] <- "The Dark Prophecy"
-
-books$Book_Title[books$Book_Title == "The Dear Musicians"] <- "The Deaf Musicians"
-
-books$Book_Title[books$Book_Title == "The Deepest Breath By Meg Grehen"] <- "The Deepest Breath"
-
-books$Book_Title[books$Book_Title == "The Electric Heir (Feverwake Series)"] <- "The Electric Heir" ######
-
-books$Book_Title[books$Book_Title == "The Extraordinaries (The Extraordinaries Series)"] <- "The Extraordinaries"
-
-books$Book_Title[books$Book_Title == "The Fever King (Feverwake Series)"] <- "The Fever King"
-
-books$Book_Title[books$Book_Title == "The Gender Quest Workbook"] <- "The Gender Quest Workbook: A Guide For Teens And Young Adults Exploring Gender Identity"
-
-books$Book_Title[books$Book_Title == "The Gentleman's Guide To Vice And Virtue (Montague Siblings Series)"] <- "The Gentleman's Guide To Vice And Virtue" ######
-
-books$Book_Title[books$Book_Title == "The Good Earth (Graphic Novel)"] <- "The Good Earth" ####
-
-books$Book_Title[books$Book_Title == "The Gravity Of Us (The Gravity Of Us Series)"] <- "The Gravity Of Us"
-
-books$Book_Title[books$Book_Title == "The Hammer Of Thor (Magnus Chase And The Gods Of Asgard Series)"] <- "The Hammer Of Thor"
-
-books$Book_Title[books$Book_Title == "The Handmaid's Tale (Graphic Novel)"] <- "The Handmaid's Tale: The Graphic Novel"
-
-books$Book_Title[books$Book_Title == "The Handmaid's Tale Graphic Novel"] <- "The Handmaid's Tale: The Graphic Novel"
-
-books$Book_Title[books$Book_Title == "The Handmaide's Tale"] <- "The Handmaid's Tale"
-
-books$Book_Title[books$Book_Title == "The Handsome Girl And Her Beautiful Boy"] <- "The Handsome Girl & Her Beautiful Boy"
-
-books$Book_Title[books$Book_Title == "The Hidden Oracle (The Trials Of Apollo Series)"] <- "The Hidden Oracle"
-
-books$Book_Title[books$Book_Title == "The Holy Bible"] <- "Bible"
-
-books$Book_Title[books$Book_Title == "The Infinitive Moment Of Us"] <- "The Infinite Moment Of Us"
-
-books$Book_Title[books$Book_Title == "The Invisible Life Of Addie Larue"] <- "The Invisible Life Of Addie La Rue"
-
-books$Book_Title[books$Book_Title == "The Lady's Guide To Petticoats And Piracy (Montague Siblings Series)"] <- "The Lady's Guide To Petticoats And Piracy"
-
-books$Book_Title[books$Book_Title == "The Lady's Guide To Petticoats And Piracy (Montague Siblings Series)"] <- "The Lady's Guide To Petticoats And Piracy"
-
-books$Book_Title[books$Book_Title == "The Last Man"] <- "Y: The Last Man"
-
-books$Book_Title[books$Book_Title == "The Lost Book Of The White (The Eldest Curses Series)"] <- "The Lost Book Of The White"
-
-books$Book_Title[books$Book_Title == "The Midnight Lie (Forgotten Gods Series)"] <- "The Midnight Lie"
-
-books$Book_Title[books$Book_Title == "The New Jim Crow"] <- "The New Jim Crow: Mass Incarceration In The Age Of Colorblindness"
-
-books$Book_Title[books$Book_Title == "The Night Owl, From Dogfish"] <- "To Night Owl From Dogfish"
-
-
-books$Book_Title[books$Book_Title == "The Red Scrolls Of Magic (The Eldest Curses Series)"] <- "The Red Scrolls Of Magic"
-
-books$Book_Title[books$Book_Title == "The Scapegracers (Scapegracers Series)"] <- "The Scapegracers"
-
-books$Book_Title[books$Book_Title == "The Sin Eaters Confession"] <- "The Sin Eater's Confession"
-
-books$Book_Title[books$Book_Title == "The Storm Of Life (The Brilliant Death Series)"] <- "The Storm Of Life"
-
-books$Book_Title[books$Book_Title == "The Summer Of Jordi Perez"] <- "The Summer Of Jordi Perez (And The Best Burger In Los Angeles)"
-
-books$Book_Title[books$Book_Title == "The Tyrant’s Tomb (The Trials Of Apollo Series)"] <- "The Tyrant’s Tomb"
-
-books$Book_Title[books$Book_Title == "The Upside Of Unrequited (Simonverse Series)"] <- "The Upside Of Unrequited"
-
-books$Book_Title[books$Book_Title == "The Watcher's Test (Deadendia Series)"] <- "The Watcher's Test"
-
-books$Book_Title[books$Book_Title == "The Will Of The Empress (The Circle Reforged Series)"] <- "The Will Of The Empress"
-
-books$Book_Title[books$Book_Title == "The Witch Boy #1"] <- "The Witch Boy"
-
-books$Book_Title[books$Book_Title == "The Witch King (The Witch King Series)"] <- "The Witch King"
-
-books$Book_Title[books$Book_Title == "The Witch Owl Parliament (Clockwork Curandera Series)"] <- "The Witch Owl Parliament"
-
-books$Book_Title[books$Book_Title == "The Witch's Hand (The Montague Twins)"] <- "The Witch's Hand"
-
-books$Book_Title[books$Book_Title == "The Year Of The Book (Anna Wang Series)"] <- "The Year Of The Book"
-
-books$Book_Title[books$Book_Title == "These Feathered Flames (These Feathered Flames Series)"] <- "These Feathered Flames"
-
-books$Book_Title[books$Book_Title == "These Witches Don't Burn (These Witches Don't Burn Series)"] <- "These Witches Don't Burn"
-
-books$Book_Title[books$Book_Title == "Theuy Called Us Enemy"] <- "They Called Us Enemy"
-
-books$Book_Title[books$Book_Title == "They Called Themselves The K.k.k.: The Birth Of An American Terrorist Group"] <- "They Called Themselves The Kkk: The Birth Of An American Terrorist Group"
-
-books$Book_Title[books$Book_Title == "They, She He Easy As Abc"] <- "They, She, He Easy As Abc"
-
-books$Book_Title[books$Book_Title == "Thirteen Reasons"] <- "Thirteen Reasons Why"
-
-books$Book_Title[books$Book_Title == "This Book Is Anti-Racist"] <- "This Book Is Anti-Racist: 20 Lessons On How To Wake Up, Take Action, And Do The Work"
-
-books$Book_Title[books$Book_Title == "This Book Is Anti Racist"] <- "This Book Is Anti-Racist: 20 Lessons On How To Wake Up, Take Action, And Do The Work"
-
-books$Book_Title[books$Book_Title == "Tom Boy: A Graphic Memoir"] <- "Tomboy: A Graphic Memoir"
-
-books$Book_Title[books$Book_Title == "Trans+: Love, Sex, Romance, And Being You"] <- "Trans+: Love, Sex, Romance And Being You"
-
-books$Book_Title[books$Book_Title == "Transgender Rights And Protection"] <- "Transgender Rights And Protections"
-
-books$Book_Title[books$Book_Title == "Ttfn (Internet Girls Series)"] <- "Ttfn"
-
-books$Book_Title[books$Book_Title == "Ttyl (Internet Girls Series)"] <- "Ttyl"
-
-books$Book_Title[books$Book_Title == "Unravel Me (Shatter Me Book 2)"] <- "Unravel Me"
-
-books$Book_Title[books$Book_Title == "Vampire Academy"] <- "The Vampire Academy"
-
-books$Book_Title[books$Book_Title == "Victories Greater Than Death (Unstoppable Series)"] <- "Victories Greater Than Death"
-
-books$Book_Title[books$Book_Title == "Wayward Son (Simon Snow Series)"] <- "Wayward Son"
-
-books$Book_Title[books$Book_Title == 
-"Wayward Witch (Brooklyn Brujas Series)"] <- "Wayward Witch" ####
-
-books$Book_Title[books$Book_Title == "Weirdo (Series)"] <- "Weirdo"
-
-books$Book_Title[books$Book_Title == "What If It's Us (What If It's Us Series)"] <- "What If It's Us"
-
-books$Book_Title[books$Book_Title == "What Was Stone Wsall"] <- "What Was Stonewall?"
-
-books$Book_Title[books$Book_Title == "When Aiden Became A Brother"] <- "When Aidan Became A Brother"
-
-books$Book_Title[books$Book_Title == "When They Call You A Terrorist (Young Adult Edition): A Story Of Black Lives Matter And The Power To Change The World"] <- "When They Call You A Terrorist: A Story Of Black Lives Matter And The Power To Change The World"
-
-books$Book_Title[books$Book_Title == "Why Are All The Black Kids Sitting Together In The Cafeteria"] <- "Why Are All The Black Kids Sitting Together In The Cafeteria And Other Conversations About Race"
-
-books$Book_Title[books$Book_Title == "Will Grayson Will Grayson"] <- "Will Grayson, Will Grayson"
-
-books$Book_Title[books$Book_Title == "Will Grayson, Will Grayson (Will Grayson, Will Grayson Series)"] <- "Will Grayson, Will Grayson"
-
-books$Book_Title[books$Book_Title == "Wings Of Shadow (Crown Of Feathers Series)"] <- "Wings Of Shadow"
-
-books$Book_Title[books$Book_Title == "Write Rage"] <- "White Rage"
-
-books$Book_Title[books$Book_Title == "Yang, Kelly"] <- "Front Desk"
+books$Book_Tag <-gsub(" ", "", books$Book_Tag, fixed = TRUE)
 
 ```
 
-```{r counting_titles}
-books %>% 
-  count(`Book_Title`)
+
+
+Separated the book tags for the challenged books into their own individual columns.
+```{r}
+
+test <-books %>% 
+   separate(Book_Tag,c("Book_Tag1","Book_Tag2", "Book_Tag3", "Book_Tag4",
+                       "Book_Tag5", "Book_Tag6", "Book_Tag7",
+                       "Book_Tag8","Book_Tag9"),sep=",")
+
+```
+
+Made a data set of just tags so that I could see how frequently the tags showed up
+```{r}
+tags <- test[,c(3:11)]
+```
+
+
+```{r}
+count <- table(unlist(tags))
 ```
 
 ```{r}
-books %>% 
-  filter(Book_Title == "A Certain Slant Of Light")
+count <- as.data.frame(count)
 ```
 
+order them so I could see what was the highest and lowest
+```{r}
 
-```{r gets_rid_of_\n_from_book_title}
-books$Book_Author <-gsub("\n","",as.character(books$Book_Author))
-```
-
-```{r flip_flop_rows}
-
-books$Book_Author[books$Book_Author == 'Hair Love'] <- 'Cherry, Matthew A. and Vashti Harrison'
-
-books$Book_Author[books$Book_Author == 'New Kid'] <- 'Craft, Jerry'
-
-books$Book_Author[books$Book_Author == 'Melissa (George)'] <- 'Gino, Alex'
-
-books$Book_Author[books$Book_Author == 'A is for Activist'] <- 'Nagara, Innosanto'
-
-books$Book_Author[books$Book_Author == 'A good Kind of Trouble'] <- 'Ramee, Lisa Moore'
-
-books$Book_Author[books$Book_Author == 'Front Desk'] <- 'Yang, Kelly'
+count <- count[order(count$Freq),]
 
 ```
 
-```{r fixing_athors}
+Did the same for the other book tag
+```{r}
 
-books$Book_Author[books$Book_Author == 'a Bermudez, Cyn'] <- 'Bermudez, Cyn'
-
-books$Book_Author[books$Book_Author == 'a Garcia, Isabella'] <- 'Garcia, Isabella'
-
-books$Book_Author[books$Book_Author == 'a Rickards, Lynnea'] <- 'Rickards, Lynnea'
-
-books$Book_Author[books$Book_Author == 'a Taylor, Simon'] <- 'Taylor, Simon'
-
-books$Book_Author[books$Book_Author == 'Abike-Iyimide, Faridah'] <- 'Àbíké-Íyímídé, Faridah'
-
-books$Book_Author[books$Book_Author == 'Acevedo, ELizabeth'] <- 'Acevedo, Elizabeth'
-
-books$Book_Author[books$Book_Author == 'Adeyoha, Koja and Angel'] <- 'Adeyoha, Koja'
-
-books$Book_Author[books$Book_Author == 'Alexander, Kwame and Kadir Nelson'] <- 'Alexander, Kwame'
-
-books$Book_Author[books$Book_Author == 'Alexi, Sherman'] <- 'Sherman, Alexie'
-
-books$Book_Author[books$Book_Author == 'Alger, Christina'] <- 'Alger, Cristina'
-
-
-books$Book_Author<- gsub(".*Altman.*","Altman, Linda Jacobs", books$Book_Author)
-
-books$Book_Author[books$Book_Author == 'Al Desetta'] <- 'Desetta, Al'
-
-books$Book_Author[books$Book_Author == "Alverez, Julia"] <- "Alvarez, Julia"
-
-books$Book_Author[books$Book_Author == 'Anderson, Laurie'] <- 'Anderson, Laurie Halse'
-
-books$Book_Author[books$Book_Author == 'Anderson, Laurie Halse - Illustrated by Leila De Duca'] <- 'Anderson, Laurie Halse'
-
-books$Book_Author[books$Book_Author == 'Andrews, Troy "Trombone Short"'] <- 'Andrews, Troy'
-
-books$Book_Author[books$Book_Author == 'Angelu, Maya'] <- 'Angelou, Maya'
-
-books$Book_Author[books$Book_Author == 'Arnold, Elana K'] <- 'Arnold, Elana K.'
-
-books$Book_Author[books$Book_Author == 'Atwood, Margaret Adapted by Renee Nault'] <- 'Atwood, Margaret'
-
-books$Book_Author[books$Book_Author == 'Austrian, JJ'] <- 'Austrian, J.J.'
-
-books$Book_Author[books$Book_Author == 'Beige, Kathy'] <- 'Belge, Kathy'
-
-books$Book_Author[books$Book_Author == 'Belge, Kathy and Mark Bieschke'] <- 'Belge, Kathy'
-
-books$Book_Author[books$Book_Author == 'Belge, Kathy and Marke Bieschke'] <- 'Belge, Kathy'
-
-books$Book_Author[books$Book_Author == 'Bennett, Michae'] <- 'Bennett, Michael'
-
-books$Book_Author[books$Book_Author == 'Berenstain, Stan and Jan'] <- 'Berenstain, Stan'
-
-books$Book_Author[books$Book_Author == 'Bardoe, Cheryl and Barbara McClintock'] <- 'Bardoe, Cheryl'
-
-books$Book_Author[books$Book_Author == 'Blake, Ashley Herrin'] <- 'Blake, Ashley Herring'
-
-books$Book_Author[books$Book_Author == 'Blakemore, MT'] <- 'Blakemore, M.T.'
-
-books$Book_Author[books$Book_Author == 'Bolden, Tonya and Carol Anderson'] <- 'Bolden, Tonya'
-
-books$Book_Author[books$Book_Author == 'Braden, Anne'] <- 'Braden, Ann'
-
-books$Book_Author[books$Book_Author == 'Brock Cole'] <- 'Cole, Brock'
-
-books$Book_Author[books$Book_Author == 'Browne, Mahogany L, Elizabeth Acevedo, Olivia Gatwood'] <- 'Browne, Mahogany L'
-
-books$Book_Author[books$Book_Author == 'Cabot, MEg'] <- 'Cabot, Meg'
-
-books$Book_Author[books$Book_Author == 'Callender, Kheryn'] <- 'Callender, Kacen'
-
-books$Book_Author[books$Book_Author == 'Capetta, Amy Rose'] <- 'Capetta, AR'
-
-books$Book_Author[books$Book_Author == 'Celano, Marianne and Donald Moses'] <- 'Celano, Marianne'
-
-books$Book_Author[books$Book_Author == 'Cherry-Paul, SOnja, Jason Reynolds, Ibram X. Kendi, Rachelle Baker (Illustrator)'] <- 'Cherry-Paul, Sonja'
-
-books$Book_Author[books$Book_Author == 'Cherry, Matthew A. and Vashti Harrison'] <- 'Cherry, Matthew A.'
-
-books$Book_Author[books$Book_Author == 'Coates, Ta Nehisi'] <- 'Coates, Ta-Nehisi'
-
-books$Book_Author[books$Book_Author == 'Cohen, Adams'] <- 'Cohen, Adam'
-
-books$Book_Author[books$Book_Author == 'Cook, Trish and Brendan Halpin'] <- 'Cook, Trish'
-
-books$Book_Author[books$Book_Author == 'Coster, Katie De and Karen Swisher'] <- 'Coster, Katie De'
-
-books$Book_Author[books$Book_Author == 'Danforth, Emily'] <- 'Danforth, Emily M.'
-
-books$Book_Author[books$Book_Author == 'Dashka Slater'] <- 'Slater, Dashka'
-
-books$Book_Author[books$Book_Author == 'Dawnson, Juno and David Levithan'] <- 'Dawnson, Juno'
-
-books$Book_Author[books$Book_Author == 'De La Pena, Matt'] <- 'de la Pena, Matt'
-
-books$Book_Author[books$Book_Author == 'DeLaPena, Matt'] <- 'de la Pena, Matt'
-
-books$Book_Author[books$Book_Author == 'De La Pena Matt'] <- 'de la Pena, Matt'
-
-books$Book_Author[books$Book_Author == 'Delpit, Lisa'] <- 'Delpit, Lisa D.'
-
-books$Book_Author[books$Book_Author == 'Draper, Sharon'] <- 'Draper, Sharon M.'
-
-books$Book_Author[books$Book_Author == 'Draper, Sharon M'] <- 'Draper, Sharon M.'
-
-books$Book_Author[books$Book_Author == 'Dunbar-Ortiz, Roxanne and Debbie Reese'] <- 'Dunbar-Ortiz, Roxanne'
-
-books$Book_Author[books$Book_Author == 'Duncan, Louis'] <- 'Duncan, Lois'
-
-books$Book_Author[books$Book_Author == 'Durrow, Heidi'] <- 'Durrow, Heidi W'
-
-books$Book_Author[books$Book_Author == 'Elana Arnold'] <- 'Arnold, Elana K.'
-
-books$Book_Author[books$Book_Author == 'Elizabeth Acevedo'] <- 'Acevedo, Elizabeth'
-
-books$Book_Author[books$Book_Author == 'Ellen Hopkins'] <- 'Hopkins, Ellen'
-
-books$Book_Author[books$Book_Author == 'Emez, Akwaeke'] <- 'Emezi, Akwaeke'
-
-books$Book_Author[books$Book_Author == 'Erica L. Sanchez'] <- 'Sanchez, EriKa L.'
-
-books$Book_Author[books$Book_Author == 'España, Carla and Yadira, Luz'] <- 'España, Carla'
-
-books$Book_Author[books$Book_Author == 'Evison, Jonthan'] <- 'Evison, Jonathan'
-
-books$Book_Author[books$Book_Author == 'Evison, JOnathan'] <- 'Evison, Jonathan'
-
-books$Book_Author[books$Book_Author == 'Faruqi, Saadia and Laura Shovan'] <- 'Faruqi, Saadia'
-
-books$Book_Author[books$Book_Author == 'Finch, Michelle and Phoenix FInch'] <- 'Finch, Michelle'
-
-books$Book_Author[books$Book_Author == 'Folman, Ari and David Polonsky'] <- 'Folman, Ari'
-
-books$Book_Author[books$Book_Author == 'Franklin, Tee, St. Onge Jenn, and Joy San'] <- 'Franklin, Tee'
-
-books$Book_Author[books$Book_Author == 'G, Mady and Jules Zuckerberg'] <- 'G., Mady'
-
-books$Book_Author[books$Book_Author == 'Gail Gibbons'] <- 'Gibbons, Gail'
-
-books$Book_Author[books$Book_Author == 'Gale, Hather'] <- 'Gale, Heather'
-
-books$Book_Author[books$Book_Author == 'Garcia, Christina'] <- 'Garcia, Cristina'
-
-books$Book_Author[books$Book_Author == 'Geneva Gay'] <- 'Gay, Geneva'
-
-books$Book_Author[books$Book_Author == 'George, Linda and Charles'] <- 'George, Linda'
-
-books$Book_Author[books$Book_Author == 'Girard, ME'] <- 'Girard, M-E.'
-
-books$Book_Author[books$Book_Author == 'Girard, M-E'] <- 'Girard, M-E.'
-
-books$Book_Author[books$Book_Author == 'Goffried, BT'] <- 'Gottfred, BT'
-
-books$Book_Author[books$Book_Author == 'Goffred, BT'] <- 'Gottfred, BT'
-
-books$Book_Author[books$Book_Author == 'Gonzalez, Rigoberto'] <- 'González, Rigoberto'
-
-books$Book_Author[books$Book_Author == 'Goode, L.'] <- 'Goode, Laura'
-
-books$Book_Author[books$Book_Author == 'Gowen, L. Kris'] <- 'Gowen, Kris'
-
-books$Book_Author[books$Book_Author == 'Gregorio, IW'] <- 'Gregorio, I. W.'
-
-books$Book_Author[books$Book_Author == 'Grehen, Meg'] <- 'Grehan, Meg'
-
-books$Book_Author[books$Book_Author == 'Haris, Robie'] <- 'Harris, Robie H.'
-
-books$Book_Author[books$Book_Author == 'Haris, Robie H.'] <- 'Harris, Robie H.'
-
-books$Book_Author[books$Book_Author == 'Harris, Robie'] <- 'Harris, Robie H.'
-
-books$Book_Author[books$Book_Author == 'Harris, RObie'] <- 'Harris, Robie H.'
-
-books$Book_Author[books$Book_Author == 'HaSler, Nikol'] <- 'Hasler, Nikol.'
-
-books$Book_Author[books$Book_Author == 'Harzler, Aaron'] <- 'Hartzler, Aaron'
-
-books$Book_Author[books$Book_Author == 'Henderson, Elizabeth'] <- 'Henderson, Elisabeth'
-
-books$Book_Author[books$Book_Author == 'Hendriks, Jenni and Ted Caplan'] <- 'Hendriks, Jenni'
-
-books$Book_Author[books$Book_Author == 'Hennessey, MG'] <- 'Hennessey, M. G.'
-
-books$Book_Author[books$Book_Author == 'Herthel, Jessica and Jazz Jennings'] <- 'Herthel, Jessica'
-
-books$Book_Author[books$Book_Author == 'Herthel, Jessicas and Jazz Jennings'] <- 'Herthel, Jessica'
-
-books$Book_Author[books$Book_Author == 'Hierstein, Harvey and Henry Cole'] <- 'Hierstein, Harvey'
-
-books$Book_Author[books$Book_Author == 'Hoffman, Mary and Caroline Binch'] <- 'Hoffman, Mary'
-
-books$Book_Author[books$Book_Author == 'Homes, AM'] <- 'Homes, A. M.'
-
-books$Book_Author[books$Book_Author == 'hooks, bell'] <- 'Hooks, Bell'
-
-books$Book_Author[books$Book_Author == 'hopkins, Ellen'] <- 'Hopkins, Ellen'
-
-books$Book_Author[books$Book_Author == 'Hosseni, Khaled'] <- 'Hosseini, Khaled'
-
-books$Book_Author[books$Book_Author == 'Hutchinson, Shaun Dave'] <- 'Hutchinson, Shaun David'
-
-books$Book_Author[books$Book_Author == 'Iris Chang'] <- 'Chang, Iris'
-
-books$Book_Author[books$Book_Author == 'Jackson, Tiffany'] <- 'Jackson, Tiffany D.'
-
-books$Book_Author[books$Book_Author == 'Jackson, Tiffany D'] <- 'Jackson, Tiffany D.'
-
-books$Book_Author[books$Book_Author == 'Jennings, Jazz and Jessica Herthel'] <- 'Jennings, Jazz'
-
-books$Book_Author[books$Book_Author == 'Jennings, Jazz aned Jessica Herthel'] <- 'Jennings, Jazz.'
-
-books$Book_Author[books$Book_Author == 'Jennings, Jazz.'] <- 'Jennings, Jazz'
-
-books$Book_Author[books$Book_Author == 'Jessica Herthel'] <- 'Herthel, Jessica'
-
-books$Book_Author[books$Book_Author == 'John Green'] <- 'Green, John'
-
-books$Book_Author[books$Book_Author == 'Johnson'] <- 'Sanders, Rob'
-
-books$Book_Author[books$Book_Author == 'Johnson, Catherine G'] <- 'Johnson, Cathy G.'
-
-books$Book_Author[books$Book_Author == 'Johnson, Cathy'] <- 'Johnson, Cathy G.'
-
-books$Book_Author[books$Book_Author == 'Johnson, Cathy G'] <- 'Johnson, Cathy G.'
-
-books$Book_Author[books$Book_Author == 'Johnston, EK'] <- 'Johnston, E. K'
-
-books$Book_Author[books$Book_Author == 'Katz, karen'] <- 'Katz, Karen'
-
-books$Book_Author[books$Book_Author == 'Kendi, Ibram'] <- 'Kendi, Ibram X.'
-
-books$Book_Author[books$Book_Author == 'Kendi, Ibram X'] <- 'Kendi, Ibram X.'
-
-books$Book_Author[books$Book_Author == 'Kendi, Ibram X and Jason Reynolds'] <- 'Kendi, Ibram X.'
-
-books$Book_Author[books$Book_Author == 'Khaled H0sseini'] <- 'Hosseini, Khaled'
-
-books$Book_Author[books$Book_Author == 'King, AS'] <- 'King, A. S.'
-
-books$Book_Author[books$Book_Author == 'Klein, Rebecca T'] <- 'Klein, Rebecca T.'
-
-books$Book_Author[books$Book_Author == 'Knowles, Johanna'] <- 'Knowles, Jo'
-
-books$Book_Author[books$Book_Author == 'kostecki-shaw, Jenny Sue'] <- 'Kostecki-Shaw, Jenny Sue'
-
-books$Book_Author[books$Book_Author == 'Kuhlman, Evan and Chuck Groenink'] <- 'Kuhlman, Evan'
-
-books$Book_Author[books$Book_Author == 'Kuntz, Doug & Shrodes, Amy'] <- 'Kuntz, Doug'
-
-books$Book_Author[books$Book_Author == 'Leviathan, David and Billy Merrell'] <- 'Leviathan, David'
-
-books$Book_Author[books$Book_Author == 'Leviathan, David'] <- 'Levithan, David'
-
-books$Book_Author[books$Book_Author == 'Levy, Dana'] <- 'Levy, Dana Alison'
-
-books$Book_Author[books$Book_Author == 'lockart, E'] <- 'Lockhart, E.'
-
-books$Book_Author[books$Book_Author == 'Lockart, E'] <- 'Lockhart, E.'
-
-books$Book_Author[books$Book_Author == 'lockhart, e'] <- 'Lockhart, E.'
-
-books$Book_Author[books$Book_Author == 'Lockhart, E'] <- 'Lockhart, E.'
-
-books$Book_Author<- gsub(".*Lumumba, Chokwa.*","Lumumba, Chokwa", books$Book_Author)
-
-books$Book_Author[books$Book_Author == 'Lyons, Kelly Starling and Keith Mallett'] <- 'Lyons, Kelly Starling'
-
-books$Book_Author[books$Book_Author == 'Lyons, Maddoz and Jessica Verdi'] <- 'Lyons, Maddoz'
-
-books$Book_Author[books$Book_Author == 'M.T. Anderson'] <- 'Anderson, M.T.'
-
-books$Book_Author[books$Book_Author == 'Lynette Knapp'] <- 'Knapp, Lynette'
-
-books$Book_Author[books$Book_Author == 'Maas, Sarah J'] <- 'Maas, Sarah J.'
-
-books$Book_Author[books$Book_Author == 'Madison, Megan, JEssica Ralli and Isabel Roxas'] <- 'Madison, Megan'
-
-books$Book_Author[books$Book_Author == 'Mafi, Tehereh'] <- 'Mafi, Tahereh'
-
-books$Book_Author[books$Book_Author == 'Mariko Tamaki, Jillian Tamaki'] <- 'Tamaki, Mariko'
-
-books$Book_Author[books$Book_Author == 'Marino Tamaki'] <- 'Tamaki, Mariko'
-
-books$Book_Author[books$Book_Author == 'Marley, Bob and Cedella Marley'] <- 'Marley, Bob'
-
-books$Book_Author[books$Book_Author == 'Mathreu, Jennifer'] <- 'Mathieu, Jennifer'
-
-books$Book_Author[books$Book_Author == 'matthew and maya'] <- 'Gonzalez, Maya'
-
-books$Book_Author[books$Book_Author == 'McCormick'] <- 'McCormick, Patricia'
-
-books$Book_Author[books$Book_Author == 'McCormick, Patrica'] <- 'McCormick, Patricia'
-
-books$Book_Author[books$Book_Author == 'McCoy, Kathy and Charles Wibbelsman'] <- 'McCoy, Kathy'
-
-books$Book_Author[books$Book_Author == 'McDaniel, Breanna'] <- 'McDaniel, Breanna J.'
-
-books$Book_Author[books$Book_Author == 'McDonough, Zeldis Yona'] <- 'McDonough, Yona Zeldis'
-
-books$Book_Author[books$Book_Author == 'McDonough, Zeldis'] <- 'McDonough, Yona Zeldis'
-
-books$Book_Author[books$Book_Author == 'McLemore, Anna- Marie'] <- 'McLemore, Anna-Marie'
-
-books$Book_Author[books$Book_Author == 'Mean, Richelle'] <- 'Mead, Richelle'
-
-books$Book_Author[books$Book_Author == 'Milner, Denene'] <- 'Millner, Denene'
-
-books$Book_Author[books$Book_Author == 'Moore, Michel & Penick-Parks'] <- 'Moore, Michel'
-
-books$Book_Author[books$Book_Author == 'Molly Knox Ostertag'] <- 'Ostertag, Molly Knox'
-
-books$Book_Author[books$Book_Author == 'Mora, Oga'] <- 'Mora, Oge'
-
-books$Book_Author[books$Book_Author == 'MOrrison, Toni'] <- 'Morrison, Toni'
-
-books$Book_Author[books$Book_Author == 'Muhammad, Ibtihaj and SK Ali'] <- 'Muhammad, Ibtihaj'
-
-books$Book_Author[books$Book_Author == 'Myers'] <- 'Myers, Jason'
-
-books$Book_Author[books$Book_Author == 'Nault, Renee and Atwood Margaret'] <- 'Atwood, Margaret'
-
-books$Book_Author[books$Book_Author == 'Neal, DeShanna and Trinity Neal'] <- 'Neal, Deshanna'
-
-books$Book_Author[books$Book_Author == 'Newman, Leslea'] <- 'Newman, Lesléa'
-
-books$Book_Author[books$Book_Author == 'Newman, Leslea and Laura Cornell'] <- 'Newman, Lesléa'
-
-books$Book_Author[books$Book_Author == 'Nyongo, Lupia'] <- "Nyong'o, Lupita"
-
-books$Book_Author[books$Book_Author == 'Oluo, Ileoma'] <- 'Oluo, Ijeoma'
-
-books$Book_Author[books$Book_Author == 'Ostertag, Molly'] <- 'Ostertag, Molly Knox'
-
-books$Book_Author[books$Book_Author == 'Pancholy Maulik'] <- 'Pancholy, Maulik'
-
-books$Book_Author[books$Book_Author == 'Paris & Alim'] <- 'Paris, Django'
-
-books$Book_Author[books$Book_Author == 'Patricia McCormick'] <- 'McCormick, Patricia'
-
-books$Book_Author[books$Book_Author == 'Pearlmann, Robb'] <- 'Pearlman, Robb'
-
-books$Book_Author[books$Book_Author == 'Pena, de la Matt'] <- 'de la Pena, Matt'
-
-books$Book_Author[books$Book_Author == 'Perez, Ashley Hope'] <- 'Pérez, Ashley Hope'
-
-books$Book_Author[books$Book_Author == 'Perez, Ashley HOpe'] <- 'Pérez, Ashley Hope'
-
-books$Book_Author[books$Book_Author == 'PErez, Ashley Hope'] <- 'Pérez, Ashley Hope'
-
-books$Book_Author[books$Book_Author == 'Peters, Julie Ann'] <- 'Peters, Julie Anne'
-
-books$Book_Author[books$Book_Author == 'PhD Harris, Duchess and Myra Faye Turner'] <- 'Harris, Duchess'
-
-books$Book_Author[books$Book_Author == 'Pitman, Gayle'] <- 'Pitman, Gayle E'
-
-books$Book_Author[books$Book_Author == 'Polacco, Patrica'] <- 'Polacco, Patricia'
-
-books$Book_Author[books$Book_Author == 'Pollack, Pam and Meg Belviso'] <- 'Pollack, Pam'
-
-books$Book_Author[books$Book_Author == 'Prince, LIz'] <- 'Prince, Liz'
-
-books$Book_Author[books$Book_Author == 'Pttman, Gayle'] <- 'Pitman, Gayle E'
-
-books$Book_Author[books$Book_Author == 'Pttman, Gayle E'] <- 'Pitman, Gayle E'
-
-books$Book_Author[books$Book_Author == 'Ralli, Jessica and Megan Madison'] <- 'Ralli, Jessica'
-
-books$Book_Author[books$Book_Author == 'Reed, Amy Lynn'] <- 'Reed, Amy'
-
-books$Book_Author[books$Book_Author == 'Renolds, Jason and Ibram Xendi'] <- 'Reynolds, Jason'
-
-books$Book_Author[books$Book_Author == 'Reynolds, Jason and Ibram X Kendi'] <- 'Reynolds, Jason'
-
-books$Book_Author[books$Book_Author == 'Reynolds, Jason and Ibram X. Kendi'] <- 'Reynolds, Jason'
-
-books$Book_Author[books$Book_Author == 'Reynolds, Jason and Igrahm X. Kendi'] <- 'Reynolds, Jason'
-
-books$Book_Author[books$Book_Author == 'Rhodes, Jewel Parker'] <- 'Rhodes, Jewell Parker'
-
-books$Book_Author[books$Book_Author == 'Richardson, Justin and Peter Parnell'] <- 'Richardson, Justin'
-
-books$Book_Author[books$Book_Author == 'Rodi, Robert and Laura Ross'] <- 'Rodi, Robert'
-
-books$Book_Author[books$Book_Author == 'Rotner, Shelly and Sheila Kelly'] <- 'Rotner, Shelly'
-
-books$Book_Author[books$Book_Author == 'Russon, Meredith'] <- 'Russo, Meredith'
-
-books$Book_Author[books$Book_Author == 'Saad, Layla'] <- 'Saad, Layla F.'
-
-books$Book_Author[books$Book_Author == 'Saad, Layla F'] <- 'Saad, Layla F.'
-
-books$Book_Author[books$Book_Author == 'Sabin, Francene and Joann Early Macken'] <- 'Sabin, Francene'
-
-books$Book_Author[books$Book_Author == 'Saenz, Benjamin Alire'] <- 'Sáenz, Benjamin Alire'
-
-books$Book_Author[books$Book_Author == 'Sanchez, Erika'] <- 'Sanchez, Erika L.'
-
-books$Book_Author[books$Book_Author == 'Sanchez, Erica L.'] <- 'Sanchez, Erika L.'
-
-books$Book_Author[books$Book_Author == 'Sarah J Maas'] <- 'Maas, Sarah J.'
-
-books$Book_Author[books$Book_Author == 'Schwab, VE'] <- 'Schwab, V.E.'
-
-books$Book_Author[books$Book_Author == 'Seba, Jaime'] <- 'Seba, Jaime A.'
-
-books$Book_Author[books$Book_Author == 'Seabold, Alice'] <- 'Sebold, Alice'
-
-books$Book_Author[books$Book_Author == 'Seeger, Pete and Paul Debois Jacobs'] <- 'Seeger, Pete'
-
-books$Book_Author[books$Book_Author == 'Sherman Alexie'] <- 'Sherman, Alexie'
-
-books$Book_Author[books$Book_Author == 'Septys,Ruta'] <- 'Sepetys, Ruta'
-
-books$Book_Author[books$Book_Author == 'Shetterly, Margo Lee with Winifred Conkling'] <- 'Shetterly, Margo Lee'
-
-books$Book_Author[books$Book_Author == 'Slater, Dashkta'] <- 'Slater, Dashka'
-
-books$Book_Author[books$Book_Author == 'Sleeter, Zavala, and Banks'] <- 'Sleeter, Christine E.'
-
-books$Book_Author[books$Book_Author == 'Slim, Tara'] <- 'Sim, Tara'
-
-books$Book_Author[books$Book_Author == 'Sloan, Holly Goldberg and Meg Wolitzer'] <- 'Sloan, Holly Goldberg'
-
-books$Book_Author[books$Book_Author == 'Sltani, Amir & Khalil'] <- 'Khalil, Amir'
-
-books$Book_Author[books$Book_Author == 'Solomon, Akiba and Rankin, Kenrya'] <- 'Solomon, Akiba'
-
-books$Book_Author[books$Book_Author == 'Stassen, JP'] <- 'Stassen, Jean-Philippe'
-
-books$Book_Author[books$Book_Author == 'Steinbeck, JOhn'] <- 'Steinbeck, John'
-
-books$Book_Author[books$Book_Author == 'Stephen Chbosky'] <- 'Chbosky, Stephen'
-
-books$Book_Author[books$Book_Author == 'Stevenson, Robin'] <- 'Stevenson, Robin H.'
-
-books$Book_Author[books$Book_Author == 'Stohl, Margaret and Lewis Peterson'] <- 'Stohl, Margaret'
-
-books$Book_Author[books$Book_Author == 'Susan Shaw'] <- 'Shaw, Susan'
-
-books$Book_Author[books$Book_Author == 'Tamaki, Mariko and Jillian Tamaki'] <- 'Tamaki, Mariko'
-
-books$Book_Author[books$Book_Author == 'Tamara L. Roleff'] <- 'Roleff, Tamara L.'
-
-books$Book_Author[books$Book_Author == 'Tatum, Beverly'] <- 'Tatum, Beverly Daniel'
-
-books$Book_Author[books$Book_Author == 'Tavares, Mat'] <- 'Tavares, Matt'
-
-books$Book_Author[books$Book_Author == 'Ten Boom, Corrie, John Sherril, et al'] <- 'Ten Boom, Corrie'
-
-books$Book_Author[books$Book_Author == 'The Nib/Bors, Matt'] <- 'Bors, Matt'
-
-books$Book_Author[books$Book_Author == 'Tonatiuh, Dundan'] <- 'Tonatiuh, Duncan'
-
-books$Book_Author[books$Book_Author == 'Tonatium, Duncan'] <- 'Tonatiuh, Duncan'
-
-books$Book_Author[books$Book_Author == 'Toni Morrison'] <- 'Morrison, Toni'
-
-books$Book_Author[books$Book_Author == 'Ukazu, Mgozi'] <- 'Ukazu, Ngozi'
-
-books$Book_Author[books$Book_Author == 'V.E. Schwab'] <- 'Schwab, V.E.'
-
-books$Book_Author[books$Book_Author == 'Vaughan, Brian K and Pia Guerra'] <- 'Vaughan, Brian K.'
-
-books$Book_Author[books$Book_Author == 'Vaughan, Brian K'] <- 'Vaughan, Brian K.'
-
-books$Book_Author[books$Book_Author == 'Venable, Colleen AF'] <- 'Venable, Colleen A. F.'
-
-books$Book_Author[books$Book_Author == 'Wiesel, Elie'] <- 'Wiesel, Ellie'
-
-books$Book_Author[books$Book_Author == 'WIlliamson, Lisa'] <- 'Williamson, Lisa'
-
-books$Book_Author[books$Book_Author == 'Winfield, Cynthia'] <- 'Winfield, Cynthia L.'
-
-books$Book_Author[books$Book_Author == 'Wing, Kelisa and Leigh Ann Erickson'] <- 'Wing, Kelisa'
-
-books$Book_Author[books$Book_Author == 'Ziemke, Kristin and Katie Muhtaris'] <- 'Ziemke, Kristin'
-
-```
-
-```{r counting_authors}
-books %>% 
-  count(`Book_Author`)
-```
-
-```{r adding_Co_Author}
-
-books$Book_Co_Author[which(books$Book_Title == "The Handmaid's Tale: The Graphic Novel")] <- "Nault, Renee"
-
-books$Book_Co_Author[which(books$Book_Title == "Queer: The Ultimate Lgbtq Guide For Teens")] <- "Marke Bieschke"
-
-books$Book_Co_Author[which(books$Book_Title == "We Are Not Yet Equal - Understanding Our Racial Divide")] <- "Anderson, Carol"
-
-books$Book_Co_Author[which(books$Book_Title == "Woke: A Poet's Call To Justice")] <- "Acevedo, Elizabeth"
-
-books$Book_Co_Author[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Reynolds, Jason"
-
-books$Book_Co_Author[which(books$Book_Title == "Hair Love")] <- "Harrison, Harrison"
-
-books$Book_Co_Author[which(books$Book_Title == "Notes From The Blender")] <- "Halpin, Brendan"
-
-books$Book_Co_Author[which(books$Book_Title == "En Comunidad")] <- "Herrera, Luz Yadira"
-
-books$Book_Co_Author[which(books$Book_Title == "A Place At The Table")] <- "Shovan, Laura"
-
-books$Book_Co_Author[which(books$Book_Title == "Anne Frank's Diary: The Graphic Adaption")] <- "Polonsky, David"
-
-books$Book_Co_Author[which(books$Book_Title == "Unpregnant")] <- "Caplan, Ted"
-
-books$Book_Co_Author[which(books$Book_Title == "I Am Jazz")] <- "Jennings, Jazz"
-
-books$Book_Author[which(books$Book_Title == "I Am Jazz")] <- "Herthel, Jessica"
-
-books$Book_Co_Author[which(books$Book_Title == "Stamped: Racism, Antiracism And You")] <- "Kendi, Ibram X."
-
-books$Book_Co_Author[which(books$Book_Title == "Lost And Found Cat")] <- "Shrodes, Amy"
-
-books$Book_Co_Author[which(books$Book_Title == "The Full Spectrum: A New Generation Of Writing About Gay, Lesbian, Bisexual, Transgender, Questioning And Other Identitieiies")] <- "Merrell, Billy"
-
-books$Book_Co_Author[which(books$Book_Title == "I'm Not A Girl")] <- "Verdi, Jessica"
-
-books$Book_Co_Author[which(books$Book_Title == "Our Skin: A First Conversation About Race")] <- "Ralli, Jessica"
-
-books$Book_Co_Author[which(books$Book_Title == "Get Up, Stand Up")] <- "Marley, Cedella"
-
-books$Book_Co_Author[which(books$Book_Title == "They, She, He Easy As Abc")] <- "SG, Matthew"
-
-books$Book_Co_Author[which(books$Book_Title == "The Teenage Body Book")] <- "Wibbelsman, Charles"
-
-books$Book_Co_Author[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Michael, Ali"
-
-books$Book_Co_Author[which(books$Book_Title == "The Proudest Blue: A Story Of Hijab And Family")] <- "Ali, S.K"
-
-books$Book_Co_Author[which(books$Book_Title == "My Rainbow")] <- "Neal, Trinity"
-
-books$Book_Co_Author[which(books$Book_Title == "Culturally Sustaining Pedagogies")] <- "Alim, H. Samy"
-
-books$Book_Co_Author[which(books$Book_Title == "Who Was Lucille Ball")] <- "Belviso, Meg"
-
-books$Book_Co_Author[which(books$Book_Title == "Who Was Susan B Anthony?")] <- "Belviso, Meg"
-
-books$Book_Co_Author[which(books$Book_Title == "And Tango Makes Three")] <- "Parnell, Peter"
-
-books$Book_Co_Author[which(books$Book_Title == "Shades Of People")] <- "Kelly, Sheila M."
-
-books$Book_Co_Author[which(books$Book_Title == "The Deaf Musicians")] <- "Jacobs, Paul DuBois"
-
-books$Book_Co_Author[which(books$Book_Title == "Transformative Ethnic Studies In Schools")] <- "Zavala, Miguel"
-
-books$Book_Co_Author[which(books$Book_Title == "To Night Owl From Dogfish")] <- "Wolitzer, Meg"
-
-books$Book_Co_Author[which(books$Book_Title == "Zahra's Paradise")] <- "Soltani, Amir"
-
-books$Book_Co_Author[which(books$Book_Title == "How We Fight White Supremacy")] <- "Rankin, Kenrya"
-
-books$Book_Co_Author[which(books$Book_Title == "Cats Vs Robots: This Is War")] <- "Peterson, Lewis"
-
-books$Book_Co_Author[which(books$Book_Title == "What Is White Privilege")] <- "Erickson, Leigh Ann"
-
-books$Book_Co_Author[which(books$Book_Title == "Gender Queer: A Memoir")] <- NA
+books2$Book_Tag <- str_to_title(books2$Book_Tag)
 
 ```
 
 ```{r}
 
-books %>% 
-  count(Book_Co_Author)
+books2$Book_Tag <-gsub(" ", "", books2$Book_Tag, fixed = TRUE)
 
 ```
 
 ```{r}
 
-books$Book_Co_Author_2 <- NA
+books2 <-books2  %>% 
+   separate(Book_Tag,c("Book_Tag1","Book_Tag2", "Book_Tag3", "Book_Tag4",
+                       "Book_Tag5", "Book_Tag6", "Book_Tag7",
+                       "Book_Tag8","Book_Tag9"),sep=",")
 
 ```
 
-```{r adding_Co_Author_2}
+To simplify the project I decided to look at only ya books. The reasoning behind this is that these book challenges are there to "protect the children", and that is why I didn't pick adult. At the same time if I chose young adult, there would be chance that I could get some spill over into the other two categories.
+```{r}
 
-books$Book_Co_Author_2[which(books$Book_Title == "Woke: A Poet's Call To Justice")] <- "Gatwood, Olivia"
+ya_books <- books %>% filter(grepl('YoungAdult', Book_Tag))
 
-books$Book_Co_Author_2[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Kendi, Ibram X."
+```
 
-books$Book_Co_Author_2[which(books$Book_Title == "The Guide For White Women Who Teach Black Boys")] <- "Penick-Parks, Marguerite W."
+
+Due to time contstraints I was only able to find 386 young adult books that weren't challenged to build the model, so I had to take a sample of the challenged ya books.
+```{r}
+set.seed(123)
+
+ya_sample <- ya_books[sample(1:nrow(ya_books), 386), ]
+```
+
+breaking the challenged ya books tags into individual columns
+```{r}
+
+ya_sample <-ya_sample  %>% 
+   separate(Book_Tag,c("Book_Tag1","Book_Tag2", "Book_Tag3", "Book_Tag4",
+                       "Book_Tag5", "Book_Tag6", "Book_Tag7",
+                       "Book_Tag8","Book_Tag9"),sep=",")
+
+```
+
+Creating a dataframe to look at the counts on individual tags in the the challenged ya books
+```{r}
+ya_tags <- test[,c(3:11)]
+```
+
+```{r}
+sample_count <- table(unlist(ya_tags)); perc <- 100*count/sum(sample_count)
+```
+
+```{r}
+sample_count <- as.data.frame(sample_count)
+```
+
+```{r}
+
+sample_count <- sample_count[order(sample_count$Freq),]
+```
+
+
+```{r}
+ya_sample <- ya_sample[,c(2,1,3:12)]
+```
+
+```{r}
+
+colnames(books2)[1] = "Book_Title"
 
 ```
 
 ```{r}
 
-books %>% 
-  count(Book_Co_Author_2)
+colnames(ya_sample)[12] = "Challenged"
 
 ```
 
 ```{r}
-
-books$Illustrators[which(books$Book_Title == "Wonder Woman: Tempest Tossed")] <- "del Duca, Leila"
-
-books$Illustrators[which(books$Book_Title == "Stamped (For Kids): Racism, Anti-Racism And You")] <- "Baker, Rachelle"
-
-books$Illustrators[which(books$Book_Title == "Bingo Love")] <- "St-Onge, Jenn"
-
-books$Illustrators[which(books$Book_Title == "The Sissy Duckling")] <- "Cole, Henry"
-
-books$Illustrators[which(books$Book_Title == "Amazing Grace")] <- "Binch, Caroline"
-
-books$Illustrators[which(books$Book_Title == "Hank's Big Day: The Story Of A Bug")] <- "Groenink, Chuck"
-
-books$Illustrators[which(books$Book_Title == "Sing A Song")] <- "Mallett, Keith"
-
-books$Illustrators[which(books$Book_Title == "Our Skin: A First Conversation About Race")] <- "Roxas, Isabel"
-
-books$Illustrators[which(books$Book_Title == "This One Summer")] <- "Tamaki, Jillian"
-
-books$Illustrators[which(books$Book_Title == "Y: The Last Man")] <- "Guerra, Pia"
-
+book_data <- rbind(ya_sample, books2)
 ```
 
 
 ```{r}
-books %>% 
-  count(Illustrators)
+book_data <- book_data[sample(1:nrow(book_data)), ]
 ```
 
+I chose to look at how the top five tags for the challenged data would look like.
+```{r}
 
+book_data <- book_data %>%
+  mutate(LGBT = case_when(Book_Tag1 == 'Lgbt' | 
+                          Book_Tag2 == "Lgbt" | 
+                          Book_Tag3 == 'Lgbt' | 
+                          Book_Tag4 == "Lgbt" | 
+                          Book_Tag5 == 'Lgbt' | 
+                          Book_Tag6 == "Lgbt" | 
+                          Book_Tag7 == 'Lgbt' | 
+                          Book_Tag8 == "Lgbt" |
+                          Book_Tag9 == "Lgbt"~1,
+                          TRUE ~ 0))
+```
 
+```{r}
 
+book_data <- book_data %>%
+  mutate(Contemporary = case_when(Book_Tag1 == 'Contemporary' | 
+                          Book_Tag2 == 'Contemporary' | 
+                          Book_Tag3 == 'Contemporary' | 
+                          Book_Tag4 == 'Contemporary' | 
+                          Book_Tag5 == 'Contemporary' | 
+                          Book_Tag6 == 'Contemporary' | 
+                          Book_Tag7 == 'Contemporary' | 
+                          Book_Tag8 == 'Contemporary' |
+                          Book_Tag9 == 'Contemporary'~1,
+                           TRUE ~ 0))
+```
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Romance = case_when(Book_Tag1 == 'Romance' | 
+                             Book_Tag2 == 'Romance' | 
+                             Book_Tag3 == 'Romance' | 
+                             Book_Tag4 == 'Romance' | 
+                             Book_Tag5 == 'Romance' | 
+                             Book_Tag6 == 'Romance' | 
+                             Book_Tag7 == 'Romance' | 
+                             Book_Tag8 == 'Romance' |
+                             Book_Tag9 == 'Romance'~1,
+                           TRUE ~ 0))
+```
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Realistic_Fiction = case_when(Book_Tag1 == 'RealisticFiction' | 
+                                       Book_Tag2 == 'RealisticFiction' | 
+                                       Book_Tag3 == 'RealisticFiction' | 
+                                       Book_Tag4 == 'RealisticFiction' | 
+                                       Book_Tag5 == 'RealisticFiction' | 
+                                       Book_Tag6 == 'RealisticFiction' | 
+                                       Book_Tag7 == 'RealisticFiction' | 
+                                       Book_Tag8 == 'RealisticFiction' |
+                                       Book_Tag9 == 'RealisticFiction'~1,
+                                       TRUE ~ 0))
+```
+
+```{r}
+
+book_data <- book_data %>%
+  mutate(Childrens = case_when(Book_Tag1 == 'Childrens' | 
+                               Book_Tag2 == 'Childrens' | 
+                               Book_Tag3 == 'Childrens' | 
+                               Book_Tag4 == 'Childrens' | 
+                               Book_Tag5 == 'Childrens' | 
+                               Book_Tag6 == 'Childrens' | 
+                               Book_Tag7 == 'Childrens' | 
+                               Book_Tag8 == 'Childrens' |
+                               Book_Tag9 == 'Childrens'~1,
+                                       TRUE ~ 0))
+```
