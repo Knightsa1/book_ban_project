@@ -100,7 +100,11 @@ books2 <-books2  %>%
 
 ```
 
-To simplify the project I decided to look at only ya books. The reasoning behind this is that these book challenges are there to "protect the children", and that is why I didn't pick adult. At the same time if I chose young adult, there would be chance that I could get some spill over into the other two categories.
+To simplify the project I decided to look at only ya books. The reasoning behind this is that 
+these book challenges are there to "protect the children", and that is why I didn't pick adult. 
+At the same time if I chose young adult, there would be chance that I could get some spill over 
+into the other two categories.
+
 ```{r finding_young_adult_book}
 
 ya_books <- books %>% filter(grepl('YoungAdult', Book_Tag))
@@ -135,7 +139,9 @@ ya_count <- ya_count[order(ya_count$Freq, decreasing=TRUE),]
 ```
 
 
-Due to time constraints I was only able to find 386 young adult books that weren't challenged to build the model, so I had to take a sample of the challenged ya books.
+Due to time constraints I was only able to find 386 young adult books that weren't challenged 
+to build the model, so I had to take a sample of the challenged ya books.
+
 ```{r grabing_a_collection_of_ya_books}
 set.seed(123)
 
@@ -180,7 +186,12 @@ book_domain <- book_data
 book_data <- book_data[sample(1:nrow(book_data)), ]
 ```
 
-My first idea is to look that top tags in the challenged ya books data set and see if that tells me anything. The first two tags are YoungAdult and Fiction. YoungAdult should be tagged in every book and ultimately won't be helpful. With Fiction I think this will be tagged on a lot of books. Also there will be more specific fiction tags like RealisticFiction and HistoricalFiction.
+My first idea is to look that top tags in the challenged ya books data set and see 
+if that tells me anything. The first two tags are YoungAdult and Fiction. YoungAdult 
+should be tagged in every book and ultimately won't be helpful. With Fiction I think 
+this will be tagged on a lot of books. Also there will be more specific fiction tags 
+like RealisticFiction and HistoricalFiction.
+
 I chose to look at how the top five tags for the challenged data would look like.
 
 ```{r making_a_dummy_for_Contemporary}
@@ -340,8 +351,9 @@ book_test <- testing(books_split)
 
 ```{r logistical_regression}
 
-log_reg <- glm(Challenged ~ LGBT + Contemporary + Romance + Realistic_Fiction + Fantasy + Middle_Grade + Graphic_Novels + Historical_Fiction + Mystery
-               , data = book_train, family = "binomial")
+log_reg <- glm(Challenged ~ LGBT + Contemporary + Romance + Realistic_Fiction + 
+                            Fantasy + Middle_Grade + Graphic_Novels + Historical_Fiction + Mystery
+                           , data = book_train, family = "binomial")
 
 summary(log_reg)
 ```
@@ -399,7 +411,11 @@ finding_r_squared <- lrm(Challenged ~ LGBT + Realistic_Fiction + Middle_Grade + 
 
 finding_r_squared
 ```
-I found this [stackExchange] (https://stats.stackexchange.com/questions/8511/how-to-calculate-pseudo-r2-from-rs-logistic-regression#:~:text=Technically%2C%20R2%20cannot%20be,model%20with%20constant%20and%20predictors.) website to look at how to find the psuedo-R^2 from a logistic regression. I don't know how appropriate an R^2 is in this occasion, but I wanted to find it to give myself some context. In this case it 62.4 which is a lot higher than I though it was going to be.
+I found this [stackExchange] 
+(https://stats.stackexchange.com/questions/8511/how-to-calculate-pseudo-r2-from-rs-logistic-regression#:~:text=Technically%2C%20R2%20cannot%20be,model%20with%20constant%20and%20predictors.)
+website to look at how to find the psuedo-R^2 from a logistic regression. I don't know how appropriate 
+an R^2 is in this occasion, but I wanted to find it to give myself some context. In this case it 62.4 
+which is a lot higher than I though it was going to be.
 
 Looking again at the equation:
 $$
@@ -433,9 +449,11 @@ exp(3.0714)
 ```
 Finally, again keeping everything the same a book with a Graphic Novel tag is 21.57 times likely to get challenged.
 
-My next idea is to try using the domain expertise I have, following the story in the media, and putting myself into the perspective of a parent looking to ban books. This mainly for fun and to see what I come up with.
+My next idea is to try using the domain expertise I have, following the story in the media, and putting myself 
+into the perspective of a parent looking to ban books. This mainly for fun and to see what I come up with.
 
-So, I went through the tags and tried to find the tags that would be featured in challenged books. These are things like LGBT, Mental Health, New Adult, and so on.
+So, I went through the tags and tried to find the tags that would be featured in challenged books. These are 
+things like LGBT, Mental Health, New Adult, and so on.
 
 ```{r making_an_LGBT_dummy_variable}
 
@@ -473,9 +491,11 @@ book_domain <- book_domain %>%
   mutate(New_Adult = case_when(Book_Tag1 == 'NewAdult' | 
                                Book_Tag2 == 'NewAdult' | 
                                Book_Tag3 == 'NewAdult' | 
-                               Book_Tag4 == 'NewAdult' |                                                                   Book_Tag5 == 'NewAdult' | 
+                               Book_Tag4 == 'NewAdult' |                                                                   
+                               Book_Tag5 == 'NewAdult' | 
                                Book_Tag6 == 'NewAdult' | 
-                               Book_Tag7 == 'NewAdult' |                                                                   Book_Tag8 == 'NewAdult' |
+                               Book_Tag7 == 'NewAdult' |                                                                  
+                               Book_Tag8 == 'NewAdult' |
                                Book_Tag9 == 'NewAdult'~1,
                               TRUE ~ 0))
 ```
@@ -486,9 +506,11 @@ book_domain <- book_domain %>%
   mutate(Thriller = case_when(Book_Tag1 == 'Thriller' | 
                               Book_Tag2 == 'Thriller' | 
                               Book_Tag3 == 'Thriller' | 
-                              Book_Tag4 == 'Thriller' |                                                                   Book_Tag5 == 'Thriller' | 
+                              Book_Tag4 == 'Thriller' |                                                                   
+                              Book_Tag5 == 'Thriller' | 
                               Book_Tag6 == 'Thriller' | 
-                              Book_Tag7 == 'Thriller' |                                                                   Book_Tag8 == 'Thriller' |
+                              Book_Tag7 == 'Thriller' |                                                                                      
+                              Book_Tag8 == 'Thriller' |
                               Book_Tag9 == 'Thriller'~1,
                               TRUE ~ 0))
 ```
@@ -499,9 +521,11 @@ book_domain <- book_domain %>%
   mutate(Dystopia = case_when(Book_Tag1 == 'Dystopia' | 
                               Book_Tag2 == 'Dystopia' | 
                               Book_Tag3 == 'Dystopia' | 
-                              Book_Tag4 == 'Dystopia' |                                                                   Book_Tag5 == 'Dystopia' | 
+                              Book_Tag4 == 'Dystopia' |                                                                   
+                              Book_Tag5 == 'Dystopia' | 
                               Book_Tag6 == 'Dystopia' | 
-                              Book_Tag7 == 'Dystopia' |                                                                   Book_Tag8 == 'Dystopia' |
+                              Book_Tag7 == 'Dystopia' |                                                                   
+                              Book_Tag8 == 'Dystopia' |
                               Book_Tag9 == 'Dystopia'~1,
                               TRUE ~ 0))
 ```
@@ -512,9 +536,11 @@ book_domain <- book_domain %>%
   mutate(Abuse = case_when(Book_Tag1 == 'Abuse' | 
                            Book_Tag2 == 'Abuse' | 
                            Book_Tag3 == 'Abuse' | 
-                           Book_Tag4 == 'Abuse' |                                                                      Book_Tag5 == 'Abuse' | 
+                           Book_Tag4 == 'Abuse' |                                                                      
+                           Book_Tag5 == 'Abuse' | 
                            Book_Tag6 == 'Abuse' | 
-                           Book_Tag7 == 'Abuse' |                                                                      Book_Tag8 == 'Abuse' |
+                           Book_Tag7 == 'Abuse' |                                                                      
+                           Book_Tag8 == 'Abuse' |
                            Book_Tag9 == 'Abuse'~1,
                               TRUE ~ 0))
 ```
@@ -525,9 +551,11 @@ book_domain <- book_domain %>%
   mutate(Horror = case_when(Book_Tag1 == 'Horror' | 
                             Book_Tag2 == 'Horror' | 
                             Book_Tag3 == 'Horror' | 
-                            Book_Tag4 == 'Horror' |                                                                     Book_Tag5 == 'Horror' | 
+                            Book_Tag4 == 'Horror' |                                                                     
+                            Book_Tag5 == 'Horror' | 
                             Book_Tag6 == 'Horror' | 
-                            Book_Tag7 == 'Horror' |                                                                     Book_Tag8 == 'Horror' |
+                            Book_Tag7 == 'Horror' |                                                                     
+                            Book_Tag8 == 'Horror' |
                             Book_Tag9 == 'Horror'~1,
                               TRUE ~ 0))
 ```
@@ -538,9 +566,11 @@ book_domain <- book_domain %>%
   mutate(Manga = case_when(Book_Tag1 == 'Manga' | 
                            Book_Tag2 == 'Manga' | 
                            Book_Tag3 == 'Manga' | 
-                           Book_Tag4 == 'Manga' |                                                                      Book_Tag5 == 'Manga' | 
+                           Book_Tag4 == 'Manga' |                                                                       
+                           Book_Tag5 == 'Manga' | 
                            Book_Tag6 == 'Manga' | 
-                           Book_Tag7 == 'Manga' |                                                                      Book_Tag8 == 'Manga' |
+                           Book_Tag7 == 'Manga' |                                                                      
+                           Book_Tag8 == 'Manga' |
                            Book_Tag9 == 'Manga'~1,
                               TRUE ~ 0))
 ```
@@ -920,7 +950,11 @@ domain_test <- testing(domain_split)
 
 ```{r}
 
-log_reg5 <- glm(Challenged ~ LGBT + Mental_Health + New_Adult + Thriller +  Dystopia + Abuse +  Horror + Manga + African_American + Mental_Illness + Social_Justice + Witches + Race + War + Crime + Death + Religion + Politics + Sexuality + Africa + Autism + Cults + Dark + Disability + Jewish + Science + Seinen + Womens + Shojo + Prositution + Bande_Dessinee + Holocaust, data = domain_train, family = "binomial")
+log_reg5 <- glm(Challenged ~ LGBT + Mental_Health + New_Adult + Thriller +  Dystopia + Abuse +  
+Horror + Manga + African_American + Mental_Illness + Social_Justice + Witches + Race + War + 
+Crime + Death + Religion + Politics + Sexuality + Africa + Autism + Cults + Dark + Disability + 
+Jewish + Science + Seinen + Womens + Shojo + Prositution + Bande_Dessinee + Holocaust, 
+data = domain_train, family = "binomial")
 
 summary(log_reg5)
 ```
