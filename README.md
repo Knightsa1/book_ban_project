@@ -28,7 +28,7 @@ I used logistical modeling for this data set because essentially I am looking at
 
 I had two different ideas when it came to model building. The first one was to make dummy variables for the top tags I found with the challenged books and playing around with those. From this I created the model:
 
-
+![image](https://github.com/Knightsa1/book_ban_project/assets/97405888/f14d26ec-c0bf-4eb8-9b25-a2d46d464a0d)
 
 Looking at the different coefficients this means if two books are similar:
 a book with an LGBT tag is 168.66 times likely to be challenged than not
